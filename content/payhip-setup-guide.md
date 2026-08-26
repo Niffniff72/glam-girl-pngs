@@ -1,33 +1,28 @@
 # Payhip Setup Guide — Glam Girl PNGs
 
-Your website (this repo) is the storefront buyers actually see and browse. Payhip runs quietly in the background — it's just the engine that takes payment, shows the Pay-in-4 option when eligible, and delivers the PNG files. Buyers click a "Shop" button on your site, land on a Payhip checkout page for a second, then get their download. They never need to know what Payhip is.
+Your website (this repo) is the storefront buyers actually see and browse. Payhip runs quietly in the background — it's just the engine that takes payment, shows the Pay-in-4 option when eligible, and delivers the PNG files. Buyers click a "Shop" button on your site, land on a Payhip checkout page for a second, then get their download. They never need to know what Payhip is, and they never see your other 28 products from other niches — every button links to one specific product, not your general catalog.
 
-You have a Payhip account but no products yet — here's exactly what to set up so the site's buttons have real links to point to.
+Your existing account is **payhip.com/Digitalgalitis**. Every "Shop"/"Browse" button on the site currently points there as a placeholder — you're about to replace the 3 collection-card links with specific product links.
 
-## 1. Create your 3 categories (once)
+Payhip doesn't have a reliable custom-category filter on the free/basic plan, so skip categories entirely — it's simpler and just as effective to create one flagship **bundle product per collection** and link straight to it.
 
-In Payhip: **Products → Categories** (or from a product's edit screen, under "Category")
+## 1. Add your first product (from the dashboard you're looking at)
 
-Create three:
-- `Tumbler Wraps`
-- `T-Shirt PNGs`
-- `Journal Covers`
-
-These give you clean filtered links like `payhip.com/YourStoreName/category/tumbler-wraps` — this is what the site's "Shop Tumbler Wraps," "Shop T-Shirt PNGs," and "Shop Journal Covers" buttons should point to, so a click lands on just that collection instead of your whole catalog.
-
-## 2. Create a product
-
-**Products → New Product → Digital Product**, then:
+Tap **+ Add New** next to "Your Products" → choose **Digital Product**, then:
 
 1. **Title** — e.g. "Sarcastic Cat Quotes — T-Shirt PNG Bundle"
-2. **Files** — upload the PNGs (zip them if it's a multi-design bundle)
-3. **Price** — set it; USD
-4. **Category** — assign it to the matching one from step 1
-5. **Description** — this is a good place to restate the commercial-use license in short form (link back to your site's `terms.html` if you want the full version), e.g.:
+2. **Files** — upload the PNGs (zip them together if it's a multi-design bundle)
+3. **Price** — set it in USD
+4. **Description** — a good place to restate the commercial-use license in short form:
    > Instant digital download. Commercial use included — print and sell physical products you make with this design. You may not resell or redistribute the PNG file itself.
-6. **Cover image** — use one of the actual design PNGs as the thumbnail
+5. **Cover image** — use one of the actual design PNGs as the thumbnail
+6. Save/Publish
 
-Repeat for each product/bundle. You don't need dozens of individual products on day one — 3-6 solid bundles (one or two per category) is plenty to launch with; add more as new drops go live.
+Repeat 2 more times — one bundle for Tumbler Wraps, one for Journal Covers. You don't need dozens of individual products on day one; one solid bundle per collection is plenty to launch with. Add more later and just point the button at whichever listing you want featured.
+
+## 2. Grab the link
+
+Back on the dashboard, each product row has a **Share product** button (you can see it next to "Edit" on every row in your screenshot) — tap it to get that product's direct URL (`payhip.com/b/XXXXX`). That's the exact link each collection button needs.
 
 ## 3. Turn on the payment methods (this is what makes Pay-in-4 show up)
 
@@ -39,13 +34,19 @@ Repeat for each product/bundle. You don't need dozens of individual products on 
 
 **Settings → Notifications** (or on the product itself, depending on your Payhip plan) — there's a field for a custom thank-you/confirmation message. Paste in the **Order Confirmation Email** copy from `content/marketing-kit.md` (swap in the real download-link merge tag Payhip gives you).
 
-## 5. Grab your real links
+## 5. Swap the 3 collection links in the site
 
-Once products exist, copy:
-- Your **category URLs** (3 of them) → these replace `#payhip-tumblers`, `#payhip-tees`, `#payhip-journals` in `index.html`
-- Your **main store URL** → replaces `#payhip-shop` (used for the hero CTA, closing CTA, and nav "Shop Now" button)
+Every "Shop" button on the site currently points to your general store (`payhip.com/Digitalgalitis`) as a placeholder — that already works, it just sends people to your whole catalog (autism-awareness stuff and all) instead of the right collection.
 
-Find every `href="#payhip-` in `index.html` (there are about 6) and swap in the real URLs.
+Once you've got your 3 bundle products and their **Share product** links from step 2, open `index.html` and find these 3 lines (search for `card-link`):
+
+```
+<a href="https://payhip.com/Digitalgalitis" class="card-link">Shop Tumbler Wraps</a>
+<a href="https://payhip.com/Digitalgalitis" class="card-link">Shop T-Shirt PNGs</a>
+<a href="https://payhip.com/Digitalgalitis" class="card-link">Shop Journal Covers</a>
+```
+
+Replace each `https://payhip.com/Digitalgalitis` with that product's own `payhip.com/b/XXXXX` link. The rest of the "Shop"/"Browse" buttons (nav, hero, payment section, closing CTA) can stay pointed at the general store — that's normal for a "browse everything" button.
 
 ## 6. Test before you announce it
 
@@ -55,8 +56,8 @@ Payhip lets you test checkout without going fully live — do a $0 test coupon o
 
 | Done in the code | Needs you in Payhip |
 |---|---|
-| Brand site, animations, layout | 3 categories created |
-| Payment section copy/design | Products uploaded with files + prices |
-| Legal pages | PayPal connected (for Pay-in-4 to appear) |
-| Confirmation email copy written | Confirmation email pasted into Payhip settings |
-| Comment-keyword DM scripts written | Real product/category links swapped into `index.html` |
+| Brand site, animations, layout | 3 bundle products created (1 per collection) |
+| Payment section copy/design | PayPal connected (for Pay-in-4 to appear) |
+| Legal pages | Confirmation email pasted into Payhip settings |
+| Confirmation email copy written | 3 "Share product" links swapped into `index.html` |
+| Comment-keyword DM scripts written | |
