@@ -447,6 +447,22 @@ h1, h2, h3, h4 {
 }
 .new-arrival-strip .thumb-fallback { font-size: 22px; }
 .new-arrival-strip .card-link { font-size: 12px; }
+
+/* Highlight whichever product a deep link (#id) points at */
+.collection-card:target {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(232, 182, 75, 0.35), var(--shadow-gold);
+  animation: targetPulse 1.8s ease 2;
+}
+.new-arrival-strip:target {
+  border-radius: 12px;
+  box-shadow: 0 0 0 3px rgba(255, 47, 146, 0.4);
+  animation: targetPulse 1.8s ease 2;
+}
+@keyframes targetPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(232, 182, 75, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(232, 182, 75, 0.15); }
+}
 .mini-gallery .thumb {
   aspect-ratio: 3/4;
   border-radius: 10px;
