@@ -57,13 +57,20 @@ document.addEventListener("DOMContentLoaded", () => {
     revealEls.forEach((el) => el.classList.add("in-view"));
   }
 
-  /* Email opt-in confetti burst (front-end only — wire the form action up to Brevo) */
+  /* Email opt-in: submit to Brevo in the background, then show the confetti burst */
   const optinForm = document.querySelector(".optin-form");
   if (optinForm) {
     optinForm.addEventListener("submit", (e) => {
       const burst = document.querySelector(".confetti-burst");
       if (!burst) return;
       e.preventDefault();
+
+      fetch(optinForm.action, {
+        method: "POST",
+        mode: "no-cors",
+        body: new FormData(optinForm),
+      }).catch(() => {});
+
       burst.innerHTML = "";
       const colors = ["#ff2f92", "#ffd77a", "#e8b64b", "#ff8dc7"];
       for (let i = 0; i < 26; i++) {
