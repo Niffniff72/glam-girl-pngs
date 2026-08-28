@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .root {
+      width: 1080px; height: 1350px; position: relative; overflow: hidden;
+      background:
+        radial-gradient(ellipse at 85% 12%, rgba(232,182,75,0.20), transparent 55%),
+        radial-gradient(ellipse at 10% 90%, rgba(255,47,146,0.18), transparent 55%),
+        #0b0b0d;
+      font-family: Poppins, "Segoe UI", sans-serif;
+      box-sizing: border-box;
+    }
+    .wordmark {
+      font-family: Yellowtail, cursive; font-size: 34px; line-height: 1;
+      color: #ffd77a; opacity: 0.85;
+    }
+    .rule { width: 90px; height: 4px; border-radius: 4px; background: linear-gradient(90deg,#ff2f92,#e8b64b); }
+    .headline {
+      font-family: Montserrat, sans-serif; font-weight: 800; color: #ffffff;
+      font-size: 58px; line-height: 1.2; text-wrap: pretty;
+    }
+    .body { font-size: 34px; line-height: 1.5; color: #cfc9d4; }
+    .body strong { color: #ff8dc7; font-weight: 600; }
+    .dots { position: absolute; bottom: 64px; left: 0; right: 0; display: flex; justify-content: center; gap: 14px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.18); }
+    .dot.active { background: #e8b64b; box-shadow: 0 0 12px rgba(232,182,75,0.7); }
+  </style>
+</helmet>
+<div class="root">
+  <div style="position:absolute; top:72px; left:80px;" class="wordmark">Glam Girl PNGs</div>
+
+  <div style="position:absolute; left:80px; right:80px; top:440px;">
+    <div class="rule" style="margin-bottom:36px;"></div>
+    <div class="headline">You've bought bundle<br>after bundle.</div>
+    <div class="body" style="margin-top:44px;">
+      Butterflies, quotes, more butterflies.<br><br>
+      Your shop looks <strong>full</strong> — but it doesn't look like anything.
+    </div>
+  </div>
+
+  <div class="dots">
+    <span class="dot"></span><span class="dot active"></span><span class="dot"></span>
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

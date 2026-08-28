@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1080, "h": 1350, "title": "1 — Hook" },
+    { "file": "Slide2.dc.html", "x": 1180, "y": 0, "w": 1080, "h": 1350, "title": "2 — Problem (External)" },
+    { "file": "Slide3.dc.html", "x": 2360, "y": 0, "w": 1080, "h": 1350, "title": "3 — Problem (Internal)" },
+    { "file": "Slide4.dc.html", "x": 0, "y": 1470, "w": 1080, "h": 1350, "title": "4 — Shift" },
+    { "file": "Slide5.dc.html", "x": 1180, "y": 1470, "w": 1080, "h": 1350, "title": "5 — Proof" },
+    { "file": "Slide6.dc.html", "x": 2360, "y": 1470, "w": 1080, "h": 1350, "title": "6 — CTA" }
+  ],
+  "launch": { "view": "canvas" }
+}

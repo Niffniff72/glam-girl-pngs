@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .root {
+      width: 1080px; height: 1350px; position: relative; overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 10%, rgba(232,182,75,0.24), transparent 55%),
+        radial-gradient(ellipse at 20% 90%, rgba(255,47,146,0.20), transparent 55%),
+        #0b0b0d;
+      font-family: Poppins, "Segoe UI", sans-serif;
+      box-sizing: border-box;
+    }
+    .wordmark {
+      font-family: Yellowtail, cursive; font-size: 34px; line-height: 1;
+      color: #ffd77a; opacity: 0.85;
+    }
+    .eyebrow {
+      font-family: Montserrat, sans-serif; font-weight: 700; font-size: 26px;
+      letter-spacing: 0.18em; text-transform: uppercase; color: #ff8dc7;
+    }
+    .headline {
+      font-family: Montserrat, sans-serif; font-weight: 800; color: #ffffff;
+      font-size: 60px; line-height: 1.2; text-wrap: pretty;
+    }
+    .body { font-size: 34px; line-height: 1.55; color: #cfc9d4; }
+    .peek {
+      position: absolute; bottom: -60px; right: -20px; width: 380px;
+      border-radius: 18px; overflow: hidden; transform: rotate(-6deg);
+      border: 2px solid rgba(232,182,75,0.5);
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.7);
+      opacity: 0.92;
+    }
+    .peek img { display: block; width: 100%; height: auto; }
+    .dots { position: absolute; bottom: 64px; left: 0; right: 0; display: flex; justify-content: center; gap: 14px; z-index: 2; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.18); }
+    .dot.active { background: #e8b64b; box-shadow: 0 0 12px rgba(232,182,75,0.7); }
+  </style>
+</helmet>
+<div class="root">
+  <div style="position:absolute; top:72px; left:80px;" class="wordmark">Glam Girl PNGs</div>
+
+  <div style="position:absolute; left:80px; right:80px; top:340px;">
+    <div class="eyebrow" style="margin-bottom:28px;">Here's the shift</div>
+    <div class="headline">The designs that sell<br>aren't the loudest ones.</div>
+    <div class="body" style="margin-top:44px; max-width:820px;">
+      They're the ones that say something a woman would actually put on her body — and mean it.
+    </div>
+  </div>
+
+  <div class="peek">
+    <img src="mockup-small.jpg" alt="I Celebrate Me t-shirt mockup peeking in" />
+  </div>
+
+  <div class="dots">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .root {
+      width: 1080px; height: 1350px; position: relative; overflow: hidden;
+      background:
+        radial-gradient(ellipse at 18% 15%, rgba(255,47,146,0.30), transparent 55%),
+        radial-gradient(ellipse at 82% 25%, rgba(232,182,75,0.24), transparent 55%),
+        radial-gradient(ellipse at 50% 95%, rgba(255,47,146,0.16), transparent 60%),
+        #0b0b0d;
+      font-family: Poppins, "Segoe UI", sans-serif;
+      box-sizing: border-box;
+    }
+    .wordmark {
+      font-family: Yellowtail, cursive; font-size: 44px; line-height: 1;
+      background: linear-gradient(90deg, #ffd77a, #ff8dc7, #ffd77a);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 0 14px rgba(255,47,146,0.35));
+    }
+    .headline {
+      font-family: Montserrat, sans-serif; font-weight: 900; color: #ffffff;
+      font-size: 84px; line-height: 1.08; letter-spacing: -0.01em; text-wrap: pretty;
+    }
+    .gold-text {
+      background: linear-gradient(90deg, #a97a1f, #ffd77a, #e8b64b);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .chip {
+      position: absolute; right: 80px; bottom: 200px;
+      width: 260px; border-radius: 18px; overflow: hidden;
+      border: 2px solid rgba(232,182,75,0.5);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(232,182,75,0.2);
+      transform: rotate(4deg);
+    }
+    .chip img { display: block; width: 100%; height: auto; }
+    .badge {
+      position: absolute; top: -16px; left: -16px;
+      background: linear-gradient(135deg, #ff2f92, #c2116a);
+      color: #fff; font-family: Montserrat, sans-serif; font-weight: 800;
+      font-size: 20px; letter-spacing: 0.04em; padding: 8px 18px; border-radius: 999px;
+      box-shadow: 0 8px 20px rgba(255,47,146,0.5);
+    }
+    .dots { position: absolute; bottom: 64px; left: 0; right: 0; display: flex; justify-content: center; gap: 14px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.18); }
+    .dot.active { background: #e8b64b; box-shadow: 0 0 12px rgba(232,182,75,0.7); }
+    .swipe {
+      position: absolute; bottom: 118px; right: 80px;
+      font-family: Montserrat, sans-serif; font-weight: 700; font-size: 22px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #ffd77a;
+    }
+  </style>
+</helmet>
+<div class="root">
+  <div style="position:absolute; top:72px; left:80px;" class="wordmark">Glam Girl PNGs</div>
+
+  <div style="position:absolute; left:80px; right:80px; top:420px;">
+    <div class="headline">Your shop has<br>40 designs.</div>
+    <div class="headline gold-text" style="margin-top:6px;">None of them<br>say anything real.</div>
+  </div>
+
+  <div class="chip">
+    <span class="badge">NEW</span>
+    <img src="mockup-small.jpg" alt="I Celebrate Me t-shirt mockup" />
+  </div>
+
+  <div class="swipe">Swipe →</div>
+
+  <div class="dots">
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
