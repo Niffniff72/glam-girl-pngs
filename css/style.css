@@ -428,6 +428,25 @@ h1, h2, h3, h4 {
 
 .mini-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0; }
 .mini-gallery-4 { grid-template-columns: repeat(2, 1fr); }
+
+.new-arrival-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(232, 182, 75, 0.2);
+}
+.new-arrival-strip img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(232, 182, 75, 0.3);
+}
+.new-arrival-strip .thumb-fallback { font-size: 22px; }
+.new-arrival-strip .card-link { font-size: 12px; }
 .mini-gallery .thumb {
   aspect-ratio: 3/4;
   border-radius: 10px;
