@@ -1,5 +1,10 @@
 💜 A Love Made for Forever — Wedding Chip Bag Favor Template 💜
 
+Etsy Title (140 char max, paste into the listing's title field):
+Wedding Chip Bag Template, Printable Candy Bag Favor, Tropical Sunset Wedding Favor Bag, Digital Download Party Favor, Instant Download
+
+Etsy Description (paste into the listing's description field):
+
 A moody, romantic printable favor bag for the wedding that felt like a movie. Purple sunset, palm trees, moonlit silhouette — paired with a playful "Love Facts" nutrition-label spoof on the back so guests actually stop and read it before they dig in.
 
 📦 What's Included:
