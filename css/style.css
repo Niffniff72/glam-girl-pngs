@@ -447,6 +447,11 @@ h1, h2, h3, h4 {
 }
 .new-arrival-strip .thumb-fallback { font-size: 22px; }
 .new-arrival-strip .card-link { font-size: 12px; }
+.new-arrival-strip--rich { align-items: flex-start; }
+.new-arrival-info { flex: 1; min-width: 0; }
+.new-arrival-name { color: var(--white); font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.new-arrival-name .price-tag { color: var(--gold-light); font-weight: 700; }
+.new-arrival-desc { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
 
 /* Highlight whichever product a deep link (#id) points at */
 .collection-card:target {
