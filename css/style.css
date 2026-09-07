@@ -523,6 +523,23 @@ h1, h2, h3, h4 {
 .payment-copy h3 { color: var(--white); font-size: 26px; }
 .payment-copy p { color: var(--muted); }
 
+.freebie-badge { position: static; display: inline-flex; margin-bottom: 14px; }
+.freebie-panel .payment-copy .btn { margin-top: 10px; }
+
+.freebie-preview {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(232, 182, 75, 0.3);
+  box-shadow: var(--shadow-gold);
+}
+.freebie-preview img { width: 100%; display: block; }
+.freebie-preview .thumb-fallback {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 3/4;
+  font-size: 48px;
+  background: var(--black-card);
+}
+
 .payment-methods { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0; }
 .payment-chip {
   display: inline-flex; align-items: center; gap: 6px;
