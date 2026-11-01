@@ -1,0 +1,15 @@
+{
+  "name": "glam-girl-pngs",
+  "private": true,
+  "type": "module",
+  "description": "Glam Girl PNGs storefront + Instagram comment-to-DM engine",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "db:migrate": "node scripts/migrate.mjs",
+    "stats": "node scripts/stats.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

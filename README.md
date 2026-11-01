@@ -16,7 +16,15 @@ js/main.js             Sparkle field, scroll reveal, nav behavior, opt-in confet
 content/marketing-kit.md          Confirmation emails, DM scripts, comment-keyword automations
 content/payhip-setup-guide.md     Step-by-step: create your Payhip categories/products and get the real links
 assets/products/       Product preview images (see cat-sarcastic-tees/README.md)
+
+api/                   Instagram comment-to-DM engine (serverless functions)
+lib/keywords.js        ← your DM keywords, links, and DM copy
+docs/instagram-dm-engine.md       Setup guide for the DM engine
 ```
+
+## Instagram comment-to-DM engine
+
+Comment a keyword → private-reply DM with a button → follow check → (optional) email capture into Kit → tracked short link. Built on the Instagram API with Instagram Login. Edit keywords and DM copy in `lib/keywords.js`. Full setup steps are in **`docs/instagram-dm-engine.md`**.
 
 ## Before you launch — things to plug in
 
@@ -46,4 +54,6 @@ Then visit `http://localhost:8080`.
 
 ## Deploying
 
-Any static host works — GitHub Pages, Netlify, Vercel, Cloudflare Pages. For GitHub Pages: Settings → Pages → deploy from this branch's root.
+**Vercel** (needed for the Instagram DM engine's webhook, short links, and weekly token cron): import the repo at vercel.com/new. No build settings are needed. See `docs/instagram-dm-engine.md` for environment variables.
+
+The storefront alone still works on any static host (GitHub Pages, Netlify, Cloudflare Pages), but the DM engine won't run there.

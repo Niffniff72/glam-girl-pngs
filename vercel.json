@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/go/:code", "destination": "/api/go?code=:code" }
+  ],
+  "crons": [
+    { "path": "/api/cron/refresh-token", "schedule": "17 14 * * 1" }
+  ],
+  "functions": {
+    "api/**/*.js": { "maxDuration": 30 }
+  }
+}
