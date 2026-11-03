@@ -4,3 +4,4 @@ node_modules/
 !.env.example
 .vercel/
 .carousel-work/i-celebrate-me-carousel.html
+dist/

@@ -54,6 +54,6 @@ Then visit `http://localhost:8080`.
 
 ## Deploying
 
-**Vercel** (needed for the Instagram DM engine's webhook, short links, and weekly token cron): import the repo at vercel.com/new. No build settings are needed. See `docs/instagram-dm-engine.md` for environment variables.
+**Netlify (free plan)** runs the storefront and the Instagram DM engine together. Import the repo at app.netlify.com; `netlify.toml` already has the settings. Vercel Pro also works (`vercel.json`). See `docs/instagram-dm-engine.md` for environment variables.
 
-The storefront alone still works on any static host (GitHub Pages, Netlify, Cloudflare Pages), but the DM engine won't run there.
+The storefront alone still works on any static host (like GitHub Pages), but the DM engine won't run there.

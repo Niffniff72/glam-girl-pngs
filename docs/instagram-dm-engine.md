@@ -27,20 +27,24 @@ They tap [Send me the link]
 | `lib/keywords.js` | **Edit this one.** Keywords, links, email yes/no, Kit tags, all the DM copy |
 | `api/instagram/webhook.js` | Webhook. GET handles the `hub.challenge` handshake; POST checks `X-Hub-Signature-256` |
 | `api/go.js` | Short-link redirect + click tracking (`/go/<code>`) |
-| `api/cron/refresh-token.js` | Weekly token refresh (Mondays, scheduled in `vercel.json`) |
+| `api/cron/refresh-token.js` | Weekly token refresh for Vercel (Mondays, scheduled in `vercel.json`) |
+| `netlify/functions/*.mjs` | Netlify versions of the three routes above (token refresh is scheduled in the file) |
+| `netlify.toml` | Netlify build settings: copies only the storefront to `dist/` |
 | `lib/engine.js` | The flow / state machine |
 | `db/schema.sql` | Database tables |
 | `scripts/stats.mjs` | `npm run stats` shows leads, emails, links sent, and clicks per keyword |
 
 ## Setup
 
-### 1. Host on Vercel
+### 1. Host on Netlify (free) — or Vercel Pro
 
-The webhook needs server code, so GitHub Pages alone won't run it. Import this repo at vercel.com/new. No build settings are needed, and the static site keeps working as-is.
+The webhook needs server code, so GitHub Pages alone won't run it. **Netlify's free plan** allows business sites: sign in at app.netlify.com with GitHub, then **Add new project → Import an existing project → GitHub → glam-girl-pngs**. `netlify.toml` already has the build settings, so leave them as they are and click Deploy. Your site will be at `https://<name>.netlify.app`, and Netlify fills in `SITE_URL` for you. You only set it yourself when you add a custom domain.
+
+(Vercel also works with no code changes, using `vercel.json`. Vercel's free Hobby plan isn't allowed for commercial sites, though, so a shop there needs Pro at $20/month.)
 
 ### 2. Database
 
-In Vercel, go to Storage → **Neon Postgres** (free tier is plenty) and connect it to the project. That sets `DATABASE_URL`. Then create the tables once from your computer:
+Create a free Postgres database at **neon.tech** and copy the **pooled** connection string (the one with `-pooler` in the hostname). That's `DATABASE_URL`. Then create the tables once, either by pasting `db/schema.sql` into Neon's **SQL Editor** and clicking Run, or from a computer:
 
 ```
 DATABASE_URL="<pooled connection string>" npm install && npm run db:migrate
@@ -66,13 +70,13 @@ Go to Kit → Settings → Developer → **API keys (v4)** → create a key and 
 
 ### 5. Environment variables
 
-In Vercel, go to Project → Settings → Environment Variables and add everything in `.env.example`. `CRON_SECRET` is any long random string. Vercel sends it to the cron automatically. **Redeploy** after adding variables.
+Netlify: go to Site configuration → **Environment variables** and add everything in `.env.example`. You can skip `SITE_URL` (Netlify sets it) and `CRON_SECRET` (that's only for Vercel). **Trigger a new deploy** after adding variables.
 
 ## Token refresh
 
 Long-lived tokens last 60 days. Every Monday the cron swaps the token for a fresh 60-day one and stores it **encrypted** in the `app_tokens` table. `IG_ACCESS_TOKEN` is only the starting token. If the token ever dies (for example, you change your Instagram password), generate a new one in Meta and paste it into `IG_ACCESS_TOKEN`. The app sees it's new and uses it instead of the stored one.
 
-Notes: Meta only refreshes tokens at least 24 hours old, so the first Monday after setup may skip if you just generated it. That's fine, since there are about 8 more chances before expiry. You can check runs in Vercel → Project → Settings → Cron Jobs → View logs.
+Notes: Meta only refreshes tokens at least 24 hours old, so the first Monday after setup may skip if you just generated it. That's fine, since there are about 8 more chances before expiry. You can check runs in Netlify → Logs → Functions → refresh-token.
 
 ## Instagram's rules to know
 

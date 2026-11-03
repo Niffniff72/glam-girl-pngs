@@ -1,0 +1,10 @@
+# Netlify hosting (the free plan allows business sites).
+# The storefront is copied to dist/; the DM engine runs as Netlify Functions.
+[build]
+  command = "node scripts/build-static.mjs"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg-native"]
