@@ -1,0 +1,185 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Vibes;src:url(fonts/GreatVibes-Regular.ttf)}
+@font-face{font-family:Play;src:url(fonts/Playfair.ttf);font-weight:400 900}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#f7a6c9}
+#stage{position:absolute;inset:0;overflow:hidden;
+  background:radial-gradient(110% 75% at 50% 32%,#ffd3e6 0%,#fbaed0 30%,#f07fb1 62%,#cf4f8a 88%,#a8326b 100%)}
+#bgimg{position:absolute;inset:-80px;background:url(bag.jpg) center/cover;filter:blur(60px) saturate(1.3);opacity:.16}
+#satin{position:absolute;inset:-400px;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 47%,rgba(255,240,250,.1) 53%,transparent 65%)}
+.abs{position:absolute;will-change:transform,opacity}
+.pearl{position:absolute;width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff 0%,#fdf3f7 35%,#e9cfdc 75%,#c9a3b8 100%);box-shadow:0 2px 4px rgba(120,20,70,.35)}
+#goldline{position:absolute;inset:44px;border:3px solid #e8b960;border-radius:34px;box-shadow:0 0 18px rgba(255,220,150,.6)}
+.bow{position:absolute;font:92px "Noto Color Emoji";filter:drop-shadow(0 6px 8px rgba(120,20,70,.35))}
+.pill{left:50%;top:205px;height:86px;padding:0 46px;border-radius:43px;
+  background:linear-gradient(180deg,#ff7fbf,#f0408f 55%,#d92a7a);color:#fff;
+  font:800 40px Inter;letter-spacing:3px;display:flex;align-items:center;gap:14px;white-space:nowrap;
+  box-shadow:0 12px 28px rgba(150,20,80,.35),inset 0 0 0 4px #f3cf7f,inset 0 6px 10px rgba(255,255,255,.35)}
+.pill .em{font:44px "Noto Color Emoji";letter-spacing:0}
+.head{left:0;width:1080px;text-align:center;top:300px}
+.script{font-family:Vibes;color:#fff;font-size:124px;line-height:1;
+  text-shadow:0 0 3px #a3245f,0 0 3px #a3245f,0 4px 0 #a3245f,0 10px 26px rgba(120,10,60,.6)}
+.big{font-family:Play;font-weight:900;font-size:160px;line-height:1.02;letter-spacing:2px;
+  background:linear-gradient(110deg,#c9853d 0%,#ffe9bf 14%,#e0a548 30%,#f6d58f 44%,#fff8e6 50%,#eab655 58%,#b9772f 74%,#fbe1a8 88%,#d8963f 100%);
+  background-size:300% 100%;-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 1.5px #7a1546) drop-shadow(0 0 1.5px #7a1546) drop-shadow(0 6px 0 #8f1f5a) drop-shadow(0 16px 22px rgba(110,10,50,.5))}
+/* phone */
+#phone{left:215px;top:660px;width:650px;height:1060px;border-radius:88px;padding:22px;
+  background:linear-gradient(145deg,#f9d9c8,#e2a58f 30%,#fff1e8 50%,#d99a86 70%,#f6cdb9);
+  box-shadow:0 40px 80px rgba(130,10,60,.45),inset 0 0 0 3px rgba(255,255,255,.6)}
+#screen{width:100%;height:100%;border-radius:68px;overflow:hidden;position:relative;padding:112px 42px 0;
+  background:linear-gradient(180deg,#fff7fb,#ffe6f1)}
+#notch{position:absolute;left:50%;top:24px;width:190px;height:50px;border-radius:25px;background:#2b1a24;transform:translateX(-50%)}
+.etsy{font:800 34px Inter;color:#f1641e;margin-bottom:34px;display:flex;justify-content:space-between}
+.etsy span{color:#c2447f;font:700 30px Inter}
+.prod{display:flex;gap:26px;align-items:center;background:#fff;border-radius:28px;padding:18px;box-shadow:0 8px 22px rgba(200,60,120,.15)}
+.prod img{width:140px;height:140px;border-radius:20px}
+.ptitle{font:700 33px/1.25 Inter;color:#4a1832}
+.pprice{font:800 32px Inter;color:#d92a7a;margin-top:8px}
+#stars{display:flex;gap:12px;margin:52px 0 34px;position:relative}
+.star{font:82px "DejaVu Sans";color:#f2b84b;text-shadow:0 0 0 #fff,0 4px 0 #c98a45,0 0 26px rgba(255,200,90,.9);position:relative}
+.burst{position:absolute;left:50%;top:50%;font:26px "DejaVu Sans";color:#ff5fa8}
+#rtext{font:700 56px/1.25 Inter;color:#4a1832;min-height:144px}
+.caret{display:inline-block;width:5px;height:56px;background:#f0408f;vertical-align:-8px;margin-left:4px}
+#namebar{margin-top:36px;width:360px;height:40px;border-radius:20px;background:#d9b3c6;filter:blur(9px)}
+/* polaroid */
+#pola{left:150px;top:640px;width:780px;padding:34px 34px 0;background:#fffaf8;border-radius:12px;
+  box-shadow:0 40px 90px rgba(130,10,60,.45),inset 0 0 0 2px #f6dfe9}
+#pola img{width:712px;height:740px;object-fit:cover;display:block;border-radius:6px}
+#pcap{font-family:Vibes;font-size:84px;color:#c2447f;text-align:center;height:150px;line-height:150px}
+#tape{position:absolute;left:270px;top:-36px;width:240px;height:72px;transform:rotate(-4deg);opacity:.92;
+  background:repeating-linear-gradient(90deg,#ffb3d6 0 30px,#ffd3e7 30px 60px);display:flex;align-items:center;justify-content:space-around;
+  font:30px "Noto Color Emoji"}
+#pbow{position:absolute;right:-46px;top:-60px;font:130px "Noto Color Emoji";transform:rotate(18deg);filter:drop-shadow(0 8px 10px rgba(120,20,70,.35))}
+/* bag */
+#bagf{left:110px;top:640px;width:860px;height:860px;border-radius:50%;overflow:hidden;
+  border:12px solid #f2c675;box-shadow:0 0 0 6px #fff4f8,0 0 0 9px #e8b960,0 40px 90px rgba(130,10,60,.5)}
+#bagimg{position:absolute;inset:0;background:url(bag.jpg) 40% 50%/cover}
+#shine{position:absolute;top:-20%;width:240px;height:140%;left:-400px;transform:rotate(20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,245,220,.8),transparent)}
+#bagpearls{left:110px;top:640px;width:860px;height:860px}
+#tag{left:690px;top:600px;transform-origin:50% 0}
+#tagstr{position:absolute;left:84px;top:-70px;width:4px;height:80px;background:#e8b960}
+#tagbody{padding:22px 34px 22px 52px;border-radius:16px 60px 60px 16px;
+  background:linear-gradient(135deg,#fff1d2,#f2c675 45%,#d99c4c);color:#7a1f4b;font:900 74px Play;
+  box-shadow:0 14px 30px rgba(130,10,60,.4),inset 0 0 0 3px rgba(255,255,255,.6);position:relative}
+#tagbody:before{content:"";position:absolute;left:18px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:#ffe6f1;box-shadow:inset 0 2px 3px rgba(0,0,0,.25)}
+#endpill{left:50%;top:1300px;height:100px;padding:0 54px;border-radius:50px;
+  background:linear-gradient(180deg,#fffaf2,#ffe9c7);color:#b8336f;
+  font:800 48px Inter;display:flex;align-items:center;gap:14px;white-space:nowrap;
+  box-shadow:0 14px 30px rgba(130,10,60,.4),inset 0 0 0 4px #e8b960}
+#endpill .em{font:46px "Noto Color Emoji"}
+#sig{left:0;width:1080px;text-align:center;top:1528px;font-family:Vibes;font-size:80px;color:#fff;
+  text-shadow:0 0 3px #a3245f,0 0 3px #a3245f,0 4px 0 #a3245f,0 8px 18px rgba(120,10,60,.5)}
+.dust{position:absolute;border-radius:50%}
+.spark{position:absolute;font-family:"DejaVu Sans";color:#fff7e0;text-shadow:0 0 12px #f2c675,0 0 4px #fff}
+.heart{position:absolute;font-family:"DejaVu Sans"}
+#flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.95),rgba(255,220,240,.4) 45%,transparent 75%);opacity:0}
+.fb{position:absolute;left:540px;top:960px;font:70px "Noto Color Emoji"}
+</style></head><body>
+<div id="stage">
+  <div id="bgimg"></div><div id="satin"></div>
+  <div id="dust"></div><div id="sparks"></div>
+
+  <div id="pillA" class="abs pill"><span class="em">💌</span>MY FIRST ETSY REVIEW</div>
+  <div id="headA" class="abs head"><div class="script">came from a</div><div class="big">HUSBAND</div></div>
+  <div id="phone" class="abs"><div id="screen"><div id="notch"></div>
+    <div class="etsy">Shop reviews <span>5.0 ★</span></div>
+    <div class="prod"><img src="thumb.png"><div><div class="ptitle">Soft Life Loud Peace Makeup Bag</div><div class="pprice">$16.99</div></div></div>
+    <div id="stars"></div>
+    <div id="rtext"></div>
+    <div id="namebar"></div>
+  </div></div>
+
+  <div id="pillB" class="abs pill"><span class="em">💕</span>AND HIS WIFE?</div>
+  <div id="headB" class="abs head"><div class="script">she</div><div class="big">LOVES IT</div></div>
+  <div id="pola" class="abs"><div id="tape">💗 💗 💗</div><div id="pbow">🎀</div><img src="wife.jpg"><div id="pcap">Well made, wife loves it</div></div>
+  <div id="hearts"></div>
+
+  <div id="pillC" class="abs pill"><span class="em">🎀</span>DIGITALDREAMGALHAVEN</div>
+  <div id="headC" class="abs head"><div class="script">Soft Life,</div><div class="big" style="font-size:132px">LOUD PEACE</div></div>
+  <div id="bagf" class="abs"><div id="bagimg"></div><div id="shine"></div></div>
+  <div id="bagpearls" class="abs"></div>
+  <div id="tag" class="abs"><div id="tagstr"></div><div id="tagbody">$16.99</div></div>
+  <div id="endpill" class="abs"><span class="em">🛍️</span>shop link in bio<span class="em">✨</span></div>
+  <div id="sig" class="abs">xoxo, Digital Dream Gal</div>
+
+  <div id="flash"></div><div id="fbs"></div>
+  <div id="goldline"></div><div id="pearls"></div>
+  <div class="bow" style="left:16px;top:22px;transform:rotate(-18deg)">🎀</div>
+  <div class="bow" style="right:16px;top:22px;transform:rotate(18deg)">🎀</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const p=(t,a,b)=>cl((t-a)/(b-a));
+const out3=x=>1-Math.pow(1-x,3);
+const back=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+let seed=11;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+// pearl border
+(function(){const P=$('pearls'),L=30,T=30,R=1050,B=1890,g=34;
+  const add=(x,y)=>{const d=document.createElement('div');d.className='pearl';d.style.left=(x-10)+'px';d.style.top=(y-10)+'px';P.appendChild(d)};
+  for(let x=L+60;x<=R-60;x+=g){add(x,T);add(x,B)} for(let y=T+60;y<=B-60;y+=g){add(L,y);add(R,y)}
+  // ring of pearls around bag circle
+  const BP=$('bagpearls');for(let i=0;i<64;i++){const a=i/64*6.283,d=document.createElement('div');d.className='pearl';
+    d.style.left=(430+Math.cos(a)*444-10)+'px';d.style.top=(430+Math.sin(a)*444-10)+'px';BP.appendChild(d)}})();
+// stars + bursts
+const bursts=[];for(let i=0;i<5;i++){const s=document.createElement('span');s.className='star';s.textContent='★';
+  for(let j=0;j<8;j++){const b=document.createElement('span');b.className='burst';b.textContent=j%2?'♥':'✦';s.appendChild(b);bursts.push({el:b,i,a:j/8*6.283})}
+  $('stars').appendChild(s)}
+// glitter dust
+const dust=[];for(let i=0;i<110;i++){const d=document.createElement('div');d.className='dust';const s=2+rnd()*6;
+  d.style.width=d.style.height=s+'px';d.style.left=rnd()*1080+'px';d.style.background=rnd()<.5?'#fff':'#ffe2a3';
+  d.style.boxShadow='0 0 8px '+(rnd()<.5?'#fff':'#f2c675');$('dust').appendChild(d);dust.push({el:d,y:rnd()*1920,ph:rnd()*6.28,sp:1+rnd()*3,dr:15+rnd()*40})}
+const sparks=[];for(let i=0;i<26;i++){const d=document.createElement('div');d.className='spark';d.textContent=rnd()<.6?'✦':'✧';
+  const o={el:d,x:60+rnd()*960,y:rnd()*1880,s:20+rnd()*40,ph:rnd()*6.28,sp:.8+rnd()*1.6,dr:10+rnd()*30};$('sparks').appendChild(d);sparks.push(o)}
+const hearts=[];for(let i=0;i<24;i++){const d=document.createElement('div');d.className='heart';d.textContent='♥';
+  d.style.color=['#ff5fa8','#fff','#f2c675','#ff8cc6'][i%4];d.style.textShadow='0 0 10px rgba(255,255,255,.7)';
+  const o={el:d,x:100+rnd()*880,s:34+rnd()*46,dl:rnd()*1.1,vx:(rnd()-.5)*260};$('hearts').appendChild(d);hearts.push(o)}
+// transition sparkle bursts
+const fbs=[];['✨','💖','✨','🎀','✨','💗','✨','💫','✨','💕'].forEach((e,i)=>{const d=document.createElement('div');d.className='fb';d.textContent=e;$('fbs').appendChild(d);fbs.push({el:d,a:i/10*6.283+.3})});
+const REVIEW='Well made, wife loves it';
+function vis(el,o,tr){el.style.opacity=o;el.style.transform=tr||''}
+function popPill(el,t,a,b){const k=p(t,a,a+.45),e=1-p(t,b,b+.3);vis(el,Math.min(k*3,1)*e,`translateX(-50%) scale(${back(k)*(.6+.4*e)})`)}
+function shine(el,t,a){el.querySelectorAll('.big').forEach(b=>b.style.backgroundPosition=(100-((t-a)*45)%200)+'% 0')}
+window.render=function(t){
+  $('satin').style.transform=`translateX(${-600+((t*160)%1800)}px)`;
+  for(const d of dust){const tw=.5+.5*Math.sin(t*d.sp*3+d.ph);d.el.style.top=((d.y-t*d.dr+1920)%1920)+'px';d.el.style.opacity=.15+.85*tw*tw}
+  for(const s of sparks){const tw=.5+.5*Math.sin(t*s.sp*3+s.ph);s.el.style.left=s.x+'px';s.el.style.top=(s.y-t*s.dr)+'px';
+    s.el.style.fontSize=s.s+'px';s.el.style.opacity=.2+.8*tw;s.el.style.transform=`scale(${.5+.7*tw}) rotate(${t*40+s.ph*50}deg)`}
+  // flash transitions
+  {let f=0;for(const c of [3.85,7.3]){const k=p(t,c-.15,c+.5);if(k>0&&k<1)f=Math.max(f,Math.sin(k*Math.PI))}$('flash').style.opacity=f*.75;
+   for(const b of fbs){let k=0;for(const c of [3.85,7.3]){const q=p(t,c-.1,c+.7);if(q>0&&q<1)k=q}
+     const r=out3(k)*520;vis(b.el,k>0?Math.sin(k*Math.PI):0,`translate(-50%,-50%) translate(${Math.cos(b.a)*r}px,${Math.sin(b.a)*r}px) scale(${.6+k*.9}) rotate(${k*90}deg)`)}}
+  // ---- A
+  popPill($('pillA'),t,.15,3.55);
+  {const k=out3(p(t,.35,1.0)),e=1-p(t,3.55,3.9);vis($('headA'),k*e,`translateY(${(1-k)*60-(1-e)*40}px)`);shine($('headA'),t,0)}
+  {const k=out3(p(t,.5,1.3)),x=out3(p(t,3.55,4.1));vis($('phone'),cl(p(t,.5,.8))*(1-p(t,3.9,4.1)),
+    `translateY(${(1-k)*1100}px) translateX(${-x*1200}px) rotate(${-x*14+(1-k)*6}deg)`)}
+  [...$('stars').children].forEach((s,i)=>{const k=p(t,1.35+i*.18,1.35+i*.18+.35);
+    s.style.opacity=k>0?1:0;s.style.transform=`scale(${k>0?back(k):0}) rotate(${(1-k)*-90}deg)`});
+  for(const b of bursts){const k=p(t,1.5+b.i*.18,2.1+b.i*.18),r=out3(k)*70;
+    vis(b.el,k>0&&k<1?1-k:0,`translate(-50%,-50%) translate(${Math.cos(b.a)*r}px,${Math.sin(b.a)*r}px) scale(${1-k*.5})`)}
+  {const n=Math.round(REVIEW.length*p(t,2.35,3.25));$('rtext').innerHTML=REVIEW.slice(0,n)+(t>2.2&&t<3.7&&Math.floor(t*4)%2==0?'<span class="caret"></span>':'')}
+  // ---- B
+  popPill($('pillB'),t,4.0,7.0);
+  {const k=out3(p(t,4.15,4.8)),e=1-p(t,7.0,7.35);vis($('headB'),k*e,`translateY(${(1-k)*60}px) scale(${1+(1-e)*.1})`);shine($('headB'),t,4)}
+  {const k=back(p(t,4.2,5.05)),e=p(t,7.0,7.45);vis($('pola'),cl(p(t,4.2,4.4))*(1-e),
+    `translateY(${(1-k)*-1500}px) rotate(${-4-(1-k)*16+Math.sin(t*1.6)*1.2}deg) scale(${1-e*.25})`)}
+  for(const h of hearts){const k=p(t,4.9+h.dl,6.6+h.dl);h.el.style.left=(h.x+h.vx*k)+'px';h.el.style.top=(1300-k*760)+'px';
+    h.el.style.fontSize=h.s+'px';h.el.style.opacity=k>0&&k<1?Math.sin(k*Math.PI):0;h.el.style.transform=`scale(${.5+k}) rotate(${Math.sin(k*8)*15}deg)`}
+  // ---- C
+  popPill($('pillC'),t,7.45,99);
+  {const k=out3(p(t,7.6,8.2));vis($('headC'),k,`translateY(${(1-k)*60}px)`);shine($('headC'),t,7.5)}
+  {const k=back(p(t,7.35,8.05)),o=cl(p(t,7.35,7.6));const tr=`scale(${.7+.3*k}) rotate(${(1-k)*5+t*2}deg)`;
+    vis($('bagf'),o,`scale(${.7+.3*k})`);vis($('bagpearls'),o,tr);
+    $('bagimg').style.transform=`scale(${1+.14*p(t,7.35,11)})`;$('shine').style.left=(-400+1700*out3(p(t,8.2,9.1)))+'px'}
+  {const k=back(p(t,8.7,9.2));vis($('tag'),cl(p(t,8.7,8.8)),`translateY(${(1-k)*-300}px) rotate(${Math.sin((t-8.7)*4)*10*Math.exp(-(t-8.7)*1.2)}deg)`)}
+  {const k=back(p(t,9.3,9.8));vis($('endpill'),cl(p(t,9.3,9.4)),`translateX(-50%) scale(${k*(1+.03*Math.sin(t*6))})`)}
+  {const k=out3(p(t,9.7,10.4));vis($('sig'),k,`translateY(${(1-k)*30}px)`);$('sig').style.clipPath=`inset(0 ${(1-k)*100}% 0 0)`}
+};
+window.render(0);
+</script></body></html>

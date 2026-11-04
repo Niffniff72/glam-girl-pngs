@@ -7,7 +7,7 @@ const [,, html, mode, out] = process.argv;
   await pg.goto('file://' + html); await pg.evaluate(() => document.fonts.ready);
   await pg.waitForTimeout(300);
   if (mode === 'preview') {
-    for (const t of [1.0, 3.4, 5.6, 10.0]) { await pg.evaluate(t => render(t), t); await pg.screenshot({ path: `${out}/prev_${t}.png` }); }
+    for (const t of (process.env.TIMES||"1,3.4,5.6,10").split(",").map(Number)) { await pg.evaluate(t => render(t), t); await pg.screenshot({ path: `${out}/prev_${t}.png` }); }
   } else {
     const FPS = 30, DUR = 11, ff = spawn('ffmpeg', ['-y','-v','error','-f','image2pipe','-framerate',String(FPS),'-i','-',
       '-c:v','libx264','-preset','slow','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart', out], { stdio: ['pipe','inherit','inherit'] });
