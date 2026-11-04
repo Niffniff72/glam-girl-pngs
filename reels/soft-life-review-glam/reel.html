@@ -1,0 +1,133 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Vibes;src:url(fonts/GreatVibes-Regular.ttf)}
+@font-face{font-family:Play;src:url(fonts/Playfair.ttf);font-weight:400 900}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#2a0f1f}
+#stage{position:absolute;inset:0;overflow:hidden;
+  background:radial-gradient(120% 80% at 50% 30%,#f7a8c8 0%,#d94f8c 38%,#7a1f4b 75%,#3a0d25 100%)}
+#bgimg{position:absolute;inset:-80px;background:url(bag.jpg) center/cover;filter:blur(50px) saturate(1.2);opacity:.28}
+.abs{position:absolute;will-change:transform,opacity}
+.frameline{position:absolute;inset:26px;border:3px solid rgba(253,207,90,.85);border-radius:46px;pointer-events:none}
+.frameline2{position:absolute;inset:40px;border:1px solid rgba(253,207,90,.45);border-radius:36px}
+.pill{left:50%;top:210px;height:84px;padding:0 44px;border-radius:42px;background:#fc3da0;color:#fff;
+  font:800 40px Inter;letter-spacing:3px;display:flex;align-items:center;white-space:nowrap;
+  box-shadow:0 10px 30px rgba(80,0,40,.35),inset 0 0 0 3px rgba(255,255,255,.25)}
+.head{left:0;width:1080px;text-align:center;top:300px}
+.script{font-family:Vibes;color:#fff;font-size:120px;line-height:1;text-shadow:0 4px 20px rgba(60,0,30,.5)}
+.big{font-family:Play;font-weight:900;font-size:160px;line-height:1;letter-spacing:2px;
+  background:linear-gradient(180deg,#fff6d6 0%,#fdd56a 40%,#e8a93a 70%,#fff1b8 100%);-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 0 #5a1235) drop-shadow(0 14px 24px rgba(40,0,20,.5))}
+/* phone */
+#phone{left:220px;top:660px;width:640px;height:1060px;border-radius:84px;padding:22px;
+  background:linear-gradient(145deg,#f6d27a,#b9862f 40%,#fbe3a0 60%,#a7742a);box-shadow:0 40px 80px rgba(40,0,20,.55)}
+#screen{width:100%;height:100%;border-radius:64px;background:#17151c;overflow:hidden;position:relative;padding:110px 40px 0}
+#notch{position:absolute;left:50%;top:22px;width:190px;height:50px;border-radius:25px;background:#000;transform:translateX(-50%)}
+.etsy{font:700 34px Inter;color:#f1641e;margin-bottom:34px;letter-spacing:.5px}
+.prod{display:flex;gap:26px;align-items:center}
+.prod img{width:150px;height:150px;border-radius:22px;background:#fff}
+.ptitle{font:600 34px/1.25 Inter;color:#fff}
+.pprice{font:500 30px Inter;color:#bbb;margin-top:8px}
+#stars{display:flex;gap:14px;margin:50px 0 36px}
+.star{font:80px "DejaVu Sans";color:#fdcf5a;text-shadow:0 0 22px rgba(253,207,90,.8)}
+#rtext{font:600 54px/1.25 Inter;color:#fff;min-height:140px}
+.caret{display:inline-block;width:5px;height:54px;background:#fc3da0;vertical-align:-8px;margin-left:4px}
+#namebar{margin-top:40px;width:360px;height:40px;border-radius:20px;background:#55505e;filter:blur(9px)}
+/* polaroid */
+#pola{left:150px;top:640px;width:780px;padding:34px 34px 0;background:#fffaf6;border-radius:10px;
+  box-shadow:0 40px 90px rgba(40,0,20,.6)}
+#pola img{width:712px;height:740px;object-fit:cover;display:block;border-radius:4px}
+#pcap{font-family:Vibes;font-size:84px;color:#7a1f4b;text-align:center;height:150px;line-height:150px}
+#tape{position:absolute;left:290px;top:-34px;width:200px;height:68px;background:rgba(253,207,90,.75);transform:rotate(-4deg)}
+/* bag */
+#bagf{left:90px;top:620px;width:900px;height:900px;border-radius:48px;overflow:hidden;
+  border:10px solid #fdcf5a;box-shadow:0 0 0 3px #fff6d6 inset,0 40px 90px rgba(40,0,20,.6)}
+#bagimg{position:absolute;inset:0;background:url(bag.jpg) center/cover}
+#shine{position:absolute;top:-20%;width:260px;height:140%;left:-400px;transform:rotate(20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,240,190,.75),transparent)}
+#price{left:70px;top:560px;padding:18px 40px;border-radius:24px;background:#fc3da0;color:#fff;font:900 76px Play;
+  box-shadow:0 14px 30px rgba(60,0,30,.45),inset 0 0 0 4px #fdcf5a}
+#endpill{left:50%;top:1340px;height:96px;padding:0 54px;border-radius:48px;background:#fff6d6;color:#7a1f4b;
+  font:800 48px Inter;display:flex;align-items:center;white-space:nowrap;box-shadow:0 14px 30px rgba(60,0,30,.45),inset 0 0 0 4px #fdcf5a}
+.spark{position:absolute;font-family:"DejaVu Sans";color:#fff1b8;text-shadow:0 0 14px #fdcf5a}
+.heart{position:absolute;font-family:"DejaVu Sans";color:#ff7cbc;text-shadow:0 0 12px rgba(255,255,255,.6)}
+</style></head><body>
+<div id="stage">
+  <div id="bgimg"></div>
+  <div id="sparks"></div>
+
+  <!-- scene A -->
+  <div id="pillA" class="abs pill">MY FIRST ETSY REVIEW</div>
+  <div id="headA" class="abs head"><div class="script">came from a</div><div class="big">HUSBAND</div></div>
+  <div id="phone" class="abs"><div id="screen"><div id="notch"></div>
+    <div class="etsy">Shop reviews</div>
+    <div class="prod"><img src="thumb.png"><div><div class="ptitle">Soft Life Loud Peace Makeup Bag</div><div class="pprice">$16.99</div></div></div>
+    <div id="stars"></div>
+    <div id="rtext"></div>
+    <div id="namebar"></div>
+  </div></div>
+
+  <!-- scene B -->
+  <div id="pillB" class="abs pill">AND HIS WIFE?</div>
+  <div id="headB" class="abs head"><div class="script">she</div><div class="big">LOVES IT</div></div>
+  <div id="pola" class="abs"><div id="tape"></div><img src="wife.jpg"><div id="pcap">Well made, wife loves it</div></div>
+  <div id="hearts"></div>
+
+  <!-- scene C -->
+  <div id="pillC" class="abs pill">DIGITALDREAMGALHAVEN</div>
+  <div id="headC" class="abs head"><div class="script">Soft Life,</div><div class="big" style="font-size:132px">LOUD PEACE</div></div>
+  <div id="bagf" class="abs"><div id="bagimg"></div><div id="shine"></div></div>
+  <div id="price" class="abs">$16.99</div>
+  <div id="endpill" class="abs">shop link in bio &#10022;</div>
+
+  <div class="frameline"></div><div class="frameline2"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const p=(t,a,b)=>cl((t-a)/(b-a));
+const out3=x=>1-Math.pow(1-x,3);
+const back=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const inq=x=>x*x;
+// stars
+for(let i=0;i<5;i++){const s=document.createElement('span');s.className='star';s.textContent='★';$('stars').appendChild(s)}
+// seeded random
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const sparks=[];for(let i=0;i<34;i++){const d=document.createElement('div');d.className='spark';d.textContent=rnd()<.5?'✦':'✧';
+  const o={el:d,x:rnd()*1040,y:rnd()*1880,s:18+rnd()*38,ph:rnd()*6.28,sp:.8+rnd()*1.6,dr:10+rnd()*30};$('sparks').appendChild(d);sparks.push(o)}
+const hearts=[];for(let i=0;i<16;i++){const d=document.createElement('div');d.className='heart';d.textContent='♥';
+  const o={el:d,x:120+rnd()*840,s:34+rnd()*40,dl:rnd()*.9,vx:(rnd()-.5)*240};$('hearts').appendChild(d);hearts.push(o)}
+const REVIEW='Well made, wife loves it';
+function vis(el,o,tr){el.style.opacity=o;el.style.transform=tr||''}
+function popPill(el,t,a,b){const k=p(t,a,a+.45),e=1-p(t,b,b+.3);vis(el,Math.min(k*3,1)*e,`translateX(-50%) scale(${back(k)*(.6+.4*e)})`)}
+window.render=function(t){
+  // sparkles
+  for(const s of sparks){const tw=.5+.5*Math.sin(t*s.sp*3+s.ph);s.el.style.left=s.x+'px';s.el.style.top=(s.y-t*s.dr)+'px';
+    s.el.style.fontSize=s.s+'px';s.el.style.opacity=.25+.75*tw;s.el.style.transform=`scale(${.6+.6*tw}) rotate(${t*40+s.ph*50}deg)`}
+  // ---- scene A 0 - 3.9
+  popPill($('pillA'),t,.15,3.55);
+  {const k=out3(p(t,.35,1.0)),e=1-p(t,3.55,3.9);vis($('headA'),k*e,`translateY(${(1-k)*60-(1-e)*40}px)`)}
+  {const k=back(p(t,.5,1.3)),x=out3(p(t,3.55,4.1));vis($('phone'),cl(p(t,.5,.8))*(1-p(t,3.9,4.1)),
+    `translateY(${(1-k)*1100}px) translateX(${-x*1200}px) rotate(${-x*14 + (1-k)*6}deg)`)}
+  [...$('stars').children].forEach((s,i)=>{const k=p(t,1.35+i*.18,1.35+i*.18+.35);s.style.display='inline-block';
+    s.style.opacity=k>0?1:0;s.style.transform=`scale(${k>0?back(k)*1.0+(1-k)*.2:0}) rotate(${(1-k)*-90}deg)`});
+  {const n=Math.round(REVIEW.length*p(t,2.35,3.25));$('rtext').innerHTML=REVIEW.slice(0,n)+(t>2.2&&t<3.7&&Math.floor(t*4)%2==0?'<span class="caret"></span>':'')}
+  // ---- scene B 3.9 - 7.4
+  popPill($('pillB'),t,4.0,7.0);
+  {const k=out3(p(t,4.15,4.8)),e=1-p(t,7.0,7.35);vis($('headB'),k*e,`translateY(${(1-k)*60}px) scale(${1+(1-e)*.1})`)}
+  {const k=back(p(t,4.2,5.05)),e=p(t,7.0,7.45);vis($('pola'),cl(p(t,4.2,4.4))*(1-e),
+    `translateY(${(1-k)*-1500}px) rotate(${-4-(1-k)*16 + Math.sin(t*1.6)*1.2}deg) scale(${1-e*.25})`)}
+  for(const h of hearts){const k=p(t,5.0+h.dl,6.6+h.dl);h.el.style.left=(h.x+h.vx*k)+'px';h.el.style.top=(1250-k*700)+'px';
+    h.el.style.fontSize=h.s+'px';h.el.style.opacity=k>0&&k<1?Math.sin(k*Math.PI):0;h.el.style.transform=`scale(${.5+k})`}
+  // ---- scene C 7.3 - 11
+  popPill($('pillC'),t,7.45,99);
+  {const k=out3(p(t,7.6,8.2));vis($('headC'),k,`translateY(${(1-k)*60}px)`)}
+  {const k=back(p(t,7.35,8.05));vis($('bagf'),cl(p(t,7.35,7.6)),`scale(${.7+.3*k}) rotate(${(1-k)*5}deg)`);
+    $('bagimg').style.transform=`scale(${1+.14*p(t,7.35,11)})`;
+    $('shine').style.left=(-400+1700*out3(p(t,8.2,9.1)))+'px'}
+  {const k=back(p(t,8.7,9.15));vis($('price'),cl(p(t,8.7,8.8)),`scale(${k}) rotate(${-8+Math.sin(t*3)*2}deg)`)}
+  {const k=back(p(t,9.3,9.8));vis($('endpill'),cl(p(t,9.3,9.4)),`translateX(-50%) scale(${k*(1+.03*Math.sin(t*6))})`)}
+};
+window.render(0);
+</script></body></html>
