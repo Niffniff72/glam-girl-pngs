@@ -4,8 +4,8 @@ import { refreshAccessToken } from '../../lib/token.js';
 
 export default async () => {
   try {
-    const { expiresAt } = await refreshAccessToken();
-    log.info('token.refreshed', { expiresAt });
+    const { expiresAt, skipped } = await refreshAccessToken();
+    log.info(skipped ? 'token.refresh_not_needed' : 'token.refreshed', { expiresAt });
   } catch (err) {
     log.error('token.refresh_failed', err);
   }

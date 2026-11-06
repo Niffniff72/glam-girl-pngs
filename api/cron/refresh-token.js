@@ -13,8 +13,8 @@ export async function GET(request) {
   }
 
   try {
-    const { expiresAt } = await refreshAccessToken();
-    log.info('token.refreshed', { expiresAt });
+    const { expiresAt, skipped } = await refreshAccessToken();
+    log.info(skipped ? 'token.refresh_not_needed' : 'token.refreshed', { expiresAt });
     return Response.json({ ok: true, expiresAt });
   } catch (err) {
     log.error('token.refresh_failed', err);

@@ -1,5 +1,7 @@
 # Instagram Comment-to-DM Engine
 
+> **Meta update (Nov 2026):** new Meta apps can no longer use "API setup with Instagram login". They get **"API setup with Unified login"** instead, which issues a never-expiring **system-user token** (starts with `EAA`) used on `graph.facebook.com`. The engine detects the token type automatically. For a Unified-login app you need: `IG_ACCESS_TOKEN` (the EAA token), `IG_USER_ID` (your Instagram account ID), and `IG_APP_SECRET` = the **Meta app secret** (App settings → Basic). The weekly refresh is skipped for EAA tokens because they don't expire.
+
 Built on Meta's **Instagram API with Instagram Login** (`graph.instagram.com`). You don't need a Facebook Page.
 
 ## How it works

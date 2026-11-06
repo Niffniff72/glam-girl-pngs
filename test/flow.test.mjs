@@ -25,10 +25,11 @@ describe('comment-to-DM flow', { skip: !DB && 'set TEST_DATABASE_URL to run' }, 
     calls.push({ host: url.host, path: url.pathname, method, body, auth: init.headers?.Authorization, url: url.toString() });
     const json = (data, status = 200) => Promise.resolve(new Response(JSON.stringify(data), { status }));
 
-    if (url.host === 'graph.instagram.com') {
+    if (url.host === 'graph.instagram.com' || url.host === 'graph.facebook.com') {
       if (url.pathname === '/refresh_access_token') return json({ access_token: 'IGAArefreshedTOKEN000', token_type: 'bearer', expires_in: 5184000 });
       const p = url.pathname.replace(/^\/v[\d.]+\//, '');
       if (p === 'me') return json({ user_id: ACCOUNT, username: 'glamgirlpngs' });
+      if (p === ACCOUNT && method === 'GET') return json({ id: ACCOUNT, username: 'glamgirlpngs' });
       if (p === `${ACCOUNT}/messages`) return json({ recipient_id: 'x', message_id: 'm' });
       if (p.endsWith('/replies')) return json({ id: 'reply1' });
       if (method === 'GET') return json({ username: 'someone', is_user_follow_business: following.get(p) ?? false });
@@ -222,6 +223,33 @@ describe('comment-to-DM flow', { skip: !DB && 'set TEST_DATABASE_URL to run' }, 
     calls.length = 0;
     await post(tap('igsid-intruder', payload));
     assert.equal(dms().length, 0);
+  });
+
+  test('Unified-login system-user token: uses graph.facebook.com + IG_USER_ID, cron skips refresh', async () => {
+    const saved = process.env.IG_ACCESS_TOKEN;
+    process.env.IG_ACCESS_TOKEN = 'EAAYsystemUserTOKEN999';
+    process.env.IG_USER_ID = ACCOUNT;
+    await pool.query('DELETE FROM app_tokens');
+    (await import('../lib/token.js'))._resetTokenCache();
+    (await import('../lib/instagram.js'))._resetAccountCache();
+
+    following.set('igsid-800', true);
+    calls.length = 0;
+    await post(commentEvent('c50', 'igsid-800', 'JOURNAL'));
+    const dm = dms()[0];
+    assert.equal(dm.host, 'graph.facebook.com');
+    assert.equal(dm.auth, 'Bearer EAAYsystemUserTOKEN999');
+    assert.equal(dm.path, `/v24.0/${ACCOUNT}/messages`);
+
+    calls.length = 0;
+    const res = await mod.cron.GET(new Request('https://s/api/cron/refresh-token', { headers: { authorization: 'Bearer cron-secret-789' } }));
+    assert.equal(res.status, 200);
+    assert.equal(calls.filter((c) => c.path === '/refresh_access_token').length, 0, 'no refresh attempted');
+
+    process.env.IG_ACCESS_TOKEN = saved;
+    delete process.env.IG_USER_ID;
+    (await import('../lib/token.js'))._resetTokenCache();
+    (await import('../lib/instagram.js'))._resetAccountCache();
   });
 
   test('weekly cron refreshes and stores the token encrypted; new token is used after', async () => {
