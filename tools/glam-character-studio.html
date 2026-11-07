@@ -1,0 +1,806 @@
+<title>Glossy Glam Chibi Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: one dark glam workspace. Picks on the left, a sticky prompt panel on the right; stacks on phones. */
+:root{
+  color-scheme:dark;
+  --bg:#120713;--panel:#1f0e22;--panel2:#2a1330;--line:#3d2143;
+  --ink:#fbeef5;--muted:#c3a9ba;--faint:#8d7486;
+  --pink:#ff2d78;--pink2:#ff7aa9;--gold:#d4af37;--gold2:#f3d77a;--ok:#2f7d57;
+  --display:"Playfair Display",Georgia,serif;
+  --body:"DM Sans",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:radial-gradient(900px 500px at 50% -120px,#3a1240 0%,var(--bg) 70%) no-repeat,var(--bg);color:var(--ink);font:16px/1.5 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 90px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto}
+header{text-align:center;padding:6px 0 20px}
+.by{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:6px 14px}
+h1{font-family:var(--display);font-size:clamp(34px,7vw,54px);line-height:1.05;margin:14px 0 8px;text-wrap:balance;background:linear-gradient(100deg,#fff 0%,var(--pink2) 35%,var(--pink) 55%,var(--gold2) 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 i{font-style:italic}
+.sub{color:var(--muted);margin:0 auto;max-width:58ch}
+nav.tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px;position:sticky;top:env(safe-area-inset-top,0px);z-index:6;max-width:760px;margin:0 auto 6px}
+nav.tabs button{flex:1;font:700 14px var(--body);color:var(--muted);background:transparent;border:0;border-radius:12px;padding:11px 6px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:linear-gradient(90deg,var(--pink),#ff6a4a);color:#fff}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:18px;align-items:start}
+@media(max-width:940px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{min-width:0;display:grid;gap:14px}
+.aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);min-width:0;display:grid;gap:14px;max-height:calc(100vh - 96px);overflow:auto;padding-bottom:4px}
+@media(max-width:940px){.aside{position:static;max-height:none;overflow:visible}}
+details.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:0}
+details.card>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;padding:16px 18px}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary::after{content:"+";margin-left:auto;color:var(--gold);font-weight:700;font-size:20px;line-height:1}
+details.card[open]>summary::after{content:"–"}
+.sec{padding:0 18px 18px}
+summary span,.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+summary b{font-family:var(--display);font-size:20px}
+summary small{color:var(--muted);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font:500 14px var(--body);color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;transition:background .15s,border-color .15s}
+.chip:hover{border-color:var(--pink2)}
+.chip[aria-pressed="true"]{background:linear-gradient(180deg,#ff4b8c,#d81b62);border-color:#ff8fb6;color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.15) inset,0 6px 16px rgba(255,45,120,.3)}
+.chip:disabled{opacity:.3;cursor:not-allowed}
+.chip .sw{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(255,255,255,.35)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.row2{grid-template-columns:1fr}}
+.row2>*{min-width:0}
+.lbl{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
+.lbl:first-child{margin-top:0}
+input[type=text],textarea{width:100%;font:500 16px var(--body);color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+textarea{min-height:76px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--faint)}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+.hint{font-size:13px;color:var(--muted);margin:8px 0 0}
+.out{background:linear-gradient(180deg,#2c1030,#1c0a1f);border:1px solid #6b2a55;border-radius:18px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.out h2{font-family:var(--display);font-size:20px;margin:0 0 4px;color:var(--gold2)}
+.out .meta{font-size:13px;color:var(--muted);margin:0 0 10px}
+.pre{white-space:pre-wrap;font:14px/1.55 var(--body);max-height:300px;overflow:auto;background:rgba(0,0,0,.28);border-radius:12px;padding:12px;margin:0;color:var(--ink)}
+.pre.flash{animation:fl .8s ease}
+@keyframes fl{0%{box-shadow:0 0 0 2px var(--gold2)}100%{box-shadow:0 0 0 0 transparent}}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{font:700 15px var(--body);border-radius:12px;padding:12px 16px;cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink)}
+.btn.main{background:linear-gradient(90deg,var(--pink),#ff6a4a);border:0;color:#fff;flex:1 1 140px}
+.btn.gold{background:linear-gradient(90deg,#b8912a,var(--gold2));border:0;color:#1a0b12;flex:1 1 140px}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.sm{font-size:13px;padding:8px 12px}
+.list{display:grid;gap:10px;margin-top:12px}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.item h3{margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--pink2)}
+.item p{margin:0 0 10px;font-size:14px;white-space:pre-wrap}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;margin:0}
+.spec dt{color:var(--muted)}
+.spec dd{margin:0;font-variant-numeric:tabular-nums}
+.tips{font-size:14px;color:var(--muted);padding-left:18px;margin:0}
+.tips li{margin:5px 0}
+.tips b{color:var(--ink)}
+.pane[hidden]{display:none}
+.jump{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:8;display:none}
+@media(max-width:940px){.jump{display:block}}
+.jump .btn{box-shadow:0 10px 24px rgba(0,0,0,.5)}
+.note{background:var(--panel2);border:1px solid var(--gold);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:12px}
+.note b{color:var(--gold2)}
+footer{text-align:center;color:var(--faint);font-size:13px;margin-top:26px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="by">BY DIGITAL DREAM GAL STUDIO</span>
+  <h1>Glossy Glam <i>Chibi</i> Studio</h1>
+  <p class="sub">Build a character, pick where it's printing, and get a ready-to-paste prompt plus print-file notes for your vendor. Made for tumblers, tees, UV DTF, DTF, sublimation and coloring pages.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button type="button" role="tab" aria-selected="true" data-tab="studio">Character Studio</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="mock">Mockups &amp; Captions</button>
+  <button type="button" role="tab" aria-selected="false" data-tab="cover">Planner Covers</button>
+</nav>
+
+<!-- ================= CHARACTER STUDIO ================= -->
+<div class="pane" id="pane-studio">
+<div class="grid">
+<div class="col">
+
+<details class="card" open><summary><span>Step 1</span><b>Who it's for</b></summary><div class="sec">
+  <label class="lbl">Age</label><div class="chips" data-g="age"></div>
+  <label class="lbl">Girl or boy</label><div class="chips" data-g="gender"></div>
+  <p class="hint">Babies and kids hide grown-up options like tattoos, wine and heels.</p>
+</div></details>
+
+<details class="card" open><summary><span>Step 2</span><b>Heritage &amp; skin tone</b></summary><div class="sec">
+  <label class="lbl">Ethnicity</label><div class="chips" data-g="eth"></div>
+  <label class="lbl">Skin tone</label><div class="chips" data-g="skin"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 3</span><b>Art style</b></summary><div class="sec">
+  <div class="chips" data-g="art"></div>
+  <label class="lbl">Shine</label><div class="chips" data-g="finish"></div>
+  <p class="hint" id="artHint"></p>
+</div></details>
+
+<details class="card" open><summary><span>Step 4</span><b>Hair, eyes &amp; face</b></summary><div class="sec">
+  <label class="lbl">Hairstyle</label><div class="chips" data-g="hair"></div>
+  <label class="lbl">Hair color</label><div class="chips" data-g="hcolor"></div>
+  <label class="lbl">Eye color</label><div class="chips" data-g="eye"></div>
+  <label class="lbl">Face features <small style="color:var(--faint)">pick any</small></label><div class="chips" data-g="face"></div>
+  <label class="lbl">Body type</label><div class="chips" data-g="body"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 5</span><b>Outfit &amp; shoes</b></summary><div class="sec">
+  <label class="lbl">Outfit</label><div class="chips" data-g="outfit"></div>
+  <label class="lbl" for="teamc">Game day team colors (no logos or team names)</label>
+  <input id="teamc" type="text" placeholder="e.g. red, white and blue">
+  <label class="lbl">Shoes</label><div class="chips" data-g="shoes"></div>
+  <p class="hint" id="shoeHint"></p>
+</div></details>
+
+<details class="card" open><summary><span>Step 6</span><b>Pose &amp; expression</b></summary><div class="sec">
+  <label class="lbl">Pose</label><div class="chips" data-g="pose"></div>
+  <label class="lbl">Expression</label><div class="chips" data-g="expr"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 7</span><b>Props, jewelry &amp; tattoos</b> <small>pick any</small></summary><div class="sec">
+  <label class="lbl">Props &amp; accessories</label><div class="chips" data-g="props"></div>
+  <label class="lbl">Jewelry</label><div class="chips" data-g="jewel"></div>
+  <label class="lbl">Tattoos (adults only)</label><div class="chips" data-g="tats"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 8</span><b>Holiday theme</b></summary><div class="sec">
+  <div class="chips" data-g="holiday"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 9</span><b>Framing &amp; words</b></summary><div class="sec">
+  <label class="lbl">How much of her shows</label><div class="chips" data-g="frame"></div>
+  <label class="lbl">Camera angle</label><div class="chips" data-g="angle"></div>
+  <div class="row2">
+    <div><label class="lbl" for="quote">Words on the design</label><input id="quote" type="text" placeholder="e.g. Blessed &amp; Bossed Up"></div>
+    <div><label class="lbl" for="quote2">Second line (optional)</label><input id="quote2" type="text" placeholder="e.g. Est. 2026"></div>
+  </div>
+  <label class="lbl">Where the words go</label><div class="chips" data-g="textpos"></div>
+  <label class="lbl">Lettering style</label><div class="chips" data-g="letter"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 10</span><b>Background &amp; palette</b></summary><div class="sec">
+  <label class="lbl">Background</label><div class="chips" data-g="bg"></div>
+  <label class="lbl">Color palette</label><div class="chips" data-g="pal"></div>
+  <label class="lbl" for="custompal">Or type your own colors</label>
+  <input id="custompal" type="text" placeholder="e.g. lavender and silver">
+</div></details>
+
+<details class="card" open><summary><span>Step 11</span><b>Print type &amp; AI tool</b></summary><div class="sec">
+  <label class="lbl">What it's printing on</label><div class="chips" data-g="output"></div>
+  <label class="lbl">AI tool</label><div class="chips" data-g="tool"></div>
+</div></details>
+
+<details class="card" open><summary><span>Step 12</span><b>Bundle builder</b></summary><div class="sec">
+  <label class="lbl">How many designs</label><div class="chips" data-g="bcount"></div>
+  <label class="lbl">What changes in each design <small style="color:var(--faint)">pick any</small></label><div class="chips" data-g="bvary"></div>
+  <p class="hint">Everything else stays the same, so the set looks like one collection. Paste them in the same chat, one at a time.</p>
+</div></details>
+
+<details class="card" open><summary><span>Step 13</span><b>Anything else?</b></summary><div class="sec">
+  <label class="lbl" for="extra">Add your own details</label>
+  <textarea id="extra" placeholder="e.g. holding a birthday cake with sparklers, nails painted to match her outfit"></textarea>
+</div></details>
+
+</div>
+
+<aside class="aside" id="outbox">
+  <section class="out" aria-live="polite">
+    <h2>Your prompt</h2>
+    <p class="meta" id="pmeta"></p>
+    <pre class="pre" id="prompt"></pre>
+    <div class="btns">
+      <button class="btn main" id="gen" type="button">Generate</button>
+      <button class="btn gold" id="copy" type="button">Copy prompt</button>
+      <button class="btn" id="rand" type="button">Surprise me</button>
+    </div>
+    <div class="list" id="bundle" hidden></div>
+  </section>
+
+  <section class="out">
+    <h2>Print file notes</h2>
+    <p class="meta">Send these with the PNG to your DTF, UV DTF or sublimation vendor.</p>
+    <dl class="spec" id="spec"></dl>
+    <div class="btns"><button class="btn sm" id="copySpec" type="button">Copy print notes</button></div>
+  </section>
+
+  <section class="out">
+    <h2>Pro tips</h2>
+    <ul class="tips">
+      <li>AI tools make low-resolution images. <b>Upscale to the pixel size in your print notes</b> before you send it to a vendor.</li>
+      <li>For DTF and UV DTF, remove the white background in Canva or a background remover and save as a <b>transparent PNG</b>.</li>
+      <li>Flat a little? Reply: <b>"Add more shine to the hair, clothes and accessories only. Keep the skin smooth and natural."</b></li>
+      <li>Logo snuck in? Reply: <b>"Remove all logos and brand marks. Make the shoes and bag plain."</b></li>
+      <li>Check every word for spelling before you list it.</li>
+    </ul>
+  </section>
+</aside>
+</div>
+<div class="jump"><button class="btn main" type="button" id="jump">See prompt ↓</button></div>
+</div>
+
+<!-- ================= MOCKUPS & CAPTIONS ================= -->
+<div class="pane" id="pane-mock" hidden>
+<div class="grid">
+<div class="col">
+<details class="card" open><summary><span>Mockup</span><b>Design to show</b></summary><div class="sec">
+  <div class="chips" data-g="msrc"></div>
+  <div class="note" id="mlinked"></div>
+</div></details>
+<details class="card" open><summary><span>Mockup</span><b>Product</b></summary><div class="sec"><div class="chips" data-g="mprod"></div></div></details>
+<details class="card" open><summary><span>Mockup</span><b>Scene &amp; shot</b></summary><div class="sec">
+  <label class="lbl">Scene</label><div class="chips" data-g="mscene"></div>
+  <label class="lbl">Shot</label><div class="chips" data-g="mshot"></div>
+  <label class="lbl">Image size</label><div class="chips" data-g="msize"></div>
+</div></details>
+
+<details class="card" open><summary><span>Content</span><b>Caption &amp; hooks</b></summary><div class="sec">
+  <div class="row2">
+    <div><label class="lbl" for="cprod">Product name</label><input id="cprod" type="text" value="Glam Girl 20oz Tumbler Wrap"></div>
+    <div><label class="lbl" for="ckey">Comment keyword</label><input id="ckey" type="text" value="GLAM"></div>
+  </div>
+  <label class="lbl" for="coffer">Price or offer (optional)</label><input id="coffer" type="text" placeholder="e.g. $4.99 instant download, or 20% off this weekend">
+  <label class="lbl">Selling to</label><div class="chips" data-g="cbuyer"></div>
+  <label class="lbl">Vibe</label><div class="chips" data-g="cvibe"></div>
+  <label class="lbl">Platform</label><div class="chips" data-g="cplat"></div>
+</div></details>
+</div>
+
+<aside class="aside">
+  <section class="out">
+    <h2>Mockup prompt</h2>
+    <p class="meta" id="mmeta"></p>
+    <pre class="pre" id="mprompt"></pre>
+    <div class="btns">
+      <button class="btn gold" id="mcopy" type="button">Copy mockup prompt</button>
+      <button class="btn" id="mset" type="button">Listing photo set of 4</button>
+    </div>
+    <div class="list" id="msetList" hidden></div>
+  </section>
+  <section class="out">
+    <h2>Hooks</h2>
+    <div class="list" id="hooks"></div>
+    <div class="btns"><button class="btn" id="morehooks" type="button">Show 5 more hooks</button></div>
+  </section>
+  <section class="out">
+    <h2>Caption</h2>
+    <pre class="pre" id="caption"></pre>
+    <div class="btns">
+      <button class="btn gold" id="capcopy" type="button">Copy caption</button>
+      <button class="btn" id="aicap" type="button">Copy "write me 10 more" prompt</button>
+    </div>
+  </section>
+</aside>
+</div>
+</div>
+
+<!-- ================= PLANNER COVERS ================= -->
+<div class="pane" id="pane-cover" hidden>
+<div class="grid">
+<div class="col">
+<details class="card" open><summary><span>Step 1</span><b>Planner type</b></summary><div class="sec"><div class="chips" data-g="ctype"></div></div></details>
+<details class="card" open><summary><span>Step 2</span><b>Cover words</b></summary><div class="sec">
+  <p class="hint" style="margin-top:0">These fill in for you. Change any of them.</p>
+  <label class="lbl" for="c_title">Big title</label><input id="c_title" type="text">
+  <label class="lbl" for="c_sub">Subtitle</label><input id="c_sub" type="text">
+  <label class="lbl" for="c_feat">4 feature badges (separate with commas)</label><input id="c_feat" type="text">
+  <div class="row2">
+    <div><label class="lbl" for="c_side">Side tagline</label><input id="c_side" type="text"></div>
+    <div><label class="lbl" for="c_foot">Bottom line</label><input id="c_foot" type="text"></div>
+  </div>
+</div></details>
+<details class="card" open><summary><span>Step 3</span><b>Cover style</b></summary><div class="sec"><div class="chips" data-g="cstyle"></div></div></details>
+<details class="card" open><summary><span>Step 4</span><b>Binding &amp; size</b></summary><div class="sec">
+  <div class="chips" data-g="cbind"></div>
+  <label class="lbl">Size</label><div class="chips" data-g="csize"></div>
+</div></details>
+<details class="card" open><summary><span>Step 5</span><b>Your character</b></summary><div class="sec">
+  <div class="chips" data-g="cchar"></div>
+  <div class="note" id="clinked"></div>
+</div></details>
+</div>
+<aside class="aside">
+  <section class="out">
+    <h2>Your cover prompt</h2>
+    <pre class="pre" id="cprompt"></pre>
+    <div class="btns">
+      <button class="btn gold" id="ccopy" type="button">Copy prompt</button>
+      <button class="btn" id="cinside" type="button">Matching inside pages</button>
+    </div>
+    <div id="cin" hidden class="item" style="margin-top:12px"><h3>Inside pages</h3><p id="cinText"></p><button class="btn sm" type="button" id="cincopy">Copy inside pages prompt</button></div>
+  </section>
+  <section class="out">
+    <h2>Covers that sell</h2>
+    <ul class="tips">
+      <li>AI sometimes misspells cover words. Zoom in and check each one.</li>
+      <li>Wrong word? Reply: <b>"Fix the spelling of [word]. Keep everything else exactly the same."</b></li>
+      <li>Use the same character on your cover, inside pages and listing photos so your shop looks like a brand.</li>
+    </ul>
+  </section>
+</aside>
+</div>
+</div>
+
+<footer>© Digital Dream Gal Studio · For creating your own original characters. Please do not resell or share this tool.</footer>
+</div>
+
+<script>
+/* Flags on an option: A = teens 18+ / adults only, K = kids only (not adults), B = babies & toddlers only,
+   N = not for babies & toddlers, F = girls/women only, M = boys/men only, X = special */
+const D={
+ age:[
+  ["newborn / infant","newborn","baby"],["baby (1 yr)","baby","baby"],["toddler","toddler","baby"],
+  ["little kid","kid","kid"],["tween","tween","kid"],["teen","teen","teen"],
+  ["young adult","ya","adult"],["adult","adult","adult"],["glam grandma / grandpa","mature","adult"]],
+ gender:[["girl / woman","f"],["boy / man","m"]],
+ eth:[
+  ["Black American","Black African American","Black African American"],
+  ["African","West African","West African"],
+  ["Caribbean","Afro-Caribbean","Afro-Caribbean"],
+  ["Afro-Latina / o","Afro-Latina","Afro-Latino"],
+  ["Latina / o","Latina","Latino"],
+  ["East Asian","East Asian","East Asian"],
+  ["South Asian","South Asian","South Asian"],
+  ["Filipino / SE Asian","Filipina Southeast Asian","Filipino Southeast Asian"],
+  ["Middle Eastern","Middle Eastern","Middle Eastern"],
+  ["Native American","Native American Indigenous","Native American Indigenous"],
+  ["Pacific Islander","Polynesian Pacific Islander","Polynesian Pacific Islander"],
+  ["White / European","white European","white European"],
+  ["Mixed / biracial","mixed-race biracial","mixed-race biracial"]],
+ skin:[
+  ["deep ebony","deep ebony skin with cool undertones","#3b2219"],["espresso","rich espresso brown skin","#4f2f22"],
+  ["deep brown","deep warm brown skin","#6b3f2a"],["chestnut","chestnut brown skin","#87553a"],
+  ["caramel","warm caramel skin","#a86f4b"],["golden honey","golden honey skin","#c18c5d"],
+  ["olive","warm olive skin","#b99068"],["light tan","light tan skin","#d6ae8a"],
+  ["fair","fair skin with warm undertones","#ecc9ad"],["porcelain","porcelain skin with rosy undertones","#f6dccb"]],
+ art:[
+  ["glam chibi (Bratz-style)","drawn as a glossy glam chibi character in a bold fashion-doll style: oversized head, big almond-shaped eyes with long lashes, full glossy lips, small stylish body","Bold clean outlines, rich saturated colors, soft studio rim lighting, crisp sticker-ready edges, high detail"],
+  ["3D glam character","rendered as a glamorous 3D character with stylized proportions, sculpted features and polished skin","High-end 3D render, soft studio lighting, smooth reflections, ultra detailed, crisp clean edges"],
+  ["2D retro cartoon","drawn as a 2D retro cartoon in a 90s Saturday-morning animation style, with thick outlines, expressive features and simple shapes","Flat bold colors with cel shading, light retro print grain, thick confident linework, crisp edges that print well on shirts and tumblers"],
+  ["coloring page","drawn as a coloring book page line drawing","Pure black line art on a pure white background. No color, no gray, no shading, no filled black areas except the pupils. Thick, clean, closed outlines and large open spaces that are easy to color, with simple details","X"],
+  ["hyper-realistic illustration","painted as a hyper-realistic digital illustration with lifelike anatomy, realistic skin texture and detailed hair strands","Photorealistic digital painting, cinematic lighting, sharp focus, ultra detailed"],
+  ["hyper-real glam doll (Bratz-inspired)","rendered as a hyper-realistic glam fashion doll: oversized head, big glossy almond eyes, thick lashes, full glossy lips, tiny nose, small body, real doll-like vinyl sheen and real fabric, denim, leather and metal textures","Photoreal 3D collectible doll render, studio product-photo lighting with soft reflections, ultra detailed, no outlines"],
+  ["3D fashion doll","rendered in a 3D fashion doll aesthetic: long elegant proportions, flawless satin skin, perfectly styled hair and a couture outfit","Polished 3D render, glamour lighting, collector toy-box quality finish, high detail"],
+  ["Pixar-inspired 3D","rendered as a 3D animated movie character with a warm family-film look: rounded friendly shapes, big expressive eyes and soft, glowing skin","Feature-animation quality 3D render, warm soft lighting, gentle depth, highly detailed. Original character, not based on any existing movie character"],
+  ["soft airbrush illustration","painted as a soft airbrush illustration with smooth gradients, dreamy soft-focus edges and a glowing finish","Airbrushed 90s-poster style, velvety blends, glowing highlights, high detail"]],
+ finish:[["matte","soft matte finish"],["satin","satin finish with gentle highlights"],["glossy","glossy finish with soft highlights"],["ultra glossy","ULTRA-glossy wet-look finish: glass-like highlights on the hair, clothes and accessories, smooth satin-glow skin"],["ultra + bling","ULTRA-glossy finish with glass-like highlights plus sparkling rhinestone bling on the outfit and accessories"],["ultra + glitter","ULTRA-glossy finish with glass-like highlights plus fine glitter sparkle and metallic gold accents"]],
+ hair:[
+  ["bone straight","long and bone-straight with a sleek middle part"],["body wave","long with glossy body waves"],
+  ["silk press curls","in a bouncy silk press with big curled ends"],["curly afro","in a full voluminous curly afro"],
+  ["afro puff","in a big round afro puff"],["two puffs","in two fluffy afro puffs"],["space buns","in two high space buns with face-framing curls"],
+  ["knotless braids","in long knotless braids"],["braids & beads","in box braids with colorful beads on the ends"],
+  ["goddess locs","in long goddess locs with curly pieces"],["locs","in long styled locs"],["cornrows","in neat cornrows"],
+  ["bantu knots","in bantu knots"],["twist-out","in a defined twist-out"],["high ponytail","in a sleek high ponytail"],
+  ["sleek bun","in a sleek low bun"],["bob","in a sharp chin-length bob"],["pixie curls","in a short curly pixie cut"],
+  ["long waves","in long loose waves"],["waves & fade","cut in a clean fade with 360 waves"],["high-top fade","in a high-top fade"],
+  ["twists & taper","in short twists with a low taper"],["bald / shaved","with a clean, smooth bald head","X"],
+  ["baby curls","in soft baby curls with a tiny bow","B"],["pigtails & bows","in two pigtails with big satin bows","K"]],
+ hcolor:[["jet black","jet black"],["dark brown","natural dark brown"],["chestnut","chestnut brown"],["honey blonde","honey blonde"],["platinum","icy platinum"],["ginger","copper ginger"],["burgundy","deep burgundy"],["pink","bubblegum pink"],["lavender","pastel lavender"],["blonde streak","black with a bold blonde front streak"],["ombré","dark brown to honey ombré"],["silver gray","glossy silver gray"],["salt & pepper","salt and pepper gray"]],
+ eye:[["dark brown","dark brown"],["light brown","light brown"],["hazel","hazel"],["amber","warm amber"],["honey","golden honey"],["green","green"],["blue","blue"],["gray","gray"]],
+ face:[
+  ["freckles","light freckles across the nose and cheeks"],["dimples","deep dimples"],["beauty mark","a small beauty mark"],
+  ["vitiligo","beautiful vitiligo patches on the face and hands"],["rosy cheeks","rosy cheeks"],["high cheekbones","high cheekbones"],
+  ["full lips","full lips"],["gap-tooth smile","a cute gap-tooth smile"],["glasses","oversized clear-frame glasses"],
+  ["chubby cheeks","chubby baby cheeks","B"],["lip gloss","clear lip gloss","N"],
+  ["soft glam makeup","soft natural makeup with a glowy finish","A"],["full glam makeup","full glam makeup with long lashes and glossy lips","A"],
+  ["long nails","long glossy almond nails","AF"],["beard","a neatly groomed beard","AM"],["mustache","a clean mustache","AM"]],
+ body:[["natural build","natural proportions"],["slim","a slim build","A"],["petite","a petite build","A"],["athletic","an athletic, toned build","A"],["curvy","a curvy hourglass figure","AF"],["plus-size","a plus-size, thick and confident body","A"],["tall","a tall, long-legged build","A"],["broad & strong","broad shoulders and a strong build","AM"],["maternity","a glowing pregnant belly","AF"]],
+ outfit:[
+  {n:"boss / CEO",f:"a tailored blazer set with a fitted top, wide-leg trousers and a statement belt",m:"a sharp tailored suit with an open-collar shirt and loafers",fl:"A"},
+  {n:"streetwear",f:"a cropped hoodie with baggy distressed cargo jeans covered in rhinestone patches",m:"an oversized plain tee with baggy distressed cargo jeans and rhinestone patches",fl:"N"},
+  {n:"Sunday best",f:"an elegant fitted church dress with a wide-brim hat and pearl details",m:"a three-piece church suit with a pocket square and polished shoes"},
+  {n:"birthday glam",f:"a sparkly birthday dress with a sash and a tiny tiara",m:"a fresh birthday fit with a sash and a gold crown"},
+  {n:"date night",f:"a satin slip dress with a faux fur wrap",m:"a black silk button-down with tailored slacks",fl:"A"},
+  {n:"cozy fall",f:"an oversized knit sweater, leggings and a cozy scarf",m:"a chunky knit sweater with cargo pants"},
+  {n:"athleisure",f:"a matching athleisure set with a cropped zip jacket",m:"a matching tracksuit"},
+  {n:"game day",f:"a sporty cropped jersey-style top and matching bottoms in TEAM colors, with no logos, team names or numbers",m:"a jersey-style top and matching shorts in TEAM colors, with no logos, team names or numbers"},
+  {n:"Y2K",f:"a baby tee, low-rise flare jeans and butterfly clips",m:"baggy denim, an oversized throwback-style jersey with no logos and a bucket hat",fl:"N"},
+  {n:"denim on denim",f:"a matching denim jacket and jeans with rhinestones",m:"a matching denim jacket and jeans"},
+  {n:"silk pajamas",f:"a silk pajama set with a matching bonnet",m:"a silk pajama set"},
+  {n:"cap & gown",f:"a graduation cap and gown with a satin stole",m:"a graduation cap and gown with a satin stole",fl:"N"},
+  {n:"scrubs",f:"stylish fitted medical scrubs with a stethoscope",m:"fitted medical scrubs with a stethoscope",fl:"A"},
+  {n:"party dress / suit",f:"a puffy sparkly party dress with a tulle skirt",m:"a little party outfit with a bow tie and suspenders",fl:"K"},
+  {n:"school day",f:"a cute school outfit with a backpack",m:"a cute school outfit with a backpack",fl:"K"},
+  {n:"onesie",f:"a soft onesie with a little tutu and a headband bow",m:"a soft onesie with a tiny bow tie",fl:"B"},
+  {n:"overalls",f:"cute denim overalls with a ruffle shirt",m:"cute denim overalls with a striped shirt",fl:"B"}],
+ shoes:[["stiletto heels","glossy stiletto heels","AF"],["thigh-high boots","glossy patent thigh-high boots","AF"],["clear heels","clear strappy heels","AF"],["high-top sneakers","chunky plain unbranded high-top sneakers with no logo","N"],["white sneakers","clean plain white low-top sneakers with no logo","N"],["ankle boots","heeled ankle boots","A"],["work boots","wheat-colored work boots with no logo","N"],["slides & socks","fluffy slides with cozy socks","N"],["loafers","polished loafers","A"],["Mary Janes","shiny Mary Jane shoes","K"],["light-up sneakers","light-up kids sneakers with no logo","K"],["baby booties","soft knit baby booties","B"],["barefoot","barefoot"]],
+ pose:[
+  ["hand on hip","standing with one hand on the hip","N"],["peace sign","throwing up a peace sign with a playful wink","N"],
+  ["arms crossed","standing with arms crossed in a boss pose","N"],["walking","mid-stride, walking confidently","N"],
+  ["lowering shades","lowering oversized sunglasses to peek over them","N"],["sipping a drink","sipping from a cup with a straw","N"],
+  ["selfie","taking a selfie with a sparkly phone","N"],["looking back","looking back over the shoulder with a confident smile","N"],
+  ["leaning","leaning back against a wall, relaxed","N"],["sitting cross-legged","sitting cross-legged on the floor","N"],
+  ["sitting on a stool","sitting on a tall stool, legs crossed","A"],["hands in pockets","standing relaxed with both hands in pockets","N"],
+  ["waving","waving hello"],["praying hands","with hands together in prayer, eyes closed peacefully"],
+  ["dancing","dancing with arms up, full of joy","N"],["jumping","jumping in the air with excitement","N"],
+  ["pointing up at the words","pointing up at the words with one hand","N"],["streetwear squat","crouching low in a streetwear squat, elbows on knees","N"],
+  ["sitting up","sitting up and smiling","B"],["crawling","crawling toward the viewer","B"],["sleeping","sleeping peacefully, curled up","B"]],
+ expr:[["confident smirk","a confident smirk"],["big smile","a big joyful smile"],["laughing","laughing out loud"],["sassy side-eye","a sassy side-eye","N"],["sweet smile","a sweet soft smile"],["winking","a playful wink","N"],["blowing a kiss","blowing a kiss","N"],["unbothered","an unbothered, serious boss face","N"],["surprised","a surprised, excited face"],["peaceful","a peaceful face with eyes softly closed"],["shy giggle","a shy giggle"]],
+ props:[
+  ["laptop","an open laptop","N"],["iced coffee","an iced coffee cup","N"],["hot coffee","a steaming coffee mug","A"],["phone","a sparkly phone","N"],
+  ["shopping bags","shopping bags","N"],["handbag","a quilted chain-strap handbag with a plain clasp and no letters or logos","N"],
+  ["Bible","a Bible"],["planner & pen","a planner and a pen","N"],["wine glass","a glass of wine","A"],["champagne","a champagne flute","A"],
+  ["fan of cash","a fan of cash","A"],["makeup brush","a makeup brush and compact","N"],["headphones","over-ear headphones with no logo"],
+  ["books","a stack of books"],["microphone","a sparkly microphone","N"],["flowers","a bouquet of roses"],["balloons","a bunch of balloons"],
+  ["juice box","a juice box","K"],["teddy bear","a soft teddy bear","K"],["basketball","a basketball","N"],["skateboard","a skateboard with no logo","N"],
+  ["pacifier","a pacifier","B"],["rattle","a baby rattle","B"]],
+ jewel:[["gold hoops","big gold hoop earrings"],["diamond studs","diamond stud earrings"],["gold chains","layered gold chains","N"],["pearls","a pearl necklace"],["bangles","stacked gold bangles","N"],["rings","stacked rings","N"],["gold watch","a gold watch","N"],["nameplate","a blank gold nameplate necklace with no letters","N"],["nose ring","a dainty nose ring","A"],["anklet","a gold anklet","A"],["crown","a sparkling gold crown"],["tiara","a crystal tiara","F"],["baby bracelet","a tiny gold baby bracelet","B"]],
+ tats:[["floral half sleeve","a floral half-sleeve tattoo","A"],["full sleeve","a full arm sleeve tattoo","A"],["butterflies","small butterfly tattoos on the shoulder","A"],["wrist heart","a tiny heart tattoo on the wrist","A"],["neck rose","a rose tattoo on the side of the neck","A"],["hand patterns","delicate pattern tattoos on the hands","A"]],
+ holiday:[["none",""],["Christmas","a glam Christmas theme with ornaments, red and gold sparkle and a Santa hat or festive bow"],["Valentine's Day","a Valentine's Day theme with hearts, roses and love letters"],["Easter","an Easter theme with pastel eggs, spring flowers and bunny ears"],["Mother's Day","a Mother's Day theme with flowers and soft pastel hearts"],["Father's Day","a Father's Day theme with a cozy, proud dad vibe"],["Juneteenth","a Juneteenth celebration theme in red, black and green with a joyful freedom vibe"],["4th of July","a 4th of July theme with stars, stripes and fireworks"],["Halloween","a glam Halloween theme with bats, pumpkins and spooky sparkle"],["Thanksgiving","a Thanksgiving theme with fall leaves, pumpkins and a cozy harvest vibe"],["Kwanzaa","a Kwanzaa theme with a kinara and red, black and green details"],["New Year's Eve","a New Year's Eve theme with confetti, balloons and champagne-gold sparkle"],["birthday","a birthday theme with balloons, a cake and confetti"],["back to school","a back-to-school theme with books, pencils and a backpack"],["pink ribbon","a breast cancer awareness theme with pink ribbons and a strong, hopeful vibe"]],
+ frame:[["full body","full body, head to toe"],["knees up","from the knees up"],["waist up (room for words)","cropped at the waist, from the waist up, leaving open space for words","X"],["chest-up portrait","a chest-up portrait","X"],["face & shoulders","a close face-and-shoulders shot","X"]],
+ angle:[["eye level","straight-on eye-level view"],["3/4 view","a 3/4 angle view"],["low angle (powerful)","a low camera angle looking up, so she looks powerful"],["high angle","a slightly high camera angle looking down"],["side profile","a side profile view"],["over the shoulder","an over-the-shoulder view"]],
+ textpos:[["below","below the character"],["above","above the character"],["above & below","split with the first line above and the second line below the character"],["right side (tumbler)","stacked on the right side, with the character on the left"],["arched over head","arched over the character's head"],["big behind her","as giant bold words behind the character"]],
+ letter:[["glossy 3D gold script","thick glossy 3D gold script lettering with a glitter outline"],["bold glossy block","bold glossy block letters"],["retro bubble","chunky retro bubble letters"],["graffiti drip","graffiti lettering with paint drips"],["elegant serif","elegant high-contrast serif lettering"],["marker hand-lettered","chunky hand-lettered marker style"],["varsity","varsity collegiate block letters"]],
+ bg:[["plain white (easy cutout)","isolated on a plain pure white background with no shadow, so it's easy to remove for a transparent PNG","W"],["city lights","in front of glowing blurred city lights at night with soft bokeh"],["soft blur studio","on a soft blurred studio gradient"],["glitter & sparkle","on a glitter background full of sparkles and shimmer"],["luxury lounge","in a luxury penthouse lounge with soft lighting"],["floral wall","in front of a lush flower wall"],["sunset beach","on a beach at golden sunset"],["pink clouds","on dreamy pink clouds with little stars"],["leopard print","on a glam leopard print background"],["solid black","on a solid black background"],["holiday scene","in a festive scene that matches the holiday theme"]],
+ pal:[["pink & gold","hot pink and gold","#ff2d78,#d4af37"],["black & gold","black and gold","#111,#d4af37"],["earth tones","earth tones: rust, olive, camel and terracotta","#a4502a,#6b6b2e,#c19a6b"],["neutrals","soft neutrals: beige, cream and taupe","#d8c3a5,#f3eadb,#8b7d6b"],["pastels","soft pastels","#f7c6d9,#c7e7f5,#d9f2d0"],["jewel tones","jewel tones: emerald, sapphire and amethyst","#1f8a5b,#1f4fa0,#7a3fa0"],["red & black","red and black","#d7263d,#111"],["purple & gold","royal purple and gold","#6a3fa0,#d4af37"],["baby blue & white","baby blue and white","#9fd3f2,#fff"],["white & silver","all white with silver accents","#fff,#c0c0c8"],["burgundy & mustard","burgundy and mustard","#7a1f3d,#e0a82e"],["neon brights","neon pink, lime and electric blue","#ff3cac,#b5ff1d,#2f8bff"]],
+ output:[
+  {n:"20oz tumbler (sublimation)",ratio:"nearly square 9:8",mj:"9:8",print:"Made for a 20oz skinny tumbler sublimation wrap: the background fills the whole image edge to edge. Keep the character and words in the center and keep anything important away from the far left and right edges, where the seam goes. Flat design only, no tumbler and no mockup.",spec:[["Product","20oz skinny tumbler sublimation wrap"],["Size","9.3 × 8.2 in"],["Pixels","2790 × 2460 px at 300 DPI"],["File","PNG, sRGB, full-bleed background"],["Note","Mirror when printing on sublimation paper"]]},
+  {n:"tee (sublimation)",ratio:"portrait 4:5",mj:"4:5",print:"Made for a sublimation print on a white polyester shirt: rich colors and no white parts that need to print, since white will show as the shirt color. Flat design only, no shirt and no mockup.",spec:[["Product","Sublimation shirt print"],["Size","Up to 10 × 12.5 in"],["Pixels","3000 × 3750 px at 300 DPI"],["File","PNG, sRGB, transparent or full design"],["Note","White or light polyester shirts only"]]},
+  {n:"tee (DTF transfer)",ratio:"portrait 4:5",mj:"4:5",print:"Made for a DTF shirt transfer: isolated on a plain solid white background that will be removed. Solid opaque colors, no soft glows, no faded edges, no semi-transparent smoke or drop shadows and no tiny floating specks. Clean outline around the whole design. Flat design only, no shirt and no mockup.",bgW:1,spec:[["Product","DTF shirt transfer"],["Size","Adult front 11 × 12 in · youth 8 in · pocket 4 in"],["Pixels","3300 × 3600 px at 300 DPI"],["File","Transparent PNG, background removed"],["Note","No semi-transparent pixels, they print as speckles"]]},
+  {n:"UV DTF decal",ratio:"square 1:1",mj:"1:1",print:"Made for a UV DTF decal for cups and tumblers: a bold thick outline around the whole design, high contrast, solid colors, no hairline-thin details and no soft glows. Isolated on a plain white background that will be removed.",bgW:1,spec:[["Product","UV DTF decal"],["Size","3 to 4 in"],["Pixels","1200 × 1200 px at 300 DPI"],["File","Transparent PNG"],["Note","Thick outline helps the white ink layer"]]},
+  {n:"16oz glass can (UV DTF wrap)",ratio:"wide 9:4",mj:"9:4",print:"Made for a UV DTF wrap on a 16oz glass can: a wide horizontal layout with the character and words spread across, clear space between elements and no full background. Isolated on a plain white background that will be removed.",bgW:1,spec:[["Product","UV DTF wrap, 16oz glass can"],["Size","9.5 × 4.25 in"],["Pixels","2850 × 1275 px at 300 DPI"],["File","Transparent PNG"],["Note","Leave 0.25 in clear at both ends for the seam"]]},
+  {n:"11oz mug (sublimation)",ratio:"wide 17:7",mj:"17:7",print:"Made for an 11oz mug sublimation wrap: a wide horizontal layout with the character on one side and the words on the other. Keep the middle clear where the handle sits. Flat design only, no mug and no mockup.",spec:[["Product","11oz mug sublimation wrap"],["Size","8.5 × 3.5 in"],["Pixels","2550 × 1050 px at 300 DPI"],["File","PNG, sRGB"],["Note","Mirror when printing on sublimation paper"]]},
+  {n:"A5 portrait print",ratio:"portrait A5 (about 5:7)",mj:"5:7",print:"Made as an A5 portrait print for journals, planners and art prints: keep the words and face away from the edges.",spec:[["Product","A5 print"],["Size","5.83 × 8.27 in"],["Pixels","1748 × 2480 px at 300 DPI"],["File","PNG or PDF"],["Note","Add 0.125 in bleed if your printer asks"]]},
+  {n:"coloring book page",ratio:"portrait 8.5x11 (about 17:22)",mj:"17:22",print:"Made as a full coloring book page with a thin white margin all around.",color:1,spec:[["Product","Coloring book page"],["Size","8.5 × 11 in"],["Pixels","2550 × 3300 px at 300 DPI"],["File","Black and white PNG or PDF"],["Note","Keep 0.5 in margin, 0.75 in on the binding side"]]},
+  {n:"sticker",ratio:"square 1:1",mj:"1:1",print:"Made as a die-cut sticker with a thick white border around the whole design.",bgW:1,spec:[["Product","Die-cut sticker"],["Size","3 × 3 in"],["Pixels","900 × 900 px at 300 DPI"],["File","Transparent PNG"],["Note","White border becomes the cut line"]]}],
+ tool:[["ChatGPT","chatgpt"],["Gemini / Nano Banana","nano"],["Copilot","copilot"],["Midjourney","mj"]],
+ bcount:[["just 1",1],["3",3],["4",4],["6",6],["8",8]],
+ bvary:[["poses","pose"],["outfits","outfit"],["skin tone & heritage","skin"],["hairstyles","hair"],["expressions","expr"],["holidays","holiday"],["palettes","pal"]],
+
+ /* mockups */
+ msrc:[["my Studio character","studio"],["my attached design file","attach"]],
+ mprod:[["20oz skinny tumbler","a 20oz stainless skinny tumbler with a clear lid and straw, the design wrapped all the way around it"],["40oz tumbler","a 40oz tumbler with a handle and straw, the design wrapped around it"],["16oz glass can","a 16oz clear glass can with a bamboo lid and glass straw, the design applied as a UV DTF wrap"],["11oz mug","a white 11oz ceramic coffee mug with the design on the side"],["t-shirt flat lay","a folded white t-shirt with the design printed on the front"],["t-shirt on model","a t-shirt with the design printed on the front, worn by a model"],["hoodie","a cozy hoodie with the design printed on the front"],["tote bag","a canvas tote bag with the design printed on it"],["A5 journal","an A5 hardcover journal with the design as the cover"],["coloring book","a coloring book showing the cover and one open page with crayons nearby"],["sticker sheet","a glossy sticker sheet and a few loose die-cut stickers"]],
+ mscene:[["marble counter","on a white marble counter with an iced coffee, gold jewelry and a small vase of pink roses"],["cozy bed","on a cozy bed with a fluffy throw blanket and lit candles"],["vanity","on a glam vanity with makeup brushes, perfume and roses"],["holiday table","on a festive holiday table with ornaments and twinkle lights"],["brunch table","on an outdoor brunch table in soft morning light"],["clean studio","in a clean, bright white studio with a soft shadow"],["boutique shelf","on a shelf in a cute boutique"],["pink satin","on pink satin fabric with scattered gold confetti"]],
+ mshot:[["flat lay","top-down flat lay"],["45° angle","a 45-degree angle product shot"],["close-up","a close-up showing the print detail"],["in a hand","held in a manicured hand","H"],["on a model","shown with a model who matches the character's look","H"]],
+ msize:[["Instagram 4:5","portrait 4:5"],["Reel / Story 9:16","tall 9:16"],["square 1:1","square 1:1"],["Etsy 4:3","landscape 4:3"]],
+ cbuyer:[["vendors & crafters (files)","v"],["shoppers (finished item)","s"]],
+ cvibe:[["sassy","sassy"],["faith-filled","faith"],["luxe","luxe"],["funny","funny"],["cozy","cozy"]],
+ cplat:[["Instagram","ig"],["TikTok","tt"],["Facebook","fb"],["Pinterest","pin"],["Etsy","etsy"]],
+
+ /* planner covers */
+ ctype:[
+  {n:"budget planner",t:"MONEY MOVES",s:"for Your Future · Budgeting Planner",f:"Set Goals, Track Spending, Save Money, Build Wealth",side:"Plan. Budget. Save. Repeat.",foot:"Big Plans • Smart Moves • Boss Mindset",icons:"a target, a calculator, a piggy bank and a rising bar chart",inside:"monthly budget, bill tracker, expense log, savings goal tracker and a no-spend challenge page"},
+  {n:"savings challenge",t:"SAVE LIKE A BOSS",s:"Savings Challenge Book",f:"Pick a Challenge, Color It In, Watch It Grow, Celebrate Wins",side:"Stack it. Save it. Secure it.",foot:"Small Steps • Big Savings",icons:"a piggy bank, a coloring pencil, a stack of coins and a trophy",inside:"$1,000 savings challenge, 52-week challenge, envelope challenge and a savings goal thermometer"},
+  {n:"expense tracker",t:"WHERE DID IT GO?",s:"Expense Tracker",f:"Log It, Label It, Review It, Fix It",side:"Every dollar has a job.",foot:"Track • Tweak • Thrive",icons:"a receipt, a tag, a magnifying glass and a checkmark",inside:"daily spending log, weekly check-in, monthly category totals and a subscriptions tracker"},
+  {n:"debt payoff",t:"DEBT FREE DIVA",s:"Debt Payoff Planner",f:"List It, Plan It, Pay It, Celebrate It",side:"Paid off looks good on me.",foot:"One Payment at a Time",icons:"a credit card, a calendar, a money bag and a party popper",inside:"debt list, snowball and avalanche planner, payment tracker and a debt-free countdown"},
+  {n:"bill tracker",t:"BILLS PAID, BOSS MADE",s:"Bill Tracker",f:"Due Dates, Autopay, Paid On Time, Stress Free",side:"Paid. Paid. Paid.",foot:"On Time • Every Time",icons:"a calendar, a bell, a checkmark and a smiling heart",inside:"monthly bill calendar, bill payment checklist, due date list and a yearly bill overview"},
+  {n:"goal planner",t:"CLAIM IT, PLAN IT",s:"Goal Planner",f:"Dream Big, Set Goals, Take Action, Level Up",side:"Vision. Plan. Execute.",foot:"Big Dreams • Daily Moves",icons:"a star, a target, a footprint and an upward arrow",inside:"vision board page, yearly goals, monthly action steps and a weekly habit tracker"},
+  {n:"business planner",t:"CEO MODE",s:"Small Business Planner",f:"Plan Content, Track Sales, Manage Orders, Grow Profits",side:"Build it from home.",foot:"Faceless • Profitable • Repeatable",icons:"a laptop, a shopping bag, a clipboard and a rising chart",inside:"monthly sales tracker, order log, content calendar, product ideas and a profit and loss page"},
+  {n:"prayer journal",t:"PRAYED UP & POSITIONED",s:"Prayer Journal",f:"Pray, Praise, Reflect, Receive",side:"Faith is my favorite flex.",foot:"Blessed • Covered • Chosen",icons:"praying hands, a heart, a Bible and a dove",inside:"daily prayer page, scripture reflection, gratitude list and answered prayers tracker"},
+  {n:"self-care planner",t:"ME TIME, MY WAY",s:"Self-Care Planner",f:"Rest, Refresh, Reflect, Reset",side:"Pour into you first.",foot:"Glow • Grow • Glow Up",icons:"a candle, a moon, a teacup and a sparkle",inside:"self-care checklist, mood tracker, water and sleep tracker and a weekly reset page"},
+  {n:"kids coloring book",t:"COLOR ME GLAM",s:"Coloring Book for Little Divas",f:"Big Pictures, Easy Lines, Cute Outfits, Hours of Fun",side:"Color outside the lines.",foot:"Ages 4 to 10",icons:"a crayon, a crown, a star and a heart",inside:"full-page glam character coloring pages with thick lines and big open spaces, plus a 'this book belongs to' page"}],
+ cstyle:[["pink & gold brush glam","hot pink and gold paint-brush strokes, gold glitter splatter and sparkles on a cream lined-paper background, bold hand-painted brush lettering in hot pink, gold glitter and black, with a small gold crown over the title"],["black & gold luxe","black marble with glowing gold foil veins, elegant gold foil serif and script lettering, thin gold frame details"],["glitter girly","pink-to-purple glitter ombré background full of sparkles and bokeh, bubbly glossy 3D lettering in white and gold"],["streetwear graffiti","a concrete wall with spray-paint graffiti shapes, drips and stars, bold graffiti bubble lettering with drips"],["soft boho","soft blush, beige and sage watercolor washes with dried pampas and florals, elegant script and clean serif lettering"],["Y2K chrome","holographic Y2K chrome background with butterflies and stars, shiny chrome bubble lettering"],["earth tone glam","warm earth tones of rust, camel and olive with gold leaf accents and elegant serif lettering"]],
+ cbind:[["spiral","a spiral-bound planner mockup with gold coils down the left edge"],["disc-bound","a disc-bound planner mockup with glossy gold discs down the left edge"],["hardcover","a hardcover journal mockup with a satin ribbon bookmark"],["paperback","a paperback book mockup"],["flat cover (print)","a flat, print-ready front cover design with no mockup, no binding and no background around it"]],
+ csize:[["Classic 7x9.25","portrait 3:4"],["Letter 8.5x11","portrait 17:22"],["A5","portrait A5 (about 5:7)"]],
+ cchar:[["use my Studio picks","studio"],["attach my character","attach"],["no character","none"]]
+};
+const MULTI={face:1,props:1,jewel:1,tats:1,bvary:1};
+const S={age:7,gender:0,eth:0,skin:2,art:0,finish:3,hair:0,hcolor:0,eye:0,face:new Set([12]),body:0,outfit:0,shoes:3,pose:0,expr:0,
+  props:new Set([1]),jewel:new Set([0,2]),tats:new Set(),holiday:0,frame:0,angle:0,textpos:0,letter:0,bg:3,pal:0,output:0,tool:0,bcount:0,bvary:new Set([0,2]),
+  msrc:0,mprod:0,mscene:0,mshot:1,msize:0,cbuyer:0,cvibe:0,cplat:0,
+  ctype:0,cstyle:0,cbind:0,csize:0,cchar:0};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tier=()=>D.age[S.age][2];
+const minor=()=>tier()!=='adult';
+const small=()=>tier()==='baby';
+const male=()=>D.gender[S.gender][1]==='m';
+const coloring=()=>D.art[S.art][3]==='X';
+const label=o=>Array.isArray(o)?o[0]:o.n;
+const flagsOf=(g,o)=>Array.isArray(o)?(g==='hair'&&o[2]==='X'?'':(o[2]&&!/^#|,/.test(o[2])&&g!=='age'?o[2]:'')):(o.fl||'');
+function ok(g,o){
+  const f=flagsOf(g,o)||'';
+  if(f.includes('A')&&minor()) return false;
+  if(f.includes('K')&&(!minor()||tier()==='teen')) return false;
+  if(f.includes('B')&&!small()) return false;
+  if(f.includes('N')&&small()) return false;
+  if(f.includes('F')&&male()) return false;
+  if(f.includes('M')&&!male()) return false;
+  if(g==='finish'&&coloring()) return false;
+  if(g==='pal'&&coloring()) return false;
+  if(g==='bg'&&outW()&&o[2]!=='W') return false;
+  if(g==='shoes'&&noShoes()) return false;
+  return true;
+}
+const outW=()=>!!D.output[S.output].bgW;
+const noShoes=()=>D.frame[S.frame][2]==='X';
+
+function firstOk(g){return D[g].findIndex(o=>ok(g,o))}
+function clean(){
+  if(coloring()&&S.bg===3) S.bg=0;
+  for(const g in MULTI){[...S[g]].forEach(i=>{if(!ok(g,D[g][i]))S[g].delete(i)})}
+  ['finish','hair','body','outfit','shoes','pose','expr','bg','pal'].forEach(g=>{
+    if(!ok(g,D[g][S[g]])){
+      if(g==='hair'&&small()) S.hair=D.hair.findIndex(o=>o[0]==='baby curls');
+      else S[g]=Math.max(0,firstOk(g));
+    }
+  });
+}
+
+function chipsHTML(g){
+  return D[g].map((o,i)=>{
+    const on=MULTI[g]?S[g].has(i):S[g]===i;
+    const dis=!ok(g,o);
+    let sw='';
+    if(g==='pal') sw=o[2].split(',').map(c=>`<span class="sw" style="background:${c}"></span>`).join('');
+    if(g==='skin') sw=`<span class="sw" style="background:${o[2]}"></span>`;
+    return `<button type="button" class="chip" data-i="${i}" aria-pressed="${on}" ${dis?'disabled':''}>${sw}${esc(label(o))}</button>`;
+  }).join('');
+}
+function renderChips(){document.querySelectorAll('.chips[data-g]').forEach(b=>{b.innerHTML=chipsHTML(b.dataset.g)})}
+
+/* ---------- character prompt ---------- */
+const NOUN={
+  newborn:["a newborn baby girl, just a few weeks old","a newborn baby boy, just a few weeks old"],
+  baby:["a one-year-old baby girl","a one-year-old baby boy"],
+  toddler:["a toddler girl around 2 to 3 years old","a toddler boy around 2 to 3 years old"],
+  kid:["a little girl around 6 years old","a little boy around 6 years old"],
+  tween:["a tween girl around 11 years old","a tween boy around 11 years old"],
+  teen:["a teenage girl around 16","a teenage boy around 16"],
+  ya:["a young adult woman in her early 20s","a young adult man in his early 20s"],
+  adult:["a grown woman in her 30s","a grown man in his 30s"],
+  mature:["a stylish glam grandma in her 60s with graceful smile lines","a stylish distinguished grandpa in his 60s with graceful smile lines"]};
+const pro=()=>male()?'his':'her';
+function pick(g,s){return D[g][s[g]]}
+function charCore(s){
+  const m=D.gender[s.gender][1]==='m'?1:0;
+  const who=NOUN[D.age[s.age][1]][m];
+  const eth=D.eth[s.eth][m+1];
+  const hair=D.hair[s.hair];
+  const hairTxt=hair[2]==='X'?hair[1].replace(/^with /,''):`${D.hcolor[s.hcolor][1]} hair worn ${hair[1]}`;
+  return {who,eth,hairTxt,m};
+}
+function outfitTxt(s){
+  const o=D.outfit[s.outfit]; let t=o[D.gender[s.gender][1]];
+  if(o.n==='game day') t=t.replace('TEAM',$('teamc').value.trim()||'team');
+  return t;
+}
+function palTxt(s){return $('custompal').value.trim()||D.pal[s.pal][1]}
+function makePrompt(ov){
+  const s=Object.assign({},S,ov||{});
+  const {who,eth,hairTxt}=charCore(s);
+  const art=D.art[s.art], out=D.output[s.output], tool=D.tool[s.tool][1];
+  const isColor=art[3]==='X';
+  const L=[];
+  const open=tool==='nano'?`Generate a ${out.ratio} image of`:tool==='copilot'?'Create an image of':tool==='mj'?'':`Create a ${out.ratio} image of`;
+  L.push(`${open?open+' ':''}${who} of ${eth} heritage, with ${D.skin[s.skin][1]}, shown ${D.frame[s.frame][1]}, ${art[1]}.`.replace(/^./,c=>c.toUpperCase()));
+  const face=[...S.face].sort((a,b)=>a-b).map(i=>D.face[i][1]);
+  L.push(`Look: ${hairTxt}, ${D.eye[s.eye][1]} eyes${face.length?', '+face.join(', '):''}, ${D.body[s.body][1]}.`);
+  L.push(`Expression: ${D.expr[s.expr][1]}. Pose: ${D.pose[s.pose][1].replace(/\bthe hip\b/,pro()+' hip').replace(/\bthe shoulder\b/,pro()+' shoulder')}.`);
+  L.push(`Outfit: ${outfitTxt(s)}${isColor?'':', in a '+palTxt(s)+' color palette'}.`);
+  if(!noShoesFor(s)) L.push(`Shoes: ${D.shoes[s.shoes][1]}.`);
+  const props=[...S.props].sort((a,b)=>a-b).map(i=>D.props[i][1]);
+  const jew=[...S.jewel].sort((a,b)=>a-b).map(i=>D.jewel[i][1]);
+  const tats=[...S.tats].sort((a,b)=>a-b).map(i=>D.tats[i][1]);
+  if(props.length) L.push(`Holding or with: ${props.join(', ')}.`);
+  if(jew.length) L.push(`Jewelry: ${jew.join(', ')}.`);
+  if(tats.length) L.push(`Tattoos: ${tats.join(', ')}, with no readable words in the tattoos.`);
+  const hol=D.holiday[s.holiday][1]; if(hol) L.push(`Theme: ${hol}.`);
+  const extra=$('extra').value.trim(); if(extra) L.push(`Also: ${extra}.`);
+  L.push(`Camera: ${D.angle[s.angle][1]}.`);
+  L.push(isColor?`Style: ${art[2]}.`:`Style: ${D.finish[s.finish][1]}. ${art[2]}.`);
+  const q1=$('quote').value.trim(), q2=$('quote2').value.trim();
+  if(q1||q2){
+    const words=[q1,q2].filter(Boolean).map(w=>`"${w}"`).join(' and ');
+    const lt=isColor?'bold hollow outlined letters that can be colored in':D.letter[s.letter][1];
+    L.push(`Words: add ${words} ${D.textpos[s.textpos][1]} in ${lt}, spelled exactly like that. No other words anywhere.`);
+  } else L.push('No text, letters or words anywhere.');
+  let bg=D.bg[s.bg];
+  if(isColor) L.push(bg[2]==='W'||out.bgW?'Background: plain white.':`Background: a simple outlined version of this scene to color: ${bg[1].replace(/^(in front of|on|in) /,'')}. Keep it simple with big shapes.`);
+  else L.push(`Background: ${bg[1]}.`);
+  L.push(out.print);
+  if(minor()||D.age[s.age][2]!=='adult') L.push('Keep it cute, modest and fully age-appropriate.');
+  L.push('Original character. No logos, swooshes, monograms, interlocking letters, brand names or team names anywhere, including shoes, bags, caps and clothing. No watermark or signature. Correct hands with five fingers.');
+  let t=L.join('\n');
+  if(tool==='mj') t=t.replace(/\n/g,' ')+` --ar ${out.mj} --style raw`;
+  return t;
+}
+function noShoesFor(s){return D.frame[s.frame][2]==='X'}
+
+function summary(){
+  const parts=[D.age[S.age][0],D.gender[S.gender][0].split(' / ')[minor()?0:1],D.eth[S.eth][0],D.skin[S.skin][0]+' skin',D.art[S.art][0],D.output[S.output].n];
+  return parts.join(' · ');
+}
+function specRows(){
+  const o=D.output[S.output];
+  return o.spec;
+}
+function specText(){return specRows().map(r=>`${r[0]}: ${r[1]}`).join('\n')}
+
+function build(){
+  $('prompt').textContent=makePrompt();
+  $('pmeta').textContent=summary();
+  $('spec').innerHTML=specRows().map(r=>`<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join('');
+  $('artHint').textContent=coloring()?'Coloring page turns off color, shine and palette. Words become hollow letters kids can color.':D.output[S.output].color?'Tip: pick the coloring page art style for a true black-and-white page.':'';
+  $('shoeHint').textContent=noShoes()?'Shoes are hidden because the design stops at the waist or closer.':'';
+  buildBundle();
+  updateLinked();
+}
+
+function buildBundle(){
+  const n=D.bcount[S.bcount][1], box=$('bundle');
+  if(n<2){box.hidden=true;box.innerHTML='';return}
+  const vary=[...S.bvary].map(i=>D.bvary[i][1]);
+  const items=[];
+  const used={};
+  for(let k=0;k<n;k++){
+    const ov={};
+    if(k>0) vary.forEach(g=>{
+      used[g]=used[g]||new Set([S[g]]);
+      if(g==='skin'){ // rotate heritage and skin together for a diverse set
+        ov.skin=(S.skin+k*3)%D.skin.length; ov.eth=(S.eth+k*2)%D.eth.length; return;
+      }
+      let i=S[g],tries=0; const len=D[g].length;
+      do{ i=(i+1+k)%len; tries++; }while((!ok(g,D[g][i])||used[g].has(i)||(g==='holiday'&&i===0))&&tries<len*2);
+      used[g].add(i); ov[g]=i;
+    });
+    let t=makePrompt(ov);
+    t+=`\n\nThis is design ${k+1} of ${n} in a matching bundle: keep the exact same art style, shine, proportions, line weight${coloring()?'':' and color palette'} as the others in this chat${vary.length?', and change only the '+[...S.bvary].map(i=>D.bvary[i][0]).join(', '):''}.`;
+    items.push(t);
+  }
+  box.innerHTML=`<h2 style="font-family:var(--display);color:var(--gold2);margin:6px 0 0;font-size:18px">Bundle of ${n}</h2>`+items.map((t,i)=>`<div class="item"><h3>Design ${i+1}</h3><p>${esc(t)}</p><button class="btn sm" type="button" data-b="${i}">Copy design ${i+1}</button></div>`).join('');
+  box.hidden=false;
+  box.querySelectorAll('[data-b]').forEach(b=>b.addEventListener('click',()=>copyText(items[+b.dataset.b],b,'Copy design '+(+b.dataset.b+1))));
+}
+
+/* ---------- copy ---------- */
+function copyText(t,b,lab){
+  const done=()=>{b.textContent='Copied!';b.classList.add('ok');setTimeout(()=>{b.textContent=lab;b.classList.remove('ok')},1500)};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let k=false;try{k=document.execCommand('copy')}catch(e){}ta.remove();if(k)done();else b.textContent='Press and hold the text to copy'};
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done,fb); else fb(); }catch(e){fb()}
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const c=e.target.closest('.chip'); if(!c||c.disabled) return;
+  const g=c.parentElement.dataset.g, i=+c.dataset.i;
+  if(MULTI[g]){S[g].has(i)?S[g].delete(i):S[g].add(i)} else S[g]=i;
+  if(g==='output'&&D.output[i].color){S.art=3}
+  if(g==='output'&&/sublimation/.test(D.output[i].n)&&S.bg===0){S.bg=3}
+  clean(); renderChips(); build(); buildMock(); renderCover();
+  if(g==='ctype') {fillWords(); renderCover();}
+  if(['cbuyer','cvibe','cplat'].includes(g)) buildCaps(true);
+});
+['teamc','custompal','quote','quote2','extra'].forEach(id=>$(id).addEventListener('input',()=>{build();buildMock();renderCover()}));
+$('gen').addEventListener('click',()=>{build();const p=$('prompt');p.classList.remove('flash');void p.offsetWidth;p.classList.add('flash');p.scrollIntoView({behavior:'smooth',block:'nearest'})});
+$('copy').addEventListener('click',e=>copyText(makePrompt(),e.currentTarget,'Copy prompt'));
+$('copySpec').addEventListener('click',e=>copyText(specText(),e.currentTarget,'Copy print notes'));
+$('jump').addEventListener('click',()=>$('outbox').scrollIntoView({behavior:'smooth',block:'start'}));
+const rnd=n=>Math.floor(Math.random()*n);
+function rndOk(g){const pool=D[g].map((o,i)=>i).filter(i=>ok(g,D[g][i]));return pool[rnd(pool.length)]}
+function rndSet(g,max){const pool=D[g].map((o,i)=>i).filter(i=>ok(g,D[g][i])).sort(()=>Math.random()-.5);return new Set(pool.slice(0,max))}
+$('rand').addEventListener('click',()=>{
+  ['eth','skin','hair','hcolor','eye','body','outfit','pose','expr','pal'].forEach(g=>{S[g]=rndOk(g)});
+  if(!small()) S.shoes=rndOk('shoes');
+  S.props=rndSet('props',1+rnd(2)); S.jewel=rndSet('jewel',2); S.face=rndSet('face',2);
+  clean(); renderChips(); build(); buildMock();
+});
+
+/* ---------- mockups ---------- */
+function charShort(forCover){
+  const {who,eth,hairTxt}=charCore(S);
+  const art=forCover&&coloring()?D.art[0]:D.art[S.art];
+  return `${who} of ${eth} heritage with ${D.skin[S.skin][1]} and ${hairTxt}, wearing ${outfitTxt(S)}, ${art[1]}`;
+}
+function mockPrompt(ov){
+  const s=Object.assign({},S,ov||{});
+  const prod=D.mprod[s.mprod], scene=D.mscene[s.mscene], shot=D.mshot[s.mshot], size=D.msize[s.msize][1];
+  const src=D.msrc[s.msrc][1];
+  const L=[];
+  L.push(`Create a ${size} photorealistic product mockup photo: ${prod[1]}, ${scene[1]}, ${shot[1]}.`);
+  if(src==='attach') L.push('Use the attached design image exactly as it is. Do not redraw, restyle, recolor or crop it, and do not change or add any words.');
+  else {
+    const q=[$('quote').value.trim(),$('quote2').value.trim()].filter(Boolean);
+    L.push(`The design on the product shows ${charShort()}${q.length?', with the words '+q.map(w=>`"${w}"`).join(' and ')+' spelled exactly like that':''}.`);
+  }
+  if(shot[2]==='H') L.push(`The hand or model has ${D.skin[S.skin][1]}${D.mshot[s.mshot][0]==='in a hand'?' and glossy manicured nails':''}.`);
+  L.push('Make the print look real on the product: it follows the curve, shows natural light and reflections, and sits at the right size for the product.');
+  L.push('Soft natural lighting, shallow depth of field, high-end Instagram product photo. No logos, brand names or watermarks.');
+  return L.join('\n');
+}
+function buildMock(){
+  $('mprompt').textContent=mockPrompt();
+  $('mmeta').textContent=`${D.mprod[S.mprod][0]} · ${D.mscene[S.mscene][0]} · ${D.msize[S.msize][0]}`;
+}
+function updateLinked(){
+  const m=D.msrc[S.msrc][1], el=$('mlinked');
+  el.innerHTML=m==='studio'?`<b>✓ Linked to your Character Studio picks:</b><br>${esc(summary())}<br><span style="color:var(--muted)">Change her in Character Studio and this updates on its own. For the closest match, attach your finished PNG instead.</span>`
+   :`<b>📎 Using your attached design.</b><br>In ChatGPT or Gemini, tap <b>+</b>, attach your PNG first, then paste this prompt in the same message.`;
+}
+$('mcopy').addEventListener('click',e=>copyText(mockPrompt(),e.currentTarget,'Copy mockup prompt'));
+$('mset').addEventListener('click',()=>{
+  const shots=[{n:'Hero shot',ov:{mshot:1,mscene:5}},{n:'Lifestyle',ov:{mshot:3}},{n:'Close-up detail',ov:{mshot:2}},{n:'Flat lay',ov:{mshot:0,mscene:7}}];
+  const items=shots.map(x=>({n:x.n,t:mockPrompt(x.ov)}));
+  const box=$('msetList');
+  box.innerHTML=items.map((x,i)=>`<div class="item"><h3>${x.n}</h3><p>${esc(x.t)}</p><button class="btn sm" type="button" data-m="${i}">Copy ${x.n.toLowerCase()}</button></div>`).join('');
+  box.hidden=false;
+  box.querySelectorAll('[data-m]').forEach(b=>b.addEventListener('click',()=>copyText(items[+b.dataset.m].t,b,'Copy '+items[+b.dataset.m].n.toLowerCase())));
+});
+
+/* ---------- captions & hooks ---------- */
+const HOOKS={
+ v:["Vendors, this one's for you: print-ready {p} files that actually sell.","Your customers keep asking for this look. Here's the file.","Stop scrolling if your DTF table needs something that isn't basic.","POV: you found {p} designs that look like your customers.","I made this so you don't have to start from scratch at 2am.","3 reasons this {p} sells out at every pop-up.","If your tumbler orders slowed down, this is your sign.","Sublimation, DTF or UV DTF? This file works for all three.","Representation sells. Here's proof.","New drop for my crafters 👀 Save this before it's gone."],
+ s:["Tell me this isn't the cutest {p} you've seen today.","POV: your {p} finally looks like you.","She's glossy, she's grown, and she's on a {p}.","Gift idea for the friend who has everything.","Not me buying a second one for my sister.","This {p} said what I was too blessed to say out loud.","Run, don't walk. This one is limited.","Matching set energy for the whole squad.","Main character energy, now in {p} form.","I wasn't going to post this, but y'all need to see it."]};
+const VIBE={sassy:"Grown, glossy and a little bit petty.",faith:"Covered, blessed and walking in purpose.",luxe:"Soft life, gold details and zero apologies.",funny:"Because hydration and attitude go together.",cozy:"Warm drink, soft blanket, cute cup. That's the plan."};
+const TAGS={ig:"#glamgirl #tumblerwraps #sublimation #dtftransfers #uvdtf #blackgirlmagic #smallbusiness #shopsmall",tt:"#tumblertok #smallbusiness #sublimation #dtf #uvdtf #glamgirl #fyp",fb:"#tumblerwraps #sublimationdesigns #smallbusiness #shopsmall",pin:"#tumblerwrapdesigns #glamgirlpng #sublimationideas #giftsforher",etsy:"tumbler wrap png, glam girl png, sublimation design, DTF transfer, UV DTF decal, Black woman png, instant download"};
+let hookOffset=0;
+function buildCaps(reset){
+  if(reset) hookOffset=0;
+  const p=$('cprod').value.trim()||'design', key=($('ckey').value.trim()||'GLAM').toUpperCase(), offer=$('coffer').value.trim();
+  const b=D.cbuyer[S.cbuyer][1], vibe=D.cvibe[S.cvibe][1], plat=D.cplat[S.cplat][1];
+  const list=HOOKS[b]; const hooks=[];
+  for(let i=0;i<5;i++) hooks.push(list[(hookOffset+i)%list.length].replace(/\{p\}/g,p.toLowerCase()));
+  $('hooks').innerHTML=hooks.map((h,i)=>`<div class="item"><p>${esc(h)}</p><button class="btn sm" type="button" data-h="${i}">Copy hook</button></div>`).join('');
+  $('hooks').querySelectorAll('[data-h]').forEach(x=>x.addEventListener('click',()=>copyText(hooks[+x.dataset.h],x,'Copy hook')));
+  const body=b==='v'
+    ?`${hooks[0]}\n\n${VIBE[vibe]} The ${p} is print-ready for sublimation, DTF and UV DTF, so you can press, sell and restock fast.${offer?'\n\n'+offer+'.':''}`
+    :`${hooks[0]}\n\n${VIBE[vibe]} The ${p} is made for the girls who want their cup, shirt and whole vibe to match.${offer?'\n\n'+offer+'.':''}`;
+  const cta=plat==='etsy'?`\n\nTap "Add to cart" to grab yours.`:plat==='pin'?`\n\nSave this pin and tap through to shop.`:`\n\nComment ${key} and I'll send you the link 💕`;
+  $('caption').textContent=plat==='etsy'?`${body}${cta}\n\nTags: ${TAGS.etsy}`:`${body}${cta}\n\n${TAGS[plat]}`;
+}
+$('morehooks').addEventListener('click',()=>{hookOffset+=5;buildCaps()});
+['cprod','ckey','coffer'].forEach(id=>$(id).addEventListener('input',()=>buildCaps()));
+$('capcopy').addEventListener('click',e=>copyText($('caption').textContent,e.currentTarget,'Copy caption'));
+$('aicap').addEventListener('click',e=>{
+  const p=$('cprod').value.trim(), b=D.cbuyer[S.cbuyer][0], pl=D.cplat[S.cplat][0], v=D.cvibe[S.cvibe][0];
+  copyText(`Write 10 scroll-stopping hooks and 3 short ${pl} captions for my product "${p}". I'm selling to ${b}. The vibe is ${v}. The design is ${charShort()}. End each caption with "Comment ${($('ckey').value.trim()||'GLAM').toUpperCase()} and I'll send you the link." Keep it conversational, like texting a friend, with no hype words.`,e.currentTarget,'Copy "write me 10 more" prompt');
+});
+
+/* ---------- planner covers ---------- */
+function fillWords(){const t=D.ctype[S.ctype];$('c_title').value=t.t;$('c_sub').value=t.s;$('c_feat').value=t.f;$('c_side').value=t.side;$('c_foot').value=t.foot;}
+function coverPrompt(){
+  const t=D.ctype[S.ctype], st=D.cstyle[S.cstyle][1], bind=D.cbind[S.cbind][1], ratio=D.csize[S.csize][1];
+  const title=$('c_title').value.trim(), sub=$('c_sub').value.trim(), side=$('c_side').value.trim(), foot=$('c_foot').value.trim();
+  const feats=$('c_feat').value.split(',').map(x=>x.trim()).filter(Boolean);
+  const mode=D.cchar[S.cchar][1];
+  const L=[];
+  L.push(`Create a ${ratio} image: ${bind}, for a ${t.n}.`);
+  L.push(`Design style: ${st}. Any background lettering or graffiti should be abstract shapes only, with no readable words.`);
+  if(mode==='studio') L.push(`Character: on the left side of the cover, ${charShort(true)}, ${D.pose[S.pose][1]}, ${coloring()?'in full color':D.finish[S.finish][1]}.`);
+  if(mode==='attach') L.push('Character: use the character from the attached image on the left side of the cover. Keep the face, hair, outfit, colors and art style exactly the same.');
+  L.push('Text on the right side, spelled exactly like this:');
+  if(title) L.push(`- Big title: "${title}"`);
+  if(sub) L.push(`- Subtitle: "${sub}"`);
+  if(feats.length) L.push(`- ${feats.length} feature badges on banners, each with a small icon (${t.icons}): ${feats.map(f=>`"${f}"`).join(', ')}`);
+  if(side) L.push(`- Side tagline near the character, written horizontally and easy to read: "${side}"`);
+  if(foot) L.push(`- Small line along the bottom: "${foot}"`);
+  L.push('Make the title the biggest, boldest element. Keep all text sharp, readable and inside the cover. No extra words.');
+  L.push('No logos, monograms, interlocking letters or brand names anywhere, including the purse and shoes. No watermarks.');
+  return L.join('\n');
+}
+function insidePrompt(){
+  const t=D.ctype[S.ctype], ratio=D.csize[S.csize][1];
+  return `Create a ${ratio} printable page set preview for a ${t.n}, matching the cover style: ${D.cstyle[S.cstyle][1]}. Show clean, easy-to-use layouts for: ${t.inside}. Use the same color palette, lettering style and small icon style as the cover, with lots of open space. Put a small version of the same character in one corner of each page. Spell all headings correctly. No logos or brand names.`;
+}
+function renderCover(){
+  $('cprompt').textContent=coverPrompt();
+  const m=D.cchar[S.cchar][1], el=$('clinked');
+  el.innerHTML=m==='studio'?`<b>✓ Linked to your Character Studio picks:</b><br>${esc(summary())}<br><span style="color:var(--muted)">To change her, go back to Character Studio. This updates on its own.</span>`
+   :m==='attach'?`<b>📎 Using your attached character.</b><br>Tap <b>+</b> in ChatGPT, attach her PNG first, then paste this prompt in the same message.`
+   :`<b>No character.</b> The cover will be text and design only.`;
+}
+['c_title','c_sub','c_feat','c_side','c_foot'].forEach(id=>$(id).addEventListener('input',renderCover));
+$('ccopy').addEventListener('click',e=>copyText(coverPrompt(),e.currentTarget,'Copy prompt'));
+$('cinside').addEventListener('click',()=>{$('cinText').textContent=insidePrompt();$('cin').hidden=false;});
+$('cincopy').addEventListener('click',e=>copyText(insidePrompt(),e.currentTarget,'Copy inside pages prompt'));
+
+/* ---------- tabs ---------- */
+function showTab(name){
+  document.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',x.dataset.tab===name?'true':'false'));
+  ['studio','mock','cover'].forEach(n=>$('pane-'+n).hidden=n!==name);
+  try{localStorage.setItem('ggcs-tab',name)}catch(e){}
+}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.tab);window.scrollTo({top:0})}));
+
+/* ---------- start ---------- */
+$('quote').value='Blessed & Bossed Up';
+fillWords(); clean(); renderChips(); build(); buildMock(); buildCaps(true); renderCover();
+try{const t=localStorage.getItem('ggcs-tab'); if(t&&$('pane-'+t)) showTab(t)}catch(e){}
+</script>
