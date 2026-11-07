@@ -212,6 +212,12 @@ footer{text-align:center;color:var(--faint);font-size:13px;margin-top:26px}
   </section>
 
   <section class="out">
+    <h2>Quick fixes</h2>
+    <p class="meta">Got the image back with a problem? Tap a fix, then paste it as a reply in the same chat. Send one fix at a time.</p>
+    <div class="list" id="fixes"></div>
+  </section>
+
+  <section class="out">
     <h2>Pro tips</h2>
     <ul class="tips">
       <li>AI tools make low-resolution images. <b>Upscale to the pixel size in your print notes</b> before you send it to a vendor.</li>
@@ -659,6 +665,26 @@ function copyText(t,b,lab){
   const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let k=false;try{k=document.execCommand('copy')}catch(e){}ta.remove();if(k)done();else b.textContent='Press and hold the text to copy'};
   try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done,fb); else fb(); }catch(e){fb()}
 }
+
+/* ---------- quick fixes ---------- */
+const FIXES=[
+ ["Hands different sizes","Make both of her hands the same size and in proportion to her body. Keep her face, hair, outfit, background and words exactly the same."],
+ ["Extra arms or hands","Remove the extra arm and hand so she has exactly two arms and two hands, each with five fingers. Keep everything else exactly the same."],
+ ["Weird fingers","Fix her fingers so each hand has five natural, well-shaped fingers with matching nails. Keep everything else exactly the same."],
+ ["Hat and crown blended","Remove the crown and keep only the hat, sitting neatly on her head. Keep everything else exactly the same."],
+ ["Phone looks like a real brand","Make the phone plain with one simple round camera lens and no brand details. Keep everything else exactly the same."],
+ ["Logo snuck in","Remove all logos, letters and brand marks from her clothes, shoes, bag and accessories. Make them plain. Keep everything else exactly the same."],
+ ["Word spelled wrong","Fix the spelling so the words read exactly: [type your words here]. Keep the lettering style and everything else exactly the same."],
+ ["Skin tone changed","Make her skin tone match [deep warm brown] evenly on her face, neck, arms and hands. Keep everything else exactly the same."],
+ ["Too cartoon","Make her look more realistic and glossy, like a high-end 3D glam doll, with real skin texture and detailed hair. Keep her pose, outfit, background and words the same."],
+ ["Needs more shine","Add more shine to the hair, clothes and accessories only. Keep the skin smooth and natural, not wet or sweaty."],
+ ["Too much on the edges","Move her and the words in toward the center so nothing important is near the left or right edges. Fill the edges with more background."]];
+function renderFixes(){
+  const box=$('fixes'); if(!box) return;
+  box.innerHTML=FIXES.map((f,i)=>`<div class="item"><h3>${esc(f[0])}</h3><p>${esc(f[1])}</p><button class="btn sm" type="button" data-fx="${i}">Copy fix</button></div>`).join('');
+  box.querySelectorAll('[data-fx]').forEach(b=>b.addEventListener('click',()=>copyText(FIXES[+b.dataset.fx][1],b,'Copy fix')));
+}
+renderFixes();
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
