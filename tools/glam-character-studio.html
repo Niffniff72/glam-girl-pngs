@@ -768,7 +768,7 @@ function coverPrompt(){
   L.push('Text on the right side, spelled exactly like this:');
   if(title) L.push(`- Big title: "${title}"`);
   if(sub) L.push(`- Subtitle: "${sub}"`);
-  if(feats.length) L.push(`- ${feats.length} feature badges on banners, each with a small icon (${t.icons}): ${feats.map(f=>`"${f}"`).join(', ')}`);
+  if(feats.length) L.push(`- ${feats.length} feature badges on banners, each banner with exactly one small icon inside it, to the left of the word (${t.icons}): ${feats.map(f=>`"${f}"`).join(', ')}. No extra icons above, below or around the banners`);
   if(side) L.push(`- Side tagline near the character, written horizontally and easy to read: "${side}"`);
   if(foot) L.push(`- Small line along the bottom: "${foot}"`);
   L.push('Make the title the biggest, boldest element. Keep all text sharp, readable and inside the cover. No extra words.');
