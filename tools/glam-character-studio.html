@@ -585,6 +585,7 @@ function makePrompt(ov){
   if(jew.length) L.push(`Jewelry: ${jew.join(', ')}.`);
   if(tats.length) L.push(`Tattoos: ${tats.join(', ')}, with no readable words in the tattoos.`);
   const hol=D.holiday[s.holiday][1]; if(hol) L.push(`Theme: ${hol}.`);
+  if(D.holiday[s.holiday][0]==='Christmas'&&(S.jewel.has(10)||S.jewel.has(11))) L.push(`Headwear: a neat Santa hat with the ${S.jewel.has(11)?'tiara':'crown'} sitting in front of the white fur brim. Keep the hat and the ${S.jewel.has(11)?'tiara':'crown'} as two separate, clearly shaped pieces, not blended together.`);
   const extra=$('extra').value.trim(); if(extra) L.push(`Also: ${extra}.`);
   L.push(`Camera: ${D.angle[s.angle][1]}.`);
   L.push(isColor?`Style: ${art[2]}.`:`Style: ${D.finish[s.finish][1]}. ${art[2]}.`);
@@ -599,7 +600,7 @@ function makePrompt(ov){
   else L.push(`Background: ${bg[1]}.`);
   L.push(out.print);
   if(minor()||D.age[s.age][2]!=='adult') L.push('Keep it cute, modest and fully age-appropriate.');
-  L.push('Original character. No logos, swooshes, monograms, interlocking letters, brand names or team names anywhere, including shoes, bags, caps and clothing. No watermark or signature. Correct hands with five fingers.');
+  L.push('Original character. No logos, swooshes, monograms, interlocking letters, brand names or team names anywhere, including shoes, bags, caps and clothing. No watermark or signature. Exactly two arms and two hands, both hands the same size and in proportion to the body, five fingers on each hand.');
   let t=L.join('\n');
   if(tool==='mj') t=t.replace(/\n/g,' ')+` --ar ${out.mj} --style raw`;
   return t;
