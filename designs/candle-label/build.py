@@ -40,9 +40,47 @@ M[y+bh//2-nh//2:y+bh//2-nh//2+nh, x+bw//2-nw//2:x+bw//2-nw//2+nw] = cv2.resize(m
 M = (cv2.resize(M, (W, H)) > 127).astype(np.uint8)
 M = cv2.dilate(M, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(5*k), int(5*k))))
 cx0, cy0, cw, ch = cv2.boundingRect(M)
-cross = cv2.cvtColor(src[cy0:cy0+ch, cx0:cx0+cw], cv2.COLOR_BGR2RGB)
-cmask = M[cy0:cy0+ch, cx0:cx0+cw]*255
-cross_img = Image.fromarray(cross).convert('RGBA'); cross_img.putalpha(Image.fromarray(cmask).filter(ImageFilter.GaussianBlur(1)))
+# ---- clean cross cut-out with a fresh, even outline ----
+PADC = int(30*k)
+y0c, y1c = max(cy0-PADC, 0), min(cy0+ch+PADC, H); x0c, x1c = max(cx0-PADC, 0), min(cx0+cw+PADC, W)
+crop = src[y0c:y1c, x0c:x1c]; Mc = M[y0c:y1c, x0c:x1c]
+hsv = cv2.cvtColor(crop, cv2.COLOR_BGR2HSV).astype(int)
+goldc = ((hsv[..., 0] >= 8) & (hsv[..., 0] <= 38) & (hsv[..., 1] > 35) & (hsv[..., 2] > 80)).astype(np.uint8)
+inner = cv2.erode(Mc, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(9*k), int(9*k))))
+shape_ = (goldc & cv2.dilate(Mc, np.ones((5, 5), np.uint8))).astype(np.uint8)
+shape_ = cv2.morphologyEx(shape_, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(7*k)|1, int(7*k)|1)))
+n_, lb_, st_, _ = cv2.connectedComponentsWithStats(shape_)
+shape_ = (lb_ == 1 + np.argmax(st_[1:, cv2.CC_STAT_AREA])).astype(np.uint8)      # keep the cross only
+ff = shape_.copy(); cv2.floodFill(ff, np.zeros((ff.shape[0]+2, ff.shape[1]+2), np.uint8), (0, 0), 1)
+shape_ = shape_ | (1 - ff)                                                            # fill holes
+shape_ = cv2.morphologyEx(shape_, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(9*k)|1, int(9*k)|1)))   # trim bumps
+n_, lb_, st_, _ = cv2.connectedComponentsWithStats(shape_)
+shape_ = (lb_ == 1 + np.argmax(st_[1:, cv2.CC_STAT_AREA])).astype(np.uint8)
+Kb = int(19*k)|1
+opened = cv2.morphologyEx(shape_, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (Kb, Kb)))
+prot = (shape_ & (1 - opened)).astype(np.uint8)
+n_, lb_, st_, cen_ = cv2.connectedComponentsWithStats(prot)
+for i in range(1, n_):
+    x_, y_, w_, h_, a_ = st_[i]
+    # contact length with the main body: bumps touch along a short neck, corner slivers along two long edges
+    comp = (lb_ == i).astype(np.uint8)
+    contact = int((cv2.dilate(comp, np.ones((3, 3), np.uint8)) & opened).sum())
+    if os.environ.get('DEBUG') and a_ > 40: print('prot', i, x_, y_, w_, h_, a_, 'contact', contact)
+    if a_ > 40:
+        shape_[comp == 1] = 0
+n_, lb_, st_, _ = cv2.connectedComponentsWithStats(shape_)
+shape_ = (lb_ == 1 + np.argmax(st_[1:, cv2.CC_STAT_AREA])).astype(np.uint8)
+sm = cv2.GaussianBlur(shape_.astype(np.float32), (0, 0), 2.2*k)
+shape_ = (sm > 0.5).astype(np.uint8)                                                 # smooth edge
+ow = int(round(4.5*k))
+outline = cv2.dilate(shape_, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2*ow+1, 2*ow+1)))
+rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB).astype(np.float32)
+out = np.zeros(crop.shape[:2] + (4,), np.float32)
+out[outline == 1, :3] = (62, 28, 6)                       # dark chocolate outline (matches gold text)
+out[shape_ == 1, :3] = rgb[shape_ == 1]
+alpha = cv2.GaussianBlur(outline.astype(np.float32), (0, 0), 0.8)
+out[..., 3] = alpha*255
+cross_img = Image.fromarray(out.clip(0, 255).astype(np.uint8), 'RGBA')
 Lp = src[:, :int(cx0-10*k)]; Rp = src[:, int(cx0+cw+10*k):]
 SC = 0.36
 def piece(a, top, hh):
