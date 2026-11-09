@@ -194,7 +194,8 @@ slides.append(tip_slide(4, 'star', 'Bonus tip', f'{UP}/ba510336-image.jpg', (0.5
 # 6. CTA
 img = glitter_bg(11)
 gold_text(img, (W//2, 190), 'Skip the guesswork', font(SCRIPT, 124))
-text(img, (W//2, 320), 'Designs already sized for 20 oz skinny tumblers', font(SEMI, 36), fill=LILAC)
+text(img, (W//2, 300), 'Designs already sized for 20 oz skinny tumblers', font(SEMI, 34), fill=LILAC)
+text(img, (W//2, 348), 'Perfect gifts for church women, first ladies & church mothers', font(SEMI, 30), fill=(255, 150, 205))
 photo(img, 'assets/bundles/glam-queen-faith-tumbler-bundle-7/etsy-cover-7-designs.jpg', (110, 385, 970, 1030))
 text(img, (W//2, 1085), 'ALL 7 FOR $6.99  •  THRU DEC 8', font(BOLD, 40))
 gold_text(img, (W//2, 1165), 'Link in bio', font(SCRIPT, 84), stroke=4)

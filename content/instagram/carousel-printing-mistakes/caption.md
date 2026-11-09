@@ -15,12 +15,16 @@ Swipe through ➡️
 
 Save this for your next press day 📌 and send it to a crafter friend who needs it!
 
-Want designs already sized for 20oz skinny tumblers? My Glam Queen & Faith bundle is 7 designs for $6.99 through Dec 8 🔥 Link in bio!
+Want designs already sized for 20oz skinny tumblers? My Glam Queen & Faith bundle is 7 designs for $6.99 through Dec 8 🔥
+
+👒 Made for the church women in your life: first ladies, church mothers, prayer warriors & your Sunday sisters. Perfect for Mother's Day, birthdays, pastor & first lady appreciation, and women's ministry gifts 🙏💜
+
+Link in bio!
 
 Which mistake have YOU made? Tell me I'm not the only one 👇
 ```
 
 ## Hashtags
 ```
-#sublimationtips #sublimationforbeginners #tumblertips #sublimationtumbler #20ozskinnytumbler #tumblerwrap #sublimationprinting #crafttips #tumblermaker #sublimationdesigns #pngdesigns #digitaldownload #smallbusinessowner #blackownedbusiness #etsyshop
+#sublimationtips #sublimationforbeginners #tumblertips #sublimationtumbler #20ozskinnytumbler #tumblerwrap #sublimationprinting #crafttips #tumblermaker #sublimationdesigns #pngdesigns #digitaldownload #smallbusinessowner #blackownedbusiness #etsyshop #churchgifts #firstladygift #christiangifts #womensministry
 ```
