@@ -37,22 +37,14 @@ t=Image.new('RGBA',(tw,th),(200,200,205,255)); t.paste(c,(0,int(th*0.06)))
 ImageDraw.Draw(t).rectangle((0,0,tw,int(th*0.06)),fill=(225,225,230,255))
 hl=Image.new('RGBA',(tw,th),(0,0,0,0)); ImageDraw.Draw(hl).rectangle((int(tw*0.16),0,int(tw*0.24),th),fill=(255,255,255,55)); t.alpha_composite(hl)
 bg.paste(t,(tx,ty),rmask(tw,th,26))
-pen=Image.open(f'{D}/faith-words-cross-pen-wrap-5x1.5in-1500x450.png').convert('RGBA')
-for px,py in [(780,985),(800,1110)]:
-    pw,ph=900,90
-    shadow(bg,(px,py,px+pw+160,py+ph),r=45,off=10,blur=12,a=100)
-    body=pen.resize((pw,int(pw*450/1500))).crop((0,(int(pw*0.3)-ph)//2,pw,(int(pw*0.3)-ph)//2+ph))
-    shade=Image.new('RGBA',(pw,ph)); sd=ImageDraw.Draw(shade)
-    for yy in range(ph):
-        v=abs(yy-ph*0.35)/(ph*0.65); sd.line((0,yy,pw,yy),fill=(0,0,0,int(90*v)))
-    body.alpha_composite(shade)
-    bg.paste(body,(px+60,py),rmask(pw,ph,40))
-    ImageDraw.Draw(bg).polygon([(px+60,py+8),(px,py+ph//2),(px+60,py+ph-8)],fill=(210,210,215))
-    ImageDraw.Draw(bg).rounded_rectangle((px+pw+60,py,px+pw+170,py+ph),30,fill=(212,180,96))
+pen=Image.open(f'{D}/faith-words-cross-pen-wrap-SMALL-CROSS-5x1.5in-1500x450.png').convert('RGBA')
+px,py,pw,ph=760,965,900,270
+shadow(bg,(px,py,px+pw,py+ph),r=24,off=12,blur=16,a=110)
+bg.paste(pen.resize((pw,ph)),(px,py),rmask(pw,ph,24))
 s=ImageFont.truetype(f'{F}/yellowtail.ttf',120); b=ImageFont.truetype(f'{F}/montserrat-800.ttf',40); m=ImageFont.truetype(f'{F}/montserrat-700.ttf',30)
 dd=ImageDraw.Draw(bg)
 dd.text((W//2,85),'Faith Words Cross Matching Set',font=s,fill=(122,52,170),anchor='mm')
-for x,y,tx_ in [(390,1000,'A5 JOURNAL • TRANSPARENT PNG'),(1140,770,'COSMETIC BAG 9" x 6.5"'),(1740,905,'20 OZ TUMBLER'),(1310,1240,'PEN WRAP 5" x 1.5"')]:
+for x,y,tx_ in [(390,1000,'A5 JOURNAL • TRANSPARENT PNG'),(1140,770,'COSMETIC BAG 9" x 6.5"'),(1740,905,'20 OZ TUMBLER'),(1210,1262,'PEN WRAP 5" x 1.5" (FLAT)')]:
     dd.text((x,y),tx_,font=m,fill=(70,40,90),anchor='mm')
 dd.text((W//2,1350),'PNG  •  300 DPI  •  COMMERCIAL USE  •  INSTANT DOWNLOAD',font=b,fill=(70,40,90),anchor='mm')
 ws=ImageFont.truetype(f'{F}/yellowtail.ttf',52)
