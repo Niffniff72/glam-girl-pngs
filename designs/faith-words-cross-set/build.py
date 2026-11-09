@@ -22,31 +22,61 @@ def crop_resize(img, cx, cy, cw, ch, out_w, out_h):
 def save_rgb(bgr, path):
     Image.fromarray(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)).save(path, dpi=(DPI, DPI), optimize=True)
 
-def transparent(bgr):
-    """Keep gold/purple words, cross, heart and bright sparkles; make the black glitter transparent."""
+def sharpen(bgr, amount=0.9, radius=2.0):
+    blur = cv2.GaussianBlur(bgr, (0, 0), radius)
+    out = cv2.addWeighted(bgr, 1 + amount, blur, -amount, 0)
+    # small vibrance + contrast lift so it pops on black
+    hsv = cv2.cvtColor(out, cv2.COLOR_BGR2HSV).astype(np.float32)
+    hsv[..., 1] = np.clip(hsv[..., 1] * 1.12, 0, 255); hsv[..., 2] = np.clip((hsv[..., 2] - 128) * 1.06 + 132, 0, 255)
+    return cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+
+def transparent(bgr, drop_zone=None):
+    """DTF-ready: hard edges (no semi-transparent pixels), no specks smaller than DTF can hold."""
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV).astype(np.int32)
     h, s, v = hsv[..., 0], hsv[..., 1], hsv[..., 2]
     gold = (h >= 8) & (h <= 38) & (s > 35) & (v > 85)
     purple = (h >= 118) & (h <= 168) & (s > 55) & (v > 55)
-    sparkle = (v > 205) & (s < 70)
     fg = (gold | purple).astype(np.uint8)
-    # close small glitter gaps inside letters and the cross, drop tiny noise specks
     fg = cv2.morphologyEx(fg, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7)))
-    n, lab, stats, _ = cv2.connectedComponentsWithStats(fg)
-    keep = np.zeros(n, bool); keep[1:] = stats[1:, cv2.CC_STAT_AREA] >= 120
-    fg = keep[lab].astype(np.uint8)
-    fg = cv2.dilate(fg, np.ones((3, 3), np.uint8))           # include the dark outline edge
-    mask = np.maximum(fg, sparkle.astype(np.uint8)).astype(np.float32)
-    alpha = cv2.GaussianBlur(mask, (5, 5), 1.0)
-    rgba = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGBA)
-    rgba[..., 3] = (alpha * 255).clip(0, 255).astype(np.uint8)
+    fg = cv2.dilate(fg, np.ones((3, 3), np.uint8))            # keep the thin dark outline edge
+    n, lab, st, _ = cv2.connectedComponentsWithStats(fg)       # drop word/gold fragments too small to be real
+    ok = np.zeros(n, bool); ok[1:] = st[1:, cv2.CC_STAT_AREA] >= 300
+    fg = ok[lab].astype(np.uint8)
+    # bright star sparkles: keep only ones big enough to survive DTF (>= ~0.6 mm)
+    spark = ((v > 200) & (s < 80)).astype(np.uint8)
+    spark = cv2.dilate(spark, np.ones((3, 3), np.uint8))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(spark)
+    ok = np.zeros(n, bool); ok[1:] = st[1:, cv2.CC_STAT_AREA] >= 40
+    spark = ok[lab].astype(np.uint8)
+    mask = np.maximum(fg, spark)
+    # smooth jaggies at 2x, then hard threshold -> crisp, fully opaque edges
+    big = cv2.resize(mask.astype(np.float32), None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+    big = cv2.GaussianBlur(big, (0, 0), 1.2)
+    mask = (cv2.resize(big, (mask.shape[1], mask.shape[0]), interpolation=cv2.INTER_AREA) > 0.5).astype(np.uint8)
+    # drop tiny islands and anything sitting fully inside the cleaned zone above the left arm
+    n, lab, st, _ = cv2.connectedComponentsWithStats(mask)
+    keep = np.zeros(n, bool)
+    for i in range(1, n):
+        x, y, w_, h_, a = st[i]
+        if a < 60: continue
+        if drop_zone and x >= drop_zone[0] and y >= drop_zone[1] and x + w_ <= drop_zone[2] and y + h_ <= drop_zone[3] and a < 4000:
+            continue
+        keep[i] = True
+    mask = keep[lab].astype(np.uint8)
+    holes = 1 - mask                                          # fill pinholes inside letters
+    n, lab, st, _ = cv2.connectedComponentsWithStats(holes)
+    small = np.zeros(n, bool); small[1:] = st[1:, cv2.CC_STAT_AREA] < 25
+    mask[small[lab]] = 1
+    rgba = cv2.cvtColor(sharpen(bgr), cv2.COLOR_BGR2RGBA)
+    rgba[..., 3] = mask * 255
+    rgba[mask == 0, :3] = 0
     return rgba
 
 # ---- 1. A5 journal cover, transparent (5.83 x 8.27 in) -------------------
 A5W, A5H = round(5.83 * DPI), round(8.27 * DPI)               # 1749 x 2481
 ch = H; cw = int(ch * A5W / A5H)
 journal = crop_resize(src, CX, H // 2, cw, ch, A5W, A5H)
-rgba = transparent(journal)
+rgba = transparent(journal, drop_zone=(170, 840, 770, 1010))
 Image.fromarray(rgba).save(f'{OUT}/faith-words-cross-A5-journal-TRANSPARENT-1749x2481.png', dpi=(DPI, DPI), optimize=True)
 
 # ---- 2. Cosmetic bag (9 x 6.5 in) ----------------------------------------
