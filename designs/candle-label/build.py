@@ -5,6 +5,8 @@ Usage: python3 designs/candle-label/build.py <fonts_dir> <cross_clean_up.png> <c
 import sys, cv2, numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 FONTS, SRC, MASK = sys.argv[1:4]
+import os
+CLEAR = os.environ.get('CLEAR') == '1'
 OUT = 'assets/products/candle-blessed-highly-favored'
 DPI = 300
 LW, LH = int(3.5*DPI), int(2.75*DPI)          # 1050 x 825
@@ -57,7 +59,8 @@ shape = Image.new('L', (LW, LH), 0); ImageDraw.Draw(shape).rounded_rectangle((pa
 # background: words pattern, darkened with deep purple so text reads clearly
 bg = ImageOps.fit(pattern, (LW, LH), Image.LANCZOS, centering=(0.5, 0.5)).convert('RGBA')
 bg = Image.blend(bg, Image.new('RGBA', (LW, LH), (24, 6, 34, 255)), 0.62)
-lab.paste(bg, (0, 0), shape)
+if not CLEAR:
+    lab.paste(bg, (0, 0), shape)
 d = ImageDraw.Draw(lab)
 d.rounded_rectangle((pad, pad, LW-pad, LH-pad), R, outline=(110, 66, 10), width=14)
 d.rounded_rectangle((pad+3, pad+3, LW-pad-3, LH-pad-3), R-3, outline=(240, 198, 92), width=8)
@@ -73,12 +76,12 @@ tx = (90 + cww + 30 + LW - 70) // 2
 gold_text(lab, (tx, 220), 'Blessed &', f(SCRIPT, 100))
 gold_text(lab, (tx, 335), 'Highly Favored', f(SCRIPT, 84))
 d = ImageDraw.Draw(lab)
-d.text((tx, 460), 'LAVENDER', font=f(BOLD, 52), anchor='mm', fill=(214, 186, 255))
+d.text((tx, 460), 'LAVENDER', font=f(BOLD, 52), anchor='mm', fill=(92, 30, 140) if CLEAR else (214, 186, 255), stroke_width=3 if CLEAR else 0, stroke_fill=(240, 198, 92))
 lw_ = d.textlength('LAVENDER', font=f(BOLD, 52))
 for side in (-1, 1):
     x1 = tx + side*(lw_/2 + 18); x2 = tx + side*(lw_/2 + 62)
     d.line((x1, 460, x2, 460), fill=(232, 182, 75), width=4)
-d.text((tx, 532), 'HAND-POURED SOY CANDLE', font=f(SEMI, 25), anchor='mm', fill=(245, 232, 210))
+d.text((tx, 532), 'HAND-POURED SOY CANDLE', font=f(SEMI, 25), anchor='mm', fill=(60, 20, 80) if CLEAR else (245, 232, 210), stroke_width=2 if CLEAR else 0, stroke_fill=(240, 220, 170))
 gold_text(lab, (tx, 635), 'Dream Gal Haven Candles', f(SCRIPT, 50), stroke=3)
 # soft 4-point twinkles in open corners
 def twinkle(img, cx, cy, size):
@@ -93,8 +96,11 @@ for (sx, sy, sz) in [(tx-230, 130, 16), (tx+235, 150, 12), (tx+250, 545, 10), (t
 # hard alpha for UV DTF
 a = np.array(lab.getchannel('A')); a = np.where(a > 127, 255, 0).astype(np.uint8)
 lab.putalpha(Image.fromarray(a)); arr = np.array(lab); arr[a == 0, :3] = 0; lab = Image.fromarray(arr)
-lab.save(f'{OUT}/blessed-highly-favored-candle-label-UVDTF-3.5x2.75in.png', dpi=(DPI, DPI), optimize=True)
+name = 'CLEAR-UVDTF' if CLEAR else 'UVDTF'
+lab.save(f'{OUT}/blessed-highly-favored-candle-label-{name}-3.5x2.75in.png', dpi=(DPI, DPI), optimize=True)
 
+if CLEAR:
+    print('clear ok'); sys.exit()
 # ---- 8.5x11 sticker sheet, 6 up ------------------------------------------
 PW, PH = int(8.5*DPI), int(11*DPI)
 page = Image.new('RGB', (PW, PH), 'white'); pd = ImageDraw.Draw(page)
