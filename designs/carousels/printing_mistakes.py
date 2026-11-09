@@ -129,11 +129,16 @@ def footer(img, i, total=6):
         c = (232, 182, 75) if k == i else (120, 90, 150)
         d.ellipse((sx+k*26, H-100, sx+k*26+12, H-88), fill=c)
 
-def tip_slide(i, n, title, photo_path, crop, problem, fix, rotate=0):
+def tip_slide(i, n, title, photo_path, crop, problem, fix, rotate=0, tag=None):
     img = glitter_bg(100 + i)
     badge(img, n)
     gold_text(img, (W//2 + 50, 128), title, font(SCRIPT, 96))
     photo(img, photo_path, (110, 230, 970, 800), crop=crop, rotate=rotate)
+    if tag:
+        d = ImageDraw.Draw(img); tf = font(BOLD, 24)
+        tw = d.textlength(tag, font=tf) + 50
+        d.rounded_rectangle((950 - tw, 250, 950, 310), 30, fill=(255, 47, 146))
+        text(img, (950 - tw/2, 280), tag, tf, shadow=False)
     y = 870
     text(img, (110, y), 'WHAT HAPPENED', font(BOLD, 30), fill=(255, 120, 190), anchor='lm')
     y += 48
@@ -163,7 +168,8 @@ slides.append(img)
 # 2-4. Mistakes
 slides.append(tip_slide(1, 1, 'Printed it too big', PRINT_PHOTO, (0.5, 0.42),
     'My phone\'s print app stretched the design to fill the whole page. It came out 10½" long. My tumbler only needed 9¼".',
-    'Print at 100% / Actual Size, never "Fit to page." A full-page print file keeps it from stretching.'))
+    'Print at 100% / Actual Size, never "Fit to page." A full-page print file keeps it from stretching.',
+    tag='PLAIN PAPER TEST PRINT'))
 slides.append(tip_slide(2, 2, 'Didn\'t measure first', f'{UP}/ead9b4c2-image.jpg', (0.5, 0.5),
     '"20 oz skinny" tumblers aren\'t all the same size. Every brand is a little different.',
     'Measure around the middle and the height of the straight part. Mine: 9¼" around × 8" tall.'))
