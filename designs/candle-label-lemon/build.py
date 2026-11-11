@@ -75,15 +75,19 @@ def outlined(xy, s, font, fill, stroke, sw, anchor='mm'):
 words = NAME.split(' ', 1) if len(NAME) > 12 else [NAME]
 if len(words) == 2 and NAME.lower() == 'squeeze the day':
     words = ['Squeeze', 'the Day']
-y = 205 if len(words) == 2 else 260
+y = 150 if len(words) == 2 else 210
 for wd in words:
-    outlined((tx, y), wd, f(SCRIPT, 112), (232, 172, 30), BROWN, 5); y += 110
-y += 10
-d.text((tx, y), 'LEMON VERBENA', font=f(BOLD, 44), anchor='mm', fill=GREEN)
-y += 60
-d.text((tx, y), 'HAND-POURED SOY CANDLE', font=f(SEMI, 24), anchor='mm', fill=BROWN)
-y += 58
-d.text((tx, y), '"His mercies are new every morning"', font=f(MED, 23), anchor='mm', fill=(120, 80, 20))
+    outlined((tx, y), wd, f(SCRIPT, 100), (232, 172, 30), BROWN, 5); y += 96
+y += 0
+d.text((tx, y), 'LEMON VERBENA', font=f(BOLD, 42), anchor='mm', fill=GREEN)
+y += 50
+d.text((tx, y), 'HAND-POURED SOY CANDLE', font=f(SEMI, 23), anchor='mm', fill=BROWN)
+y += 62
+outlined((tx, y), 'His mercies are', f(SCRIPT, 50), GREEN, (255, 250, 230), 3)
+y += 50
+outlined((tx, y), 'new every morning', f(SCRIPT, 50), GREEN, (255, 250, 230), 3)
+y += 50
+d.text((tx, y), 'LAMENTATIONS 3:23', font=f(SEMI, 17), anchor='mm', fill=BROWN)
 y += 70
 outlined((tx, y), 'Dream Gal Haven Candles', f(SCRIPT, 50), GOLD, BROWN, 2)
 # a few sparkles
