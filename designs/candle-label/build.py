@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 FONTS, SRC, MASK = sys.argv[1:4]
 import os
 CLEAR = os.environ.get('CLEAR') == '1'
+SCENT = os.environ.get('SCENT', 'LAVENDER')
+SLUG = '' if SCENT == 'LAVENDER' else '-' + SCENT.lower().replace(' ', '-')
 OUT = 'assets/products/candle-blessed-highly-favored'
 DPI = 300
 LW, LH = int(3.5*DPI), int(2.75*DPI)          # 1050 x 825
@@ -114,9 +116,10 @@ tx = (90 + cww + 30 + LW - 70) // 2
 gold_text(lab, (tx, 220), 'Blessed &', f(SCRIPT, 100))
 gold_text(lab, (tx, 335), 'Highly Favored', f(SCRIPT, 84))
 d = ImageDraw.Draw(lab)
-d.text((tx, 460), 'LAVENDER', font=f(BOLD, 52), anchor='mm', fill=(92, 30, 140) if CLEAR else (214, 186, 255), stroke_width=3 if CLEAR else 0, stroke_fill=(240, 198, 92))
-lw_ = d.textlength('LAVENDER', font=f(BOLD, 52))
-for side in (-1, 1):
+sf = f(BOLD, 52 if len(SCENT) <= 10 else 42)
+d.text((tx, 460), SCENT, font=sf, anchor='mm', fill=(92, 30, 140) if CLEAR else (214, 186, 255), stroke_width=3 if CLEAR else 0, stroke_fill=(240, 198, 92))
+lw_ = d.textlength(SCENT, font=sf)
+for side in ((-1, 1) if len(SCENT) <= 10 else ()):
     x1 = tx + side*(lw_/2 + 18); x2 = tx + side*(lw_/2 + 62)
     d.line((x1, 460, x2, 460), fill=(232, 182, 75), width=4)
 d.text((tx, 532), 'HAND-POURED SOY CANDLE', font=f(SEMI, 25), anchor='mm', fill=(60, 20, 80) if CLEAR else (245, 232, 210), stroke_width=2 if CLEAR else 0, stroke_fill=(240, 220, 170))
@@ -135,7 +138,7 @@ for (sx, sy, sz) in [(tx-230, 130, 16), (tx+235, 150, 12), (tx+250, 545, 10), (t
 a = np.array(lab.getchannel('A')); a = np.where(a > 127, 255, 0).astype(np.uint8)
 lab.putalpha(Image.fromarray(a)); arr = np.array(lab); arr[a == 0, :3] = 0; lab = Image.fromarray(arr)
 name = 'CLEAR-UVDTF' if CLEAR else 'UVDTF'
-lab.save(f'{OUT}/blessed-highly-favored-candle-label-{name}-3.5x2.75in.png', dpi=(DPI, DPI), optimize=True)
+lab.save(f'{OUT}/blessed-highly-favored{SLUG}-candle-label-{name}-3.5x2.75in.png', dpi=(DPI, DPI), optimize=True)
 
 if CLEAR:
     print('clear ok'); sys.exit()
@@ -154,5 +157,5 @@ pd.text((PW//2, PH - y0//2), 'Print at 100% / Actual Size on glossy sticker pape
 L = 2*DPI; lx = (PW-L)//2; ly = y0//2 - 10
 pd.line((lx, ly, lx+L, ly), fill=(120, 120, 120), width=3); pd.line((lx, ly-12, lx, ly+12), fill=(120, 120, 120), width=3); pd.line((lx+L, ly-12, lx+L, ly+12), fill=(120, 120, 120), width=3)
 pd.text((PW//2, ly+14), 'size check: this line = 2 inches', font=ft, fill=(120, 120, 120), anchor='ma')
-page.save(f'{OUT}/blessed-highly-favored-candle-label-STICKER-SHEET-8.5x11-6up.png', dpi=(DPI, DPI), optimize=True)
+page.save(f'{OUT}/blessed-highly-favored{SLUG}-candle-label-STICKER-SHEET-8.5x11-6up.png', dpi=(DPI, DPI), optimize=True)
 print('ok', lab.size)
