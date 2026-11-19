@@ -9,7 +9,7 @@ const [,, html, mode, out] = process.argv;
   if (mode === 'preview') {
     for (const t of (process.env.TIMES||"1,3.4,5.6,10").split(",").map(Number)) { await pg.evaluate(t => render(t), t); await pg.screenshot({ path: `${out}/prev_${t}.png` }); }
   } else {
-    const FPS = 30, DUR = 19.5, ff = spawn('ffmpeg', ['-y','-v','error','-f','image2pipe','-framerate',String(FPS),'-i','-',
+    const FPS = 30, DUR = 29.5, ff = spawn('ffmpeg', ['-y','-v','error','-f','image2pipe','-framerate',String(FPS),'-i','-',
       '-c:v','libx264','-preset','slow','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart', out], { stdio: ['pipe','inherit','inherit'] });
     for (let f = 0; f < FPS * DUR; f++) { await pg.evaluate(t => render(t), f / FPS); ff.stdin.write(await pg.screenshot({ type: 'png' })); }
     ff.stdin.end(); await new Promise(r => ff.on('close', r));
