@@ -1,0 +1,137 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Vibes;src:url(fonts/vibes.woff2)}
+@font-face{font-family:Play;src:url(fonts/play.woff2);font-weight:900}
+@font-face{font-family:Pop;src:url(fonts/pop.woff2);font-weight:800}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#2a0f1c}
+.scene{position:absolute;inset:0;overflow:hidden}
+.me{position:absolute;left:-100px;top:0;width:1280px;height:1920px;transform-origin:600px 330px}
+#clip{position:absolute;inset:0;width:1080px;height:1920px;object-fit:cover}
+#vig{position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,5,20,.0) 55%,rgba(40,5,20,.55) 100%)}
+#frame{position:absolute;inset:36px;border:4px solid #e8b960;border-radius:40px;box-shadow:0 0 22px rgba(255,215,140,.7),inset 0 0 22px rgba(255,215,140,.35)}
+/* talking caption bubble */
+.cap{position:absolute;left:70px;width:940px;top:1380px;padding:38px 46px;border-radius:46px;
+  background:rgba(255,255,255,.94);box-shadow:0 18px 40px rgba(90,10,45,.45),inset 0 0 0 5px #f3cf7f;
+  font:800 64px/1.18 Pop;color:#4a1430;text-align:center}
+.cap:after{content:"";position:absolute;left:140px;top:-34px;border:22px solid transparent;border-bottom:18px solid rgba(255,255,255,.94);border-left-width:30px}
+.cap .w{display:inline-block;opacity:0}
+.cap .hot{color:#e52b86}
+.em{font-family:"Noto Color Emoji";font-weight:400}
+.name{position:absolute;left:70px;top:1300px;padding:12px 30px;border-radius:30px;background:linear-gradient(180deg,#ff7fbf,#e33b8b);
+  color:#fff;font:800 34px Pop;letter-spacing:2px;box-shadow:inset 0 0 0 3px #f3cf7f,0 8px 18px rgba(120,10,60,.4)}
+.pill{position:absolute;left:50%;top:120px;height:92px;padding:0 48px;border-radius:46px;white-space:nowrap;
+  background:linear-gradient(180deg,#ff7fbf,#f0408f 55%,#d92a7a);color:#fff;font:800 42px Pop;letter-spacing:3px;
+  display:flex;align-items:center;gap:16px;box-shadow:0 12px 28px rgba(120,10,60,.45),inset 0 0 0 4px #f3cf7f}
+/* CTA */
+#tint{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 70%,rgba(255,170,210,.0),rgba(120,20,70,.55))}
+.script{position:absolute;left:0;width:1080px;text-align:center;font-family:Vibes;color:#fff;font-size:130px;line-height:1;
+  text-shadow:0 0 3px #a3245f,0 0 3px #a3245f,0 5px 0 #a3245f,0 12px 28px rgba(110,10,55,.7)}
+.big{position:absolute;left:0;width:1080px;text-align:center;font:900 132px/1.02 Play;letter-spacing:2px;
+  background:linear-gradient(110deg,#c9853d 0%,#ffe9bf 14%,#e0a548 30%,#f6d58f 44%,#fff8e6 50%,#eab655 58%,#b9772f 74%,#fbe1a8 88%,#d8963f 100%);
+  background-size:300% 100%;-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 2px #6a1240) drop-shadow(0 0 2px #6a1240) drop-shadow(0 6px 0 #8f1f5a) drop-shadow(0 16px 22px rgba(90,10,45,.6))}
+.btn{position:absolute;left:50%;padding:30px 70px;border-radius:60px;white-space:nowrap;
+  background:linear-gradient(180deg,#fff,#ffe4f0);color:#d92a7a;font:800 58px Pop;letter-spacing:1px;
+  box-shadow:0 16px 36px rgba(90,10,45,.5),inset 0 0 0 5px #f3cf7f}
+.brand{position:absolute;left:0;width:1080px;text-align:center;font:800 36px Pop;letter-spacing:5px;color:#fff;
+  text-shadow:0 3px 10px rgba(90,10,45,.8)}
+.spark{position:absolute;width:10px;height:10px;border-radius:50%;background:#fff6d6;box-shadow:0 0 14px 5px rgba(255,225,150,.9)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+</style></head><body>
+
+<div class="scene" id="A">
+  <img class="me" id="meA" src="me.png">
+  <div id="vig"></div>
+  <div class="name" id="nameA">TIFFANY ✦ CEO. CREATOR. MOM. BOSS.</div>
+  <div class="cap" id="cap1"></div>
+  <div class="cap" id="cap2"></div>
+</div>
+
+<div class="scene" id="B">
+  <img id="clip" src="clip/f001.jpg">
+  <div class="pill" id="pillB">NEW HOLIDAY TEE <span class="em">🎄</span></div>
+  <div class="cap" id="cap3"></div>
+  <div class="cap" id="cap4"></div>
+</div>
+
+<div class="scene" id="C">
+  <img class="me" id="meC" src="me.png">
+  <div id="tint"></div>
+  <div class="script" id="s1" style="top:150px">Grab yours, sis</div>
+  <div class="big" id="b1" style="top:300px">SHOP THE<br>COOKIE TEE</div>
+  <div class="btn" id="btn" style="top:1400px">LINK IN BIO <span class="em">🍪</span></div>
+  <div class="brand" id="brand" style="top:1600px">DIGITAL DREAM GAL HAVEN</div>
+</div>
+
+<div id="frame"></div>
+<div id="sparks"></div>
+<div id="flash"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const ease=x=>1-Math.pow(1-clamp(x),3);
+const back=x=>{x=clamp(x);const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+
+// captions: words appear one by one like she's talking
+function build(id,html){ // words separated by spaces; *word* = pink highlight
+  $(id).innerHTML=html.split(' ').map(w=>{
+    const hot=w.startsWith('*'); w=w.replace(/\*/g,'');
+    const isEm=/\p{Extended_Pictographic}/u.test(w);
+    return `<span class="w${hot?' hot':''}${isEm?' em':''}">${w}</span>`}).join(' ');
+}
+const CAPS=[
+  ['cap1',"Okay y'all, let me tell you somethin'…",0.35,2.55],
+  ['cap2',"I got a *LOT* on my plate right now 😩",2.6,4.95],
+  ['cap3',"…and baby, it's *mostly* *cookies* 🍪",5.25,7.55],
+  ['cap4',"Cozy. Cute. And it's tellin' the *TRUTH.*",7.6,9.85],
+];
+CAPS.forEach(c=>build(c[0],c[1]));
+
+// sparkles
+const SP=[];for(let i=0;i<26;i++){const d=document.createElement('div');d.className='spark';$('sparks').appendChild(d);
+  SP.push({el:d,x:Math.random()*1080,y:Math.random()*1920,p:Math.random()*6,s:.5+Math.random()*1.1})}
+
+function show(id,op){$(id).style.opacity=op;$(id).style.display=op>0?'block':'none'}
+
+window.render=function(t){
+  // scene visibility with quick crossfades
+  const a=t<5?1:clamp(1-(t-5)/0.25), b=t<5?0:t<10?clamp((t-5)/0.25):clamp(1-(t-10)/0.25), c=clamp((t-10)/0.25);
+  show('A',a);show('B',b);show('C',c);
+  $('flash').style.opacity=Math.max(0,.55-Math.abs(t-5)*3.5,.55-Math.abs(t-10)*3.5);
+
+  // Scene A: slow push-in on her face with a tiny "talking" bob
+  const za=1.0+0.14*ease(t/5), bob=Math.sin(t*9)*2.2*(t>0.35&&t<4.95?1:0);
+  $('meA').style.transform=`translateY(${bob}px) scale(${za})`;
+  const nm=ease((t-0.1)/0.4);$('nameA').style.transform=`translateX(${(1-nm)*-600}px)`;
+
+  // captions
+  CAPS.forEach(([id,txt,s,e])=>{
+    const el=$(id), ws=el.querySelectorAll('.w');
+    const vis=t>=s&&t<e; el.style.display=vis?'block':'none'; if(!vis)return;
+    const k=back((t-s)/0.3); el.style.transform=`scale(${0.7+0.3*k})`;
+    const per=Math.min(0.22,(e-s-0.6)/ws.length);
+    ws.forEach((w,i)=>{const p=clamp((t-s-0.1-i*per)/0.12);w.style.opacity=p;w.style.transform=`translateY(${(1-p)*18}px)`});
+  });
+
+  // Scene B: product clip frames + pill
+  const fi=Math.min(150,Math.max(1,Math.floor((t-5)*30)+1));
+  const src='clip/f'+String(fi).padStart(3,'0')+'.jpg'; if(!$('clip').src.endsWith(src))$('clip').src=src;
+  const pb=back((t-5.2)/0.45);$('pillB').style.transform=`translateX(-50%) scale(${Math.max(0,pb)})`;
+
+  // Scene C: CTA
+  const zc=1.25-0.1*ease((t-10)/5);$('meC').style.transform=`scale(${zc})`;
+  const s1=ease((t-10.2)/0.5);$('s1').style.opacity=s1;$('s1').style.transform=`translateY(${(1-s1)*40}px)`;
+  const b1=back((t-10.5)/0.55);$('b1').style.transform=`scale(${Math.max(0,b1)})`;
+  $('b1').style.backgroundPosition=`${(t*40)%300}% 0`;
+  const bt=back((t-11.1)/0.5), pulse=1+0.04*Math.sin((t-11.6)*7)*(t>11.6?1:0);
+  $('btn').style.transform=`translateX(-50%) scale(${Math.max(0,bt)*pulse})`;
+  $('brand').style.opacity=ease((t-11.5)/0.5);
+
+  SP.forEach(s=>{const tw=.5+.5*Math.sin(t*3*s.s+s.p);s.el.style.transform=`translate(${s.x}px,${(s.y-t*25*s.s+1920)%1920}px) scale(${tw})`;s.el.style.opacity=tw*.9});
+};
+render(0);
+</script>
+</body></html>
