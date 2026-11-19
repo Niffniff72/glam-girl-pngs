@@ -62,7 +62,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#2a0f1c}
   <div class="script" id="s1" style="top:150px">Grab yours, sis</div>
   <div class="big" id="b1" style="top:300px">SHOP THE<br>COOKIE TEE</div>
   <div class="btn" id="btn" style="top:1400px">LINK IN BIO <span class="em">🍪</span></div>
-  <div class="brand" id="brand" style="top:1600px">DIGITAL DREAM GAL HAVEN</div>
+  <div class="script" id="dont" style="top:1560px;font-size:104px">Don't sleep on it!</div>
+  <div class="brand" id="brand" style="top:1745px">DIGITAL DREAM GAL HAVEN</div>
 </div>
 
 <div id="frame"></div>
@@ -83,10 +84,10 @@ function build(id,html){ // words separated by spaces; *word* = pink highlight
     return `<span class="w${hot?' hot':''}${isEm?' em':''}">${w}</span>`}).join(' ');
 }
 const CAPS=[
-  ['cap1',"Okay y'all, let me tell you somethin'…",0.35,2.55],
-  ['cap2',"I got a *LOT* on my plate right now 😩",2.6,4.95],
-  ['cap3',"…and baby, it's *mostly* *cookies* 🍪",5.25,7.55],
-  ['cap4',"Cozy. Cute. And it's tellin' the *TRUTH.*",7.6,9.85],
+  ['cap1',"Okay y'all, let me tell you somethin'…",0.42,2.4],
+  ['cap2',"I got a *LOT* on my plate right now 😩",2.42,5.15],
+  ['cap3',"…and baby, it's *mostly* *cookies* 🍪",5.42,7.05],
+  ['cap4',"Cozy. Cute. And it's tellin' the *TRUTH.*",7.08,11.1],
 ];
 CAPS.forEach(c=>build(c[0],c[1]));
 
@@ -115,22 +116,17 @@ function drawTalk(cv,open){
   }
 }
 // mouth openness: syllable-like bumps while each line is "spoken"
-const SPEAK=[[0.4,2.45],[2.65,4.85],[5.3,7.45],[7.65,9.75],[10.25,12.9]];
-function mouth(t){
-  for(const [s,e] of SPEAK){ if(t>=s&&t<e){
-    const u=t-s, syl=Math.abs(Math.sin(Math.PI*u*4.6)), wob=.65+.35*Math.sin(u*13.7+s);
-    const fade=clamp(u/.08)*clamp((e-t)/.12); return syl*wob*fade; } }
-  return 0;
-}
+const ENV=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.029, 0.068, 0.054, 0.02, 0.066, 0.292, 0.643, 0.907, 0.958, 0.881, 0.799, 0.697, 0.554, 0.38, 0.195, 0.07, 0.154, 0.473, 0.742, 0.808, 0.785, 0.775, 0.786, 0.811, 0.737, 0.458, 0.245, 0.366, 0.664, 0.859, 0.916, 0.919, 0.899, 0.866, 0.819, 0.695, 0.5, 0.326, 0.188, 0.115, 0.121, 0.102, 0.033, 0.0, 0.0, 0.0, 0.0, 0.015, 0.03, 0.015, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.058, 0.253, 0.502, 0.638, 0.618, 0.44, 0.181, 0.028, 0.006, 0.018, 0.049, 0.136, 0.248, 0.306, 0.32, 0.353, 0.437, 0.569, 0.672, 0.663, 0.604, 0.564, 0.419, 0.178, 0.047, 0.02, 0.057, 0.194, 0.317, 0.367, 0.395, 0.331, 0.162, 0.033, 0.0, 0.0, 0.0, 0.037, 0.12, 0.173, 0.146, 0.076, 0.026, 0.173, 0.583, 0.901, 0.93, 0.845, 0.707, 0.482, 0.256, 0.105, 0.124, 0.327, 0.468, 0.443, 0.364, 0.269, 0.176, 0.124, 0.078, 0.022, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.054, 0.157, 0.332, 0.657, 0.898, 0.902, 0.866, 0.872, 0.877, 0.763, 0.448, 0.172, 0.235, 0.52, 0.66, 0.625, 0.53, 0.319, 0.088, 0.0, 0.0, 0.029, 0.082, 0.092, 0.057, 0.019, 0.001, 0.074, 0.317, 0.608, 0.762, 0.799, 0.797, 0.788, 0.783, 0.708, 0.529, 0.324, 0.146, 0.033, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.132, 0.476, 0.796, 0.923, 0.894, 0.793, 0.732, 0.746, 0.712, 0.508, 0.269, 0.161, 0.11, 0.037, 0.015, 0.031, 0.015, 0.033, 0.172, 0.449, 0.732, 0.865, 0.882, 0.85, 0.834, 0.903, 0.964, 0.94, 0.892, 0.839, 0.68, 0.385, 0.13, 0.133, 0.376, 0.542, 0.552, 0.559, 0.516, 0.334, 0.103, 0.014, 0.024, 0.012, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.024, 0.051, 0.037, 0.017, 0.166, 0.503, 0.704, 0.682, 0.649, 0.67, 0.615, 0.38, 0.159, 0.216, 0.479, 0.703, 0.769, 0.752, 0.699, 0.611, 0.503, 0.324, 0.124, 0.022, 0.06, 0.272, 0.536, 0.668, 0.727, 0.769, 0.752, 0.634, 0.37, 0.11, 0.009, 0.016, 0.033, 0.019, 0.149, 0.502, 0.814, 0.943, 0.918, 0.855, 0.814, 0.733, 0.665, 0.619, 0.553, 0.516, 0.474, 0.305, 0.105, 0.025, 0.008, 0.0, 0.011, 0.022, 0.011, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.002, 0.021, 0.282, 0.754, 0.988, 0.97, 0.94, 0.916, 0.782, 0.55, 0.401, 0.396, 0.577, 0.834, 0.902, 0.81, 0.734, 0.586, 0.301, 0.081, 0.012, 0.024, 0.052, 0.201, 0.541, 0.754, 0.756, 0.695, 0.499, 0.203, 0.03, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.016, 0.041, 0.202, 0.597, 0.875, 0.879, 0.756, 0.446, 0.114, 0.143, 0.395, 0.508, 0.551, 0.568, 0.454, 0.232, 0.263, 0.564, 0.633, 0.554, 0.574, 0.58, 0.511, 0.403, 0.33, 0.351, 0.409, 0.444, 0.417, 0.292, 0.135, 0.03, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.015, 0.03, 0.015, 0.0, 0.0, 0.014, 0.207, 0.563, 0.764, 0.781, 0.703, 0.498, 0.276, 0.135, 0.042, 0.031, 0.225, 0.583, 0.866, 0.943, 0.871, 0.644, 0.311, 0.235, 0.516, 0.745, 0.725, 0.639, 0.641, 0.646, 0.618, 0.632, 0.622, 0.526, 0.329, 0.098, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+function mouth(t){const i=Math.round(t*30);return ENV[i]||0;}
 window.render=function(t){
-  const m=mouth(t); drawTalk($('meA'),t<5.3?m:0); drawTalk($('meC'),t>=10?m:0);
+  const m=mouth(t); drawTalk($('meA'),t<5.45?m:0); drawTalk($('meC'),t>=11.3?m:0);
   // scene visibility with quick crossfades
-  const a=t<5?1:clamp(1-(t-5)/0.25), b=t<5?0:t<10?clamp((t-5)/0.25):clamp(1-(t-10)/0.25), c=clamp((t-10)/0.25);
+  const a=t<5.2?1:clamp(1-(t-5.2)/0.25), b=t<5.2?0:t<11.3?clamp((t-5.2)/0.25):clamp(1-(t-11.3)/0.25), c=clamp((t-11.3)/0.25);
   show('A',a);show('B',b);show('C',c);
-  $('flash').style.opacity=Math.max(0,.55-Math.abs(t-5)*3.5,.55-Math.abs(t-10)*3.5);
+  $('flash').style.opacity=Math.max(0,.55-Math.abs(t-5.2)*3.5,.55-Math.abs(t-11.3)*3.5);
 
   // Scene A: slow push-in on her face with a tiny "talking" bob
-  const za=1.0+0.14*ease(t/5), bob=Math.sin(t*9)*2.2*(t>0.35&&t<4.95?1:0);
+  const za=1.0+0.14*ease(t/5.2), bob=Math.sin(t*9)*2.2*m;
   $('meA').style.transform=`translateY(${bob}px) scale(${za})`;
   const nm=ease((t-0.1)/0.4);$('nameA').style.transform=`translateX(${(1-nm)*-600}px)`;
 
@@ -144,21 +140,24 @@ window.render=function(t){
   });
 
   // Scene B: product clip frames + pill
-  const fi=Math.min(150,Math.max(1,Math.floor((t-5)*30)+1));
-  const src='clip/f'+String(fi).padStart(3,'0')+'.jpg'; if(!$('clip').src.endsWith(src))$('clip').src=src;
-  const pb=back((t-5.2)/0.45);$('pillB').style.transform=`translateX(-50%) scale(${Math.max(0,pb)})`;
+  const fi=Math.min(150,Math.max(1,Math.floor((t-5.2)*30*150/183)+1));
+  const fr=FR[fi-1]; if(fr&&fr.complete&&$('clip').src!==fr.src)$('clip').src=fr.src;
+  const pb=back((t-5.4)/0.45);$('pillB').style.transform=`translateX(-50%) scale(${Math.max(0,pb)})`;
 
   // Scene C: CTA
-  const zc=1.25-0.1*ease((t-10)/5);$('meC').style.transform=`scale(${zc})`;
-  const s1=ease((t-10.2)/0.5);$('s1').style.opacity=s1;$('s1').style.transform=`translateY(${(1-s1)*40}px)`;
-  const b1=back((t-10.5)/0.55);$('b1').style.transform=`scale(${Math.max(0,b1)})`;
+  const zc=1.25-0.1*ease((t-11.3)/5.2);$('meC').style.transform=`scale(${zc})`;
+  const s1=ease((t-11.6)/0.5);$('s1').style.opacity=s1;$('s1').style.transform=`translateY(${(1-s1)*40}px)`;
+  const b1=back((t-11.95)/0.55);$('b1').style.transform=`scale(${Math.max(0,b1)})`;
   $('b1').style.backgroundPosition=`${(t*40)%300}% 0`;
-  const bt=back((t-11.1)/0.5), pulse=1+0.04*Math.sin((t-11.6)*7)*(t>11.6?1:0);
+  const bt=back((t-12.95)/0.5), pulse=1+0.04*Math.sin((t-13.5)*7)*(t>13.5?1:0);
   $('btn').style.transform=`translateX(-50%) scale(${Math.max(0,bt)*pulse})`;
-  $('brand').style.opacity=ease((t-11.5)/0.5);
+  $('brand').style.opacity=ease((t-15.2)/0.5);
+  const dn=back((t-14.35)/0.5);$('dont').style.transform=`scale(${Math.max(0,dn)})`;
 
   SP.forEach(s=>{const tw=.5+.5*Math.sin(t*3*s.s+s.p);s.el.style.transform=`translate(${s.x}px,${(s.y-t*25*s.s+1920)%1920}px) scale(${tw})`;s.el.style.opacity=tw*.9});
 };
-IMG.onload=()=>render(0);
+const FR=[];let left=151;const done=()=>{if(--left===0){window.READY=true;render(0);}};
+for(let i=1;i<=150;i++){const im=new Image();im.onload=im.onerror=done;im.src='clip/f'+String(i).padStart(3,'0')+'.jpg';FR.push(im);}
+IMG.onload=done;
 </script>
 </body></html>
