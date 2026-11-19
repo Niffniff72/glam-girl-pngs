@@ -48,7 +48,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#2a0f1c}
 </div>
 
 <div class="scene" id="C">
-  <img class="full" id="last" src="endcard_tee.jpg" style="transform-origin:50% 32%">
+  <img class="full" id="last" src="endcard_tee_matched.jpg" style="transform-origin:50% 32%">
   <div id="tint"></div>
   <div class="script" id="s1" style="top:1175px">Grab yours, sis</div>
   <div class="big" id="b1" style="top:1300px">SHOP THE<br>COOKIE TEE</div>
@@ -73,7 +73,7 @@ function show(id,op){$(id).style.opacity=op;$(id).style.display=op>0?'block':'no
 function seq(dir,pre,n){const a=[];for(let i=1;i<=n;i++){const im=new Image();im.onload=im.onerror=done;im.src=dir+'/'+pre+String(i).padStart(3,'0')+'.jpg';a.push(im);}return a;}
 let left=468+150+1;const done=()=>{if(--left===0){window.READY=true;render(0);}};
 const AN=seq('anim4','a',468), FR=seq('clip','f',150);
-const L=new Image();L.onload=L.onerror=done;L.src='endcard_tee.jpg';
+const L=new Image();L.onload=L.onerror=done;L.src='endcard_tee_matched.jpg';
 function setSrc(el,im){if(im&&el.src!==im.src)el.src=im.src;}
 
 window.render=function(t){
