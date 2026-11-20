@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Pop;src:url(fonts/pop.woff2);font-weight:800}
+@font-face{font-family:Vibes;src:url(fonts/vibes.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+#bg{position:absolute;inset:0;width:1080px;height:1920px}
+#hook{position:absolute;left:60px;width:960px;top:170px;text-align:center;transform-origin:50% 50%}
+.pov{display:inline-block;font:800 54px Pop;letter-spacing:6px;color:#fff;background:linear-gradient(180deg,#ff7fbf,#e33b8b);
+  padding:10px 34px;border-radius:40px;box-shadow:inset 0 0 0 4px #f3cf7f,0 10px 24px rgba(120,10,60,.45);margin-bottom:22px}
+.line{font:800 92px/1.08 Pop;color:#fff;
+  text-shadow:0 0 0 #000,-4px -4px 0 #c2185b,4px -4px 0 #c2185b,-4px 4px 0 #c2185b,4px 4px 0 #c2185b,0 5px 0 #c2185b,0 -5px 0 #c2185b,5px 0 0 #c2185b,-5px 0 0 #c2185b,0 14px 26px rgba(80,0,40,.55)}
+.line .one{color:#fff36b}
+.em{font-family:"Noto Color Emoji";font-weight:400;text-shadow:none}
+</style></head><body>
+<img id="bg" src="bk/b001.jpg">
+<div id="hook"><div class="pov" id="pov">POV</div>
+<div class="line" id="l1">You only wanted</div>
+<div class="line" id="l2"><span class="one">ONE</span> cookie <span class="em">🍪</span></div></div>
+<script>
+const $=id=>document.getElementById(id);const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const back=x=>{x=clamp(x);const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+let left=120;const FR=[];for(let i=1;i<=120;i++){const im=new Image();im.onload=im.onerror=()=>{if(--left===0){window.READY=true;render(0)}};im.src='bk/b'+String(i).padStart(3,'0')+'.jpg';FR.push(im);}
+window.render=function(t){
+  const fi=Math.min(119,Math.floor(t*30));if(FR[fi]&&$('bg').src!==FR[fi].src)$('bg').src=FR[fi].src;
+  const out=clamp((t-3.2)/0.3);
+  $('pov').style.transform=`scale(${Math.max(0,back((t-0.0)/0.35))})`;
+  $('l1').style.transform=`scale(${Math.max(0,back((t-0.25)/0.35))})`;
+  const pulse=1+0.05*Math.sin((t-1.2)*8)*(t>1.2&&t<2.6?1:0);
+  $('l2').style.transform=`scale(${Math.max(0,back((t-0.55)/0.4))*pulse})`;
+  $('hook').style.opacity=1-out;$('hook').style.transform=`translateY(${-out*60}px)`;
+};
+</script></body></html>
