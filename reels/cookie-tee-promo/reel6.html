@@ -1,0 +1,103 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Vibes;src:url(fonts/vibes.woff2)}
+@font-face{font-family:Play;src:url(fonts/play.woff2);font-weight:900}
+@font-face{font-family:Pop;src:url(fonts/pop.woff2);font-weight:800}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#2a0f1c}
+.scene{position:absolute;inset:0;overflow:hidden;display:none}
+.full{position:absolute;inset:0;width:1080px;height:1920px;object-fit:cover}
+#frame{position:absolute;inset:36px;border:4px solid #e8b960;border-radius:40px;box-shadow:0 0 22px rgba(255,215,140,.7),inset 0 0 22px rgba(255,215,140,.35)}
+.em{font-family:"Noto Color Emoji";font-weight:400}
+.cap{position:absolute;left:70px;width:940px;top:1500px;padding:34px 44px;border-radius:46px;
+  background:rgba(255,255,255,.95);box-shadow:0 18px 40px rgba(90,10,45,.45),inset 0 0 0 5px #f3cf7f;
+  font:800 62px/1.18 Pop;color:#4a1430;text-align:center}
+.cap .hot{color:#e52b86}
+.cap .w{display:inline-block;opacity:0}
+.name{position:absolute;left:70px;top:1400px;padding:12px 30px;border-radius:30px;background:linear-gradient(180deg,#ff7fbf,#e33b8b);
+  color:#fff;font:800 34px Pop;letter-spacing:2px;box-shadow:inset 0 0 0 3px #f3cf7f,0 8px 18px rgba(120,10,60,.4)}
+.pill{position:absolute;left:50%;top:120px;height:92px;padding:0 48px;border-radius:46px;white-space:nowrap;
+  background:linear-gradient(180deg,#ff7fbf,#f0408f 55%,#d92a7a);color:#fff;font:800 42px Pop;letter-spacing:3px;
+  display:flex;align-items:center;gap:16px;box-shadow:0 12px 28px rgba(120,10,60,.45),inset 0 0 0 4px #f3cf7f}
+#tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(120,20,70,0) 50%,rgba(120,20,70,.6) 64%,rgba(90,10,50,.85) 100%)}
+.script{position:absolute;left:0;width:1080px;text-align:center;font-family:Vibes;color:#fff;font-size:130px;line-height:1;
+  text-shadow:0 0 3px #a3245f,0 0 3px #a3245f,0 5px 0 #a3245f,0 12px 28px rgba(110,10,55,.7)}
+.big{position:absolute;left:0;width:1080px;text-align:center;font:900 132px/1.02 Play;letter-spacing:2px;
+  background:linear-gradient(110deg,#c9853d 0%,#ffe9bf 14%,#e0a548 30%,#f6d58f 44%,#fff8e6 50%,#eab655 58%,#b9772f 74%,#fbe1a8 88%,#d8963f 100%);
+  background-size:300% 100%;-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 2px #6a1240) drop-shadow(0 0 2px #6a1240) drop-shadow(0 6px 0 #8f1f5a) drop-shadow(0 16px 22px rgba(90,10,45,.6))}
+.btn{position:absolute;left:50%;padding:30px 70px;border-radius:60px;white-space:nowrap;
+  background:linear-gradient(180deg,#fff,#ffe4f0);color:#d92a7a;font:800 58px Pop;letter-spacing:1px;
+  box-shadow:0 16px 36px rgba(90,10,45,.5),inset 0 0 0 5px #f3cf7f}
+.brand{position:absolute;left:0;width:1080px;text-align:center;font:800 36px Pop;letter-spacing:5px;color:#fff;text-shadow:0 3px 10px rgba(90,10,45,.8)}
+.spark{position:absolute;width:10px;height:10px;border-radius:50%;background:#fff6d6;box-shadow:0 0 14px 5px rgba(255,225,150,.9)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+</style></head><body>
+
+<div class="scene" id="s1"><img class="full" id="i1" src="stills/picture1-desk-blazer-1080.jpg" style="transform-origin:56% 22%">
+  <div class="name" id="tag">DIGITAL DREAM GAL HAVEN <span class="em">💕</span></div>
+  <div class="cap" id="c1"></div></div>
+<div class="scene" id="s2"><img class="full" id="i2" src="stills/picture3-standing-plate-1080.jpg" style="transform-origin:42% 24%">
+  <div class="cap" id="c2"></div></div>
+<div class="scene" id="s3"><img class="full" id="i3" src="stills/picture2-cookie-bite-1080.jpg" style="transform-origin:54% 24%">
+  <div class="cap" id="c3"></div></div>
+<div class="scene" id="s4"><img class="full" id="clip" src="clip/f001.jpg">
+  <div class="pill" id="pill">NEW HOLIDAY TEE <span class="em">🎄</span></div>
+  <div class="cap" id="c4"></div></div>
+<div class="scene" id="s5"><img class="full" id="i5" src="stills/picture4-pointing-shirt-1080.jpg" style="transform-origin:55% 30%">
+  <div id="tint"></div>
+  <div class="script" id="t1" style="top:1175px">Grab yours, sis</div>
+  <div class="big" id="t2" style="top:1300px">SHOP THE<br>COOKIE TEE</div>
+  <div class="btn" id="t3" style="top:1590px">LINK IN BIO <span class="em">🍪</span></div>
+  <div class="brand" id="t4" style="top:1770px">DIGITAL DREAM GAL HAVEN</div></div>
+
+<div id="frame"></div><div id="sparks"></div><div id="flash"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const ease=x=>1-Math.pow(1-clamp(x),3);
+const io=x=>{x=clamp(x);return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2};
+const back=x=>{x=clamp(x);const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+// scene boundaries
+const B=[0,4,8,12,17,22.5];
+function build(id,html){$(id).innerHTML=html.split(' ').map(w=>{const hot=w.startsWith('*');w=w.replace(/\*/g,'');
+  const em=/\p{Extended_Pictographic}/u.test(w);return `<span class="w${hot?' hot':''}${em?' em':''}">${w}</span>`}).join(' ');}
+const CAPS=[['c1',"Okay y'all, let me tell you somethin'…",0.35,3.95],['c2',"I got a *LOT* on my *plate* right now 😩",4.3,7.95],
+  ['c3',"…and baby, it's *mostly* *cookies* 🍪",8.3,11.95],['c4',"Cozy. Cute. And it's tellin' the *TRUTH.*",13.0,16.95]];
+CAPS.forEach(c=>build(c[0],c[1]));
+const SP=[];for(let i=0;i<26;i++){const d=document.createElement('div');d.className='spark';$('sparks').appendChild(d);
+  SP.push({el:d,x:Math.random()*1080,y:Math.random()*1920,p:Math.random()*6,s:.5+Math.random()*1.1})}
+let left=150+4;const done=()=>{if(--left===0){window.READY=true;render(0);}};
+const FR=[];for(let i=1;i<=150;i++){const im=new Image();im.onload=im.onerror=done;im.src='clip/f'+String(i).padStart(3,'0')+'.jpg';FR.push(im);}
+['i1','i2','i3','i5'].forEach(id=>{const im=new Image();im.onload=im.onerror=done;im.src=$(id).src;});
+
+window.render=function(t){
+  for(let k=0;k<5;k++){const a=B[k],b=B[k+1];
+    const op=k===0?(t<b?1:clamp(1-(t-b)/0.2)):(t<a?0:t<b?clamp((t-a)/0.2):k===4?1:clamp(1-(t-b)/0.2));
+    const el=$('s'+(k+1)); el.style.display=op>0?'block':'none'; el.style.opacity=op;}
+  $('flash').style.opacity=Math.max(0,...B.slice(1,5).map(b=>.45-Math.abs(t-b)*3.5));
+  // camera moves (punch-in at cut, then slow drift)
+  const p=(a,b)=>clamp((t-a)/(b-a));
+  $('i1').style.transform=`scale(${1.0+0.16*io(p(0,4))})`;
+  $('i2').style.transform=`scale(${1.35-0.33*io(p(4,8))}) translateY(${-30+30*io(p(4,8))}px)`;   // start close on plate & smile, pull out
+  $('i3').style.transform=`scale(${1.05+0.22*io(p(8,12))})`;                                    // push in to the cookie bite
+  $('i5').style.transform=`scale(${1.12-0.12*ease(p(17,19))})`;
+  // tag
+  const tg=ease((t-0.3)/0.45)*(1-ease((t-3.5)/0.4));$('tag').style.transform=`translateX(${(1-tg)*-900}px)`;
+  // captions word-by-word
+  CAPS.forEach(([id,txt,s,e])=>{const el=$(id),ws=el.querySelectorAll('.w');const vis=t>=s&&t<e;el.style.display=vis?'block':'none';if(!vis)return;
+    el.style.transform=`scale(${0.7+0.3*back((t-s)/0.3)})`;const per=Math.min(0.2,(e-s-0.8)/ws.length);
+    ws.forEach((w,i)=>{const q=clamp((t-s-0.1-i*per)/0.12);w.style.opacity=q;w.style.transform=`translateY(${(1-q)*18}px)`});});
+  // tee clip
+  const fi=Math.min(149,Math.max(0,Math.floor((t-12)*30)));if(FR[fi]&&$('clip').src!==FR[fi].src)$('clip').src=FR[fi].src;
+  $('pill').style.transform=`translateX(-50%) scale(${Math.max(0,back((t-12.2)/0.45))})`;
+  // end card
+  const t1=ease((t-17.3)/0.5);$('t1').style.opacity=t1;$('t1').style.transform=`translateY(${(1-t1)*40}px)`;
+  $('t2').style.transform=`scale(${Math.max(0,back((t-17.6)/0.55))})`;$('t2').style.backgroundPosition=`${(t*40)%300}% 0`;
+  const pulse=1+0.04*Math.sin((t-18.7)*7)*(t>18.7?1:0);$('t3').style.transform=`translateX(-50%) scale(${Math.max(0,back((t-18.2)/0.5))*pulse})`;
+  $('t4').style.opacity=ease((t-18.7)/0.5);
+  SP.forEach(s=>{const tw=.5+.5*Math.sin(t*3*s.s+s.p);s.el.style.transform=`translate(${s.x}px,${(s.y-t*25*s.s+1920)%1920}px) scale(${tw})`;s.el.style.opacity=tw*.9});
+};
+</script></body></html>
